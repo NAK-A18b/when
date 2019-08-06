@@ -21,5 +21,5 @@ const sendMessage = async (messages) => {
     }
 };
 
-const messages = [{ receiver: '+49 160 4615070', text: '🚝' }, { receiver: '+49 176 34663396', text: '🚝' }];
+const messages = [{ receiver: 'Elias', text: 'Hallo' }, { receiver: 'Elias', text: 'LOL es funktionier' }];
 sendMessage(messages);

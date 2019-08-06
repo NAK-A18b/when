@@ -8,26 +8,28 @@ const findMessageInput = async (driver) => await driver.findElement(By.css('div[
 exports.sendMessage = sendMessage = async (driver, text) => {
   (await findMessageInput(driver)).click();
   await sendMessageWithJS(driver, text);
-}
+};
 
-exports.notifyContacts = async (driver, messages) => (
-  (await Promise.all(
-    messages.map( async ({ receiver, text }) => (
-      driver.findElement(By.css(`span[title="${receiver}"]`)).then(async (contact) => {
+exports.notifyContacts = async (driver, messages) => {
+  const missingContacts = [];
+  for (index in messages) {
+    const { receiver, text } = messages[index];
+
+    await driver.findElement(By.css(`span[title="${receiver}"]`))
+      .then(async (contact) => {
         //Contact with specified phone number found
         await contact.click();
-
         await sendMessage(driver, text);
-      }, () => ({ receiver, text }))
-    ))
-  )).filter(message => !!message)
-);
+      }, () => missingContacts.push({ receiver, text }));
+  }
+  return missingContacts;
+};
 
-exports.notifyNumbers = async (driver, messages) => (
-  await Promise.all(messages.map( async ({ receiver, text }) => {
+exports.notifyNumbers = async (driver, messages) => {
+  for (index in messages) {
+    const { receiver, text } = messages[index];
     await driver.get(`https://web.whatsapp.com/send?phone=${receiver}`);
     await pageLoad(driver);
-
     await sendMessage(driver, text);
-  }))
-);
+  }
+};
