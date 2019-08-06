@@ -11,7 +11,7 @@ async function sendMessageWithJS(driver, message) {
 const service = new chrome.ServiceBuilder('./drivers/chromedriver').build();
 chrome.setDefaultService(service);
 
-var sendMessage = async (json) => {
+var sendMessage = async (messages) => {
     (async function () {
         let driver;
         try {
@@ -21,44 +21,45 @@ var sendMessage = async (json) => {
                     new chrome.Options().addArguments("user-data-dir=chrome-data"))
                 .build();
             await driver.get('https://web.whatsapp.com/');
-            return driver.wait(until.elementLocated(By.css("input[type=\"text\"]")), 20 * 1000).then(async success => {
-                //Loop trough contacts
-                var missingContacts = {};
-                for (const key in json) {
-                    await driver.findElement(webdriver.By.css("span[title=\"" + key + "\"]")).then(async (contact) => {
+
+            await driver.wait(until.elementLocated(By.css("input[type=\"text\"]")), 20 * 1000)
+            //Loop trough contacts
+            var missingContacts = [];
+            await Promise.all(messages.map( async (message) => {
+                const { receiver, text } = message;
+
+                await driver.findElement(webdriver.By.css("span[title=\"" + receiver + "\"]")).then(async (contact) => {
+                    //Contact with specified phone number found
+                    await contact.click();
+                    var input = driver.findElement(webdriver.By.css("div[contenteditable=\"true\"]"));
+                    input.click();
+                    await sendMessageWithJS(driver, text);
+                }, (error) => {
+                    //Contact not found
+                    //Create a new contact later
+                    missingContacts.push(message)
+                });
+            }));
+            await Promise.all(missingContacts.map( async (missing) => {
+                const { receiver, text } = missing;
+
+                await driver.get('https://web.whatsapp.com/send?phone=' + receiver);
+                return driver.wait(until.elementLocated(By.css("input[type=\"text\"]")), 20 * 1000).then(async success => {
+                    await driver.findElement(webdriver.By.css("span[title=\"" + receiver + "\"]")).then(async (contact) => {
                         //Contact with specified phone number found
-                        await contact.click();
+                        await driver.sleep(1500);
                         var input = driver.findElement(webdriver.By.css("div[contenteditable=\"true\"]"));
                         input.click();
-                        await sendMessageWithJS(driver, json[key]);
+                        await sendMessageWithJS(driver, text);
                     }, (error) => {
-                        //Contact not found
-                        //Create a new contact later
-                        missingContacts[key] = json[key];
+                        console.log("No contact found for " + receiver);
                     });
-                }
-                for (const missing in missingContacts) {
-                    await driver.get('https://web.whatsapp.com/send?phone=' + missing);
-                    return driver.wait(until.elementLocated(By.css("input[type=\"text\"]")), 20 * 1000).then(async success => {
-                        await driver.findElement(webdriver.By.css("span[title=\"" + missing + "\"]")).then(async (contact) => {
-                            //Contact with specified phone number found
-                            await driver.sleep(1500);
-                            var input = driver.findElement(webdriver.By.css("div[contenteditable=\"true\"]"));
-                            input.click();
-                            await sendMessageWithJS(driver, missingContacts[missing]);
-                        }, (error) => {
-                            console.log("No contact found for " + missing);
-                        });
-                    }).catch(error => {
-                        console.log(error);
-                    });
+                }).catch(error => {
+                    console.log(error);
+                });
+            }));
 
-                }
-            }).catch(async error => {
-                console.log(error);
-            });
-
-
+            driver.close();
         } finally {
             //await driver && driver.quit();
         }
@@ -68,4 +69,5 @@ var sendMessage = async (json) => {
     //await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
 };
 
-sendMessage({"Elias": "Hallo 😍, hier sind ein paar Züge: 🚈🚃🚃"});
+const messages = [{ receiver: 'Elias', text: 'Hey nimm noch einen Zug 🚈' }];
+sendMessage(messages);
