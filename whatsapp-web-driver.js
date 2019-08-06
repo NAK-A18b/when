@@ -8,6 +8,9 @@ async function sendMessageWithJS(driver, message) {
     await driver.executeScript(`function sendMessage(t){window.InputEvent=window.Event||window.InputEvent;var e=new InputEvent('input',{bubbles:!0}),n=document.querySelector('div[contenteditable="true"]');n.textContent=t,n.dispatchEvent(e),document.querySelector('span[data-icon="send"]').closest('button').click()}; sendMessage('` + message +`')`);
 }
 
+const service = new chrome.ServiceBuilder('./drivers/chromedriver').build();
+chrome.setDefaultService(service);
+
 var sendMessage = async (json) => {
     (async function () {
         let driver;
@@ -15,7 +18,7 @@ var sendMessage = async (json) => {
             driver = await new webdriver.Builder()
                 .forBrowser('chrome')
                 .setChromeOptions(
-                    new chrome.Options().addArguments("user-data-dir=whatsapp-web-driver"))
+                    new chrome.Options().addArguments("user-data-dir=chrome-data"))
                 .build();
             await driver.get('https://web.whatsapp.com/');
             return driver.wait(until.elementLocated(By.css("input[type=\"text\"]")), 20 * 1000).then(async success => {
@@ -65,4 +68,4 @@ var sendMessage = async (json) => {
     //await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
 };
 
-sendMessage({"+49 160 4615070": "Hallo 😍, hier sind ein paar Züge: 🚈🚃🚃"});
+sendMessage({"Elias": "Hallo 😍, hier sind ein paar Züge: 🚈🚃🚃"});
