@@ -8,11 +8,12 @@ const findMessageInput = async (driver) => await driver.findElement(By.css('div[
 exports.sendMessage = sendMessage = async (driver, text) => {
   (await findMessageInput(driver)).click();
   await sendMessageWithJS(driver, text);
+  await driver.sleep(1000);
 };
 
 exports.notifyContacts = async (driver, messages) => {
   const missingContacts = [];
-  for (index in messages) {
+  for (let index in messages) {
     const { receiver, text } = messages[index];
 
     await driver.findElement(By.css(`span[title="${receiver}"]`))
@@ -26,10 +27,11 @@ exports.notifyContacts = async (driver, messages) => {
 };
 
 exports.notifyNumbers = async (driver, messages) => {
-  for (index in messages) {
+  for (let index in messages) {
     const { receiver, text } = messages[index];
     await driver.get(`https://web.whatsapp.com/send?phone=${receiver}`);
     await pageLoad(driver);
+    await driver.sleep(1500);
     await sendMessage(driver, text);
   }
 };
