@@ -3,9 +3,11 @@ service: whn-notification-app
 provider:
   name: aws
   runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
   region: eu-central-1
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
 
 package:
   include:
@@ -27,7 +29,7 @@ functions:
   updateTimetable:
     handler: build/functions/update-timetable.updateTimetable
     events:
-      - schedule: rate(24 hours)
+      - schedule: cron(0 4 * * ? *)
 
 resources:
   Resources:
