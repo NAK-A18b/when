@@ -1,7 +1,5 @@
-'use strict';
-
-const { getDriver, pageLoad } = require('./src/chrome');
-const { notifyNumbers, notifyContacts } = require('./src/whatsapp');
+import { getDriver, pageLoad } from './chrome';
+import { notifyNumbers, notifyContacts } from './whatsapp';
 
 const sendMessage = async (messages) => {
     let driver;
@@ -21,5 +19,5 @@ const sendMessage = async (messages) => {
     }
 };
 
-const messages = [{ receiver: 'Elias', text: 'Hallo' }, { receiver: 'Elias', text: 'LOL es funktionier' }];
+const messages = [{ receiver: 'Elias', text: 'Hallo' }, { receiver: 'Tristan', text: 'LOL' }];
 sendMessage(messages);
