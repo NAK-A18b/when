@@ -8,15 +8,19 @@
     "invoke:update-timetable": "npm run build && sls invoke local --function updateTimetable",
     "build": "babel --presets es2015 -d build/ src",
     "start": "npm run build && npm run dev",
-    "run-locally": "npm run build && npm run invoke:import",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "sls:dev": "serverless offline start",
+    "db:setup": "serverless dynamodb install",
+    "db:migrate": "serverless dynamodb migrate",
+    "db:start": "serverless dynamodb start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "selenium-webdriver": "4.0.0-alpha.4",
-    "request": "2.88.0"
+    "aws-sdk": "^2.505.0",
+    "request": "2.88.0",
+    "selenium-webdriver": "4.0.0-alpha.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

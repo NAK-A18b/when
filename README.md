@@ -11,3 +11,10 @@ WHEN is a serverless nodejs-application intended to run on AWS. It informs stude
 ## Branches
 - `master` is the prod version
 - `develop` is an unstable version with new features used during development
+## Setup
+### Local DynamoDB Setup
+```bash
+npm run db:setup
+npm run db:start
+npm run db:migrate
+```

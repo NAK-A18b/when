@@ -5,6 +5,7 @@ chrome-data
 jspm_packages
 
 # Serverless directories
+.dynamodb
 .serverless
 
 # Editor configurations

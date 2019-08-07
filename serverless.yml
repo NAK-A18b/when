@@ -1,4 +1,4 @@
-service: whn-notification-app
+service: when-notification-app
 
 provider:
   name: aws
@@ -7,7 +7,8 @@ provider:
   memorySize: 256
   region: eu-central-1
   environment:
-    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+    IS_OFFLINE: true,
+    DYNAMODB_TABLE: 'when-timetable'
 
 package:
   include:
@@ -16,14 +17,20 @@ package:
   exclude:
     - /**
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
 custom:
   dynamodb:
+    stages:
+      - dev
     start:
       port: 8000
       inMemory: true
       migrate: true
     migration:
-      dir: offline/migrations
+      dir: src/offline/migrations
 
 functions:
   updateTimetable:
@@ -33,17 +40,15 @@ functions:
 
 resources:
   Resources:
-    TimesDynamoDbTable:
+    TimeDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: id
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          -
-            AttributeName: id
+          - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
