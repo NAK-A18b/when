@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node build/app/index.js",
+    "invoke:app": "node build/app/index.js",
+    "invoke:import" : "sls invoke local --function import",
     "build": "babel --presets es2015 -d build/ src",
     "start": "npm run build && npm run dev"
   },

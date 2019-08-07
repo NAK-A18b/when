@@ -1,4 +1,11 @@
+# package directories
+build
 node_modules
 chrome-data
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Editor configurations
 .idea
-build
