@@ -1,5 +1,25 @@
 import request from "request";
 
+const getMondayThisOrNextWeek = () => {
+    for (let i = 0; i < 7; i++) {
+        let today = new Date();
+        today.setDate(today.getDate() + i);
+        if (today.getDay() === 1) {
+            return today;
+        }
+    }
+};
+
+const getICalSTARTNextWeek = () => {
+    let dates = [];
+    for (let i = 0; i < 7; i++) {
+        let date = getMondayThisOrNextWeek();
+        date.setDate(date.getDate() + i);
+        dates.push(`${date.getFullYear()}${date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}${date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()}`);
+    }
+    return dates;
+};
+
 exports.getLatestTimes = (zenturie, semester) => {
     const dates = getICalSTARTNextWeek();
     let times = [[], [], [], [], [], [], []];
@@ -33,24 +53,4 @@ exports.getLatestTimes = (zenturie, semester) => {
         times = times.map(weekday => weekday.length && Math.max.apply(Math, weekday));
         console.log(times);
     });
-};
-
-const getMondayThisOrNextWeek = () => {
-    for (let i = 0; i < 7; i++) {
-        let today = new Date();
-        today.setDate(today.getDate() + i);
-        if (today.getDay() === 1) {
-            return today;
-        }
-    }
-};
-
-const getICalSTARTNextWeek = () => {
-    let dates = [];
-    for (let i = 0; i < 7; i++) {
-        var date = getMondayThisOrNextWeek();
-        date.setDate(date.getDate() + i);
-        dates.push(`${date.getFullYear()}${date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}${date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()}`);
-    }
-    return dates;
 };
