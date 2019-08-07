@@ -15,9 +15,9 @@ const sendMessage = async (messages) => {
         driver.close();
     } catch (e) {
         console.error(`ERROR: ${e}`);
-        //driver.close();
+        driver.close();
     }
 };
 
-const messages = [{ receiver: 'Elias', text: 'Hallo' }, { receiver: 'Tristan', text: 'LOL' }];
+const messages = [{ receiver: 'Elias', text: 'Hallo' }, { receiver: '+49 160 4615070', text: 'LOL' }];
 sendMessage(messages);
