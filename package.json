@@ -5,9 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "invoke:app": "node build/app/index.js",
-    "invoke:import" : "sls invoke local --function import",
+    "invoke:import" : "sls invoke local --function updateTimetable",
     "build": "babel --presets es2015 -d build/ src",
-    "start": "npm run build && npm run dev"
+    "start": "npm run build && npm run dev",
+    "run-locally": "npm run build && npm run invoke:import",
+    "deploy": "sls deploy"
   },
   "keywords": [],
   "author": "",

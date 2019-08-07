@@ -1,4 +1,4 @@
-import request from "request";
+import request from 'request';
 
 const getMondayThisOrNextWeek = () => {
     for (let i = 0; i < 7; i++) {
@@ -20,37 +20,37 @@ const getICalSTARTNextWeek = () => {
     return dates;
 };
 
-exports.getLatestTimes = (zenturie, semester) => {
-    const dates = getICalSTARTNextWeek();
-    let times = [[], [], [], [], [], [], []];
-    request({
-        uri: `https://cis.nordakademie.de/fileadmin/Infos/Stundenplaene/${zenturie}_${semester}.ics`,
-    }, function (error, response, body) {
+export default async (zenturie, semester) => {
+    return new Promise(((resolve, reject) => {
+        const dates = getICalSTARTNextWeek();
+        let times = [[], [], [], [], [], [], []];
+        request({
+            uri: `https://cis.nordakademie.de/fileadmin/Infos/Stundenplaene/${zenturie}_${semester}.ics`,
+        }, async function (error, response, body) {
+            const regex = /BEGIN:VEVENT.*?END:VEVENT/sg;
+            let m;
+            while ((m = regex.exec(body)) !== null) {
+                // This is necessary to avoid infinite loops with zero-width matches
+                if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                }
 
-        const regex = /BEGIN:VEVENT.*?END:VEVENT/sg;
-
-        let m;
-        while ((m = regex.exec(body)) !== null) {
-            // This is necessary to avoid infinite loops with zero-width matches
-            if (m.index === regex.lastIndex) {
-                regex.lastIndex++;
+                // The result can be accessed through the `m`-variable.
+                await m.forEach((match, groupIndex) => {
+                    const lines = match.split("\n");
+                    lines.forEach(line => {
+                        if (line.startsWith("DTEND")) {
+                            dates.map((date, index) => {
+                                if (line.includes(date)) {
+                                    times[index].push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
+                                }
+                            });
+                        }
+                    })
+                });
             }
-
-            // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
-                const lines = match.split("\n");
-                lines.forEach(line => {
-                    if (line.startsWith("DTEND")) {
-                        dates.map((date, index) => {
-                            if (line.includes(date)) {
-                                times[index].push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
-                            }
-                        });
-                    }
-                })
-            });
-        }
-        times = times.map(weekday => weekday.length && Math.max.apply(Math, weekday));
-        console.log(times);
-    });
+            times = times.map(weekday => weekday.length && Math.max.apply(Math, weekday));
+            resolve(times);
+        });
+    }));
 };
