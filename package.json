@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node build/index.js",
+    "dev": "node build/app/index.js",
     "build": "babel --presets es2015 -d build/ src",
     "start": "npm run build && npm run dev"
   },
