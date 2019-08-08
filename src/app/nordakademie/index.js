@@ -56,7 +56,11 @@ export default async (zenturie, semester) => {
             }
             const firstTime = Math.min.apply(Math, todayStartTimes);
             const lastTime = Math.max.apply(Math, todayEndTimes);
-            resolve({"start": firstTime, "end": lastTime});
+            if(isFinite(firstTime) && isFinite(lastTime)) {
+                resolve({"start": firstTime, "end": lastTime});
+            } else {
+                reject("No times found");
+            }
         });
     }));
 };
