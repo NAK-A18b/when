@@ -1,4 +1,4 @@
-import { Builder, until, By } from 'selenium-webdriver';
+import webdriver, { Builder, until, By } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome';
 
 const CHROME_PATH = './drivers/chromedriver';
@@ -7,8 +7,12 @@ export const getDriver = async () => {
   const service = new chrome.ServiceBuilder(CHROME_PATH).build();
   chrome.setDefaultService(service);
 
+  const capabilities = webdriver.Capabilities.chrome();
+  capabilities.set('useAutomationExtension', false);
+
   return new Builder()
     .forBrowser('chrome')
+    .withCapabilities(capabilities)
     .setChromeOptions(new chrome.Options()
       .addArguments("user-data-dir=chrome-data")
       .addArguments("--disable-extensions"))
