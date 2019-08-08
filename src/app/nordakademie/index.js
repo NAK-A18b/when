@@ -10,16 +10,6 @@ const getMondayThisOrNextWeek = () => {
     }
 };
 
-const getICalSTARTNextWeek = () => {
-    let dates = [];
-    for (let i = 0; i < 7; i++) {
-        let date = getMondayThisOrNextWeek();
-        date.setDate(date.getDate() + i);
-        dates.push(`${date.getFullYear()}${date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}${date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()}`);
-    }
-    return dates;
-};
-
 export default async (zenturie, semester) => {
     return new Promise(((resolve, reject) => {
         const date = new Date();
