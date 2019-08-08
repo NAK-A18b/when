@@ -7,5 +7,5 @@ const hashCode = (s) => {
 };
 
 export const generateIdHash = (date) => (
-  hashCode(`${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`).toString()
+  hashCode(`${date.getDate()}${date.getMonth()}${date.getFullYear()}`).toString()
 );

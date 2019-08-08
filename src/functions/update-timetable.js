@@ -5,7 +5,9 @@ import getTimeEntry from '../aws/dynamodb/actions/get-time-entry';
 import listTimetable from '../aws/dynamodb/actions/list-time-entrys';
 
 module.exports.updateTimetable = event => {
-    getTimeEntry(new Date()).then( (result) => {
-        console.log(result);
+    createTimetableEntry(new Date(), 8, 15).then( () => {
+        getTimeEntry(new Date()).then( (result) => {
+            console.log(result);
+        });
     });
 };
