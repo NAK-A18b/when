@@ -1,7 +1,6 @@
-import {generateIdHash} from '../utils';
-import dynamodb from '..';
+const { dynamodb } = require('..');
 
-export default params => {
+module.exports.getEntry = params => {
     return new Promise((resolve, reject) => {
         dynamodb.get(params, (error, result) => {
                 if (error) {

@@ -6,6 +6,6 @@ const hashCode = (s) => {
   return h;
 };
 
-export const generateIdHash = (date) => (
+module.exports.generateDateHash = (date) => (
   hashCode(`${date.getDate()}${date.getMonth()}${date.getFullYear()}`).toString()
 );

@@ -7,7 +7,7 @@ provider:
   memorySize: 256
   region: eu-central-1
   environment:
-    IS_OFFLINE: true,
+    IS_OFFLINE: true
     TIMETABLE_TABLE: 'when-timetable'
 
 package:

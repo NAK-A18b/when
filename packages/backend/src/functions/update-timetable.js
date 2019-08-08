@@ -1,9 +1,7 @@
 import getTimes from '../app/nordakademie';
 
-import createTimeEntry from '../aws/dynamodb/actions/create-entry';
-import getTimeEntry from '../aws/dynamodb/actions/get-entry';
-import listTimetable from '../aws/dynamodb/actions/list-time-entrys';
-import {generateIdHash} from "../aws/dynamodb/utils";
+import { createEntry } from 'when-aws/dynamodb/actions/create-entry';
+import { generateDateHash } from "when-aws/dynamodb/utils";
 
 module.exports.updateTimetable = async event => {
     const centuria = 'A18b';
@@ -13,12 +11,12 @@ module.exports.updateTimetable = async event => {
     const params = {
         TableName: process.env.TIMETABLE_TABLE,
         Item: {
-            id: generateIdHash(new Date()),
+            id: generateDateHash(new Date()),
             start: times.start,
             end: times.end,
             centuria: centuria,
         },
     };
 
-    return await createTimeEntry(params);
+    return await createEntry(params);
 };
