@@ -7,9 +7,7 @@
     "invoke:app": "npm run build && node build/app/index.js",
     "invoke:update-timetable": "npm run build && sls invoke local --function updateTimetable",
     "build": "babel --presets es2015 -d build/ src",
-    "start": "npm run build && npm run dev",
     "deploy": "sls deploy",
-    "sls:dev": "serverless offline start",
     "db:setup": "serverless dynamodb install",
     "db:migrate": "serverless dynamodb migrate",
     "db:start": "serverless dynamodb start"
