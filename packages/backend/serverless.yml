@@ -8,7 +8,7 @@ provider:
   region: eu-central-1
   environment:
     IS_OFFLINE: true,
-    DYNAMODB_TABLE: 'when-timetable'
+    TIMETABLE_TABLE: 'when-timetable'
 
 package:
   include:
@@ -53,4 +53,4 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        TableName: ${self:provider.environment.TIMETABLE_TABLE}
