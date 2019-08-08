@@ -9,7 +9,9 @@ export const getDriver = async () => {
 
   return new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().addArguments("user-data-dir=chrome-data"))
+    .setChromeOptions(new chrome.Options()
+      .addArguments("user-data-dir=chrome-data")
+      .addArguments("--disable-extensions"))
     .build();
 };
 
