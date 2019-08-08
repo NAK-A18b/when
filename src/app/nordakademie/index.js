@@ -22,8 +22,10 @@ const getICalSTARTNextWeek = () => {
 
 export default async (zenturie, semester) => {
     return new Promise(((resolve, reject) => {
-        const dates = getICalSTARTNextWeek();
-        let times = [[], [], [], [], [], [], []];
+        const date = new Date();
+        const today = `${date.getFullYear()}${date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}${date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()}`;
+        let todayStartTimes = [];
+        let todayEndTimes = [];
         request({
             uri: `https://cis.nordakademie.de/fileadmin/Infos/Stundenplaene/${zenturie}_${semester}.ics`,
         }, async function (error, response, body) {
@@ -39,18 +41,22 @@ export default async (zenturie, semester) => {
                 await m.forEach((match, groupIndex) => {
                     const lines = match.split("\n");
                     lines.forEach(line => {
+                        if (line.startsWith("DTSTART")) {
+                            if(line.includes(today)) {
+                                todayStartTimes.push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
+                            }
+                        }
                         if (line.startsWith("DTEND")) {
-                            dates.map((date, index) => {
-                                if (line.includes(date)) {
-                                    times[index].push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
-                                }
-                            });
+                            if(line.includes(today)) {
+                                todayEndTimes.push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
+                            }
                         }
                     })
                 });
             }
-            times = times.map(weekday => weekday.length && Math.max.apply(Math, weekday));
-            resolve(times);
+            const firstTime = Math.min.apply(Math, todayStartTimes);
+            const lastTime = Math.max.apply(Math, todayEndTimes);
+            resolve({"start": firstTime, "end": lastTime});
         });
     }));
 };
