@@ -1,14 +1,15 @@
 import { generateIdHash } from '../utils';
 import dynamodb from '..';
 
-export default (date, startTime, endTime) => {
+export default (date, centuria, {start, end}) => {
 
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     Item: {
       id: generateIdHash(date),
-      startTime: startTime,
-      endTime: endTime,
+      start,
+      end,
+      centuria,
     },
   };
 
