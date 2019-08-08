@@ -30,11 +30,11 @@ custom:
       inMemory: true
       migrate: true
     migration:
-      dir: src/offline/migrations
+      dir: /src/offline/migrations
 
 functions:
   updateTimetable:
-    handler: build/functions/update-timetable.updateTimetable
+    handler: '/build/functions/update-timetable.updateTimetable'
     events:
       - schedule: cron(0 4 * * ? *)
 

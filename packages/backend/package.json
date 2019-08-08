@@ -1,0 +1,29 @@
+{
+  "name": "when-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app/index.js",
+  "scripts": {
+    "invoke:app": "npm run build && node build/app/index.js",
+    "invoke:update-timetable": "npm run build && sls invoke local --function updateTimetable",
+    "build": "babel --presets es2015 -d build/ src",
+    "deploy": "sls deploy",
+    "db:setup": "serverless dynamodb install",
+    "db:migrate": "serverless dynamodb migrate",
+    "db:start": "serverless dynamodb start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.505.0",
+    "request": "2.88.0",
+    "selenium-webdriver": "4.0.0-alpha.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "serverless-dynamodb-local": "^0.2.38",
+    "serverless-offline": "^5.10.1"
+  }
+}
