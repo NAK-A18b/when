@@ -8,6 +8,7 @@ provider:
   region: eu-central-1
   environment:
     IS_OFFLINE: true
+    HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
 
 package:
@@ -37,6 +38,8 @@ functions:
     handler: '/build/functions/update-timetable.updateTimetable'
     events:
       - schedule: cron(0 4 * * ? *)
+  hvvRequest:
+    handler: '/build/functions/hvv-request.hvvRequest'
 
 resources:
   Resources:
