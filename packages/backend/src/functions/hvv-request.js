@@ -1,23 +1,28 @@
 const {hvvRequest} = require("../app/hvv/index");
 
 const body = {
-    station: {
-        name: 'Elmshorn',
+    "version": 36,
+    "language": "de",
+    "start": {
         id: 'Master:97960',
-        type: 'STATION'
+        "type": "STATION",
     },
-    time: {
-        date: 'heute',
-        time: 'jetzt'
+    "dest": {
+        "id": "Master:10950",
+        "type": "STATION",
     },
-    serviceTypes: ['RBAHN'],
-    maxTimeOffset: 10,
-    maxList: 10,
-    useRealtime: true,
+    "time": {
+        "date": "heute",
+        "time": "jetzt"
+    },
+    "timeIsDeparture": true,
+    "schedulesBefore": 0,
+    "schedulesAfter": 1,
+    "realtime": "REALTIME",
 };
 
 module.exports.hvvRequest = () => {
-    hvvRequest("departureList", body).then(body => {
+    hvvRequest("getRoute", body).then(body => {
         console.log(body);
     }).catch(e => {
         console.log(e)
