@@ -10,6 +10,7 @@ provider:
     IS_OFFLINE: true
     HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
+    USERS_TABLE: 'when-users'
 
 package:
   include:
@@ -48,12 +49,28 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: centuria
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: centuria
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.TIMETABLE_TABLE}
+    UsersDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+        DeletionPolicy: Retain
+        Properties:
+          AttributeDefinitions:
+            - AttributeName: phone
+              AttributeType: S
+          KeySchema:
+            - AttributeName: phone
+              KeyType: HASH
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+          TableName: ${self:provider.environment.USERS_TABLE}
+
+
