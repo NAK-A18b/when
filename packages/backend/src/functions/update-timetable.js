@@ -7,14 +7,19 @@ module.exports.updateTimetable = async event => {
     const semester = 2;
 
     const times = await getTimes(centuria, semester);
-    const params = {
+    let params = {
         TableName: process.env.TIMETABLE_TABLE,
         Item: {
-            start: times.start,
-            end: times.end,
             centuria: centuria,
         },
     };
+
+    if (times.start !== undefined) {
+        params.Item.start = times.start;
+    }
+    if (times.end !== undefined) {
+        params.Item.end = times.end;
+    }
 
     return await createEntry(params);
 };
