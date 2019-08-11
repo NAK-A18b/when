@@ -19,10 +19,13 @@ export default async (zenturie, semester) => {
         request({
             uri: `https://cis.nordakademie.de/fileadmin/Infos/Stundenplaene/${zenturie}_${semester}.ics`,
         }, async function (error, response, body) {
+            if (error) {
+                return reject(error);
+            }
             const regex = /BEGIN:VEVENT.*?END:VEVENT/sg;
             let m;
             while ((m = regex.exec(body)) !== null) {
-                // This is necessary to avoid infinite loops with zero-width matches
+                // This is necessary to avoid infinite loops with zFero-width matches
                 if (m.index === regex.lastIndex) {
                     regex.lastIndex++;
                 }
@@ -32,12 +35,12 @@ export default async (zenturie, semester) => {
                     const lines = match.split("\n");
                     lines.forEach(line => {
                         if (line.startsWith("DTSTART")) {
-                            if(line.includes(today)) {
+                            if (line.includes(today)) {
                                 todayStartTimes.push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
                             }
                         }
                         if (line.startsWith("DTEND")) {
-                            if(line.includes(today)) {
+                            if (line.includes(today)) {
                                 todayEndTimes.push(line.substring(line.lastIndexOf("T") + 1).replace("\r", ""));
                             }
                         }
@@ -46,10 +49,12 @@ export default async (zenturie, semester) => {
             }
             const firstTime = Math.min.apply(Math, todayStartTimes);
             const lastTime = Math.max.apply(Math, todayEndTimes);
-            if(isFinite(firstTime) && isFinite(lastTime)) {
+
+            if (isFinite(firstTime) && isFinite(lastTime)) {
                 resolve({"start": firstTime, "end": lastTime});
             } else {
-                reject("No times found");
+                resolve({});
+                console.log(`No times found for ${zenturie}`);
             }
         });
     }));
