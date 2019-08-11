@@ -7,7 +7,7 @@ module.exports.createEntry = params => {
                 console.error(error);
                 return reject(error);
             }
-            console.info(`Put item into Table: ${params.Item.id}`);
+            console.info(`Put item into table: ${params.TableName}`);
             resolve(params.Item);
         });
     });
