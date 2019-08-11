@@ -7,11 +7,13 @@
     "invoke:app": "npm run build && node build/app/index.js",
     "invoke:update-timetable": "npm run build && sls invoke local --function updateTimetable",
     "invoke:update-hvv-request": "npm run build && sls invoke local --function hvvRequest",
+    "invoke:update-create-user": "npm run build && sls invoke local --function createUser",
     "build": "babel --presets es2015 -d build/ src",
     "deploy": "sls deploy",
     "db:setup": "serverless dynamodb install",
     "db:migrate": "serverless dynamodb migrate",
-    "db:start": "serverless dynamodb start"
+    "db:start": "serverless dynamodb start",
+    "sls:offline": "sls offline --noTimeout"
   },
   "keywords": [],
   "author": "",

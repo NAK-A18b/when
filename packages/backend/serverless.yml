@@ -41,6 +41,16 @@ functions:
       - schedule: cron(0 4 * * ? *)
   hvvRequest:
     handler: '/build/functions/hvv-request.hvvRequest'
+  createUser:
+    handler: '/build/functions/create-user.createUser'
+    events:
+      - http:
+          path: users/create
+          method: get
+          request:
+            parameters:
+              querystrings:
+                phone: true
 
 resources:
   Resources:
@@ -60,17 +70,15 @@ resources:
         TableName: ${self:provider.environment.TIMETABLE_TABLE}
     UsersDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
-        DeletionPolicy: Retain
-        Properties:
-          AttributeDefinitions:
-            - AttributeName: phone
-              AttributeType: S
-          KeySchema:
-            - AttributeName: phone
-              KeyType: HASH
-          ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
-          TableName: ${self:provider.environment.USERS_TABLE}
-
-
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: phone
+            AttributeType: S
+        KeySchema:
+          - AttributeName: phone
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.USERS_TABLE}
