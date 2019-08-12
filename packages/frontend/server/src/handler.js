@@ -3,7 +3,7 @@ const { importSchema } = require('graphql-import');
 const { resolvers } = require('./resolvers');
 
 const server = new ApolloServer({
-  typeDefs: importSchema('schema.graphql'),
+  typeDefs: importSchema('./server/schema.graphql'),
   resolvers,
   formatError: error => {
     console.log(error);
