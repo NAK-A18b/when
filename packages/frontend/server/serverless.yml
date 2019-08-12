@@ -4,10 +4,18 @@ provider:
   name: aws
   runtime: nodejs8.10
   stage: ${opt:stage, 'dev'}
+  environment:
+    SUBSCRIBER_TABLE: 'when-subscriber-table'
+    CONNECTION_TABLE: 'when-connection-table'
+    CENTURIA_TABLE: 'when-centuria-table'
 
 plugins:
   - serverless-offline
 
+custom:
+  serverless-offline:
+    port: 4000
+    
 package:
   include:
     - node_modules/**
