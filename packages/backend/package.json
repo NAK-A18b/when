@@ -8,12 +8,13 @@
     "invoke:update-timetable": "npm run build && sls invoke local --function updateTimetable",
     "invoke:update-hvv-request": "npm run build && sls invoke local --function hvvRequest",
     "invoke:update-create-user": "npm run build && sls invoke local --function createUser",
-    "build": "babel --presets es2015 -d build/ src",
+    "build": "babel -d build/ src",
     "deploy": "sls deploy",
     "db:setup": "serverless dynamodb install",
     "db:drop": "rm -rf ./.dynamodb",
     "db:start": "serverless dynamodb start",
-    "sls:offline": "sls offline --noTimeout"
+    "sls:offline": "sls offline --noTimeout",
+    "babel-version": "babel --version"
   },
   "keywords": [],
   "author": "",
@@ -24,8 +25,9 @@
     "when-aws": "file:../aws"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "serverless-dynamodb-local": "^0.2.38",
     "serverless-offline": "^5.10.1"
   }
