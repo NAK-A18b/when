@@ -3,29 +3,32 @@ service: when-notification-app
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: ${opt:stage, 'dev'}
   environment:
     SUBSCRIBER_TABLE: 'when-subscriber-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'
 
 plugins:
+  - serverless-finch
   - serverless-offline
 
 custom:
   serverless-offline:
     port: 4000
-    
+  client:
+    bucketName: when-webapp
+    distributionFolder: client/build
+
 package:
   include:
-    - node_modules/**
-    - src/**
+    - server/node_modules/**
+    - server/src/**
   exclude:
     - /**
 
 functions:
   graphql:
-    handler: src/handler.graphqlHandler
+    handler: server/src/handler.graphqlHandler
     events:
       - http:
           path: graphql
