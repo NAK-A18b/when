@@ -7,7 +7,6 @@ import Divider from '@material-ui/core/Divider';
 import AddIcon from '@material-ui/icons/AddCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -71,13 +70,21 @@ const isSubscribedTo = connection => subscriber => (subscriber.connections.map(c
 const Connections = () => {
   const connData = useQuery(CONNECTIONS);
   const subData = useQuery(SUBSCRIBERS);
+
   const [subscribeConnection] = useMutation(SUBSCRIBE_CONNECTION);
   const [unsubscribeConnection] = useMutation(UNSUBSCRIBE_CONNECTION);
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState({});
 
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+  const handleClick = (id) => (event) => {
+    anchorEl[id] = event.currentTarget;
+    setAnchorEl({ ...anchorEl });
+  }
+
+  const handleClose = (id) => () => {
+    anchorEl[id] = null;
+    setAnchorEl({ ...anchorEl });
+  }
 
   const handleSubscribe = (subscriber, connection) => () => {
     subscribeConnection({
@@ -86,6 +93,7 @@ const Connections = () => {
         connection
       }
     });
+    handleClose(connection)();
   }
 
   const unSubscribe = (subscriber, connection) => () => {
@@ -107,9 +115,12 @@ const Connections = () => {
       <Divider />
       <div className={`${baseClassName}-body`}>
         { !connData.loading && connData.data.connections.map((connection, index) => {
+          const { id } = connection;
+
           const subs = !subData.loading && subData.data.subscribers.filter(isSubscribedTo(connection.id));
           const unsubbed = !subData.loading && subData.data.subscribers.filter((sub) => !subs.includes(sub));
           const hasUnsubbed = unsubbed.length > 0;
+
           return (
             <div className={`${baseClassName}-connection`} key={index}>
               { connection.start.name } -> { connection.end.name }
@@ -124,23 +135,26 @@ const Connections = () => {
                   </div>
                 ))}
                 { unsubbed &&
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <div>
-                      <div className={`${baseClassName}-subscribe-button${!hasUnsubbed ? '--disabled' : ''}`} onClick={hasUnsubbed ? handleClick : null}>
-                        <AddIcon/>
-                      </div>
-                      <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                      >
-                        { unsubbed.map( (sub) => (
-                          <MenuItem key={sub.id} onClick={handleSubscribe(sub.id, connection.id)}>{sub.username}</MenuItem>
-                        ))}
-                      </Menu>
+                  <div>
+                    <div
+                      className={`${baseClassName}-subscribe-button${!hasUnsubbed ? '--disabled' : ''}`}
+                      onClick={hasUnsubbed ? handleClick(id) : null}
+                    >
+                      <AddIcon/>
                     </div>
-                  </ClickAwayListener>
+                    <Menu
+                      anchorEl={anchorEl[id]}
+                      keepMounted
+                      open={!!anchorEl[id]}
+                      onClose={handleClose(id)}
+                    >
+                      { unsubbed.map( (sub) => (
+                        <MenuItem key={sub.id} onClick={handleSubscribe(sub.id, connection.id)}>
+                          { sub.username }
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </div>
                 }
                 </div>
                 <Divider />
