@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-lambda": "^2.8.1",
+    "graphql-import": "^0.7.1",
     "graphql": "^14.4.2",
     "when-aws": "file:../../aws",
     "when-backend": "file:../../backend"
