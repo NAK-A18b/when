@@ -49,7 +49,6 @@ const SUBSCRIBE_CONNECTION = gql`
       username
       connections {
         id
-        start
       }
     }
   }
@@ -62,7 +61,6 @@ const UNSUBSCRIBE_CONNECTION = gql`
       username
       connections {
         id
-        start
       }
     }
   }
@@ -111,11 +109,10 @@ const Connections = () => {
         { !connData.loading && connData.data.connections.map((connection, index) => {
           const subs = !subData.loading && subData.data.subscribers.filter(isSubscribedTo(connection.id));
           const unsubbed = !subData.loading && subData.data.subscribers.filter((sub) => !subs.includes(sub));
-
           const hasUnsubbed = unsubbed.length > 0;
           return (
             <div className={`${baseClassName}-connection`} key={index}>
-              { connection.start } -> { connection.end }
+              { connection.start.name } -> { connection.end.name }
               <div className={`${baseClassName}-chip-wrapper`}>
                 { !subData.loading && subs.map(sub => (
                   <div key={sub.id}>
@@ -126,7 +123,7 @@ const Connections = () => {
                     />
                   </div>
                 ))}
-                { unsubbed && 
+                { unsubbed &&
                   <ClickAwayListener onClickAway={handleClose}>
                     <div>
                       <div className={`${baseClassName}-subscribe-button${!hasUnsubbed ? '--disabled' : ''}`} onClick={hasUnsubbed ? handleClick : null}>
