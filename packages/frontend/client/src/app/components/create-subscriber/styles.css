@@ -1,0 +1,33 @@
+.create-subscriber-card {
+  max-width: 50%;
+  display: inline-flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.create-subscriber-head {
+  padding: 10px 20px;
+}
+
+.create-subscriber-body {
+  padding: 10px 20px;
+}
+
+.create-subscriber-body-inputs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.create-subscriber-body-inputs-textfield + .create-subscriber-body-inputs-textfield {
+  margin-left: 10px;
+}
+
+.create-subscriber-body-button {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+}
+
+.centuria-dropdown {
+  min-width: 194px;
+}

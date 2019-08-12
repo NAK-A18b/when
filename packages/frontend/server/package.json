@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-lambda": "^2.8.1",
-    "graphql": "^14.4.2"
+    "graphql": "^14.4.2",
+    "when-aws": "file:../../aws"
   },
   "devDependencies": {
     "serverless-offline": "^5.10.1"

@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
-import './index.css';
-import App from './App';
+import App from './app';
 import * as serviceWorker from './serviceWorker';
 
-const client = new ApolloClient({ uri: 'localhost:3000/api' });
+const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
 
 const ApolloApp = () => (
   <ApolloProvider client={client}>

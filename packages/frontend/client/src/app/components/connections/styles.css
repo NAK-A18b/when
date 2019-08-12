@@ -1,0 +1,37 @@
+.connections-card {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.connections-head {
+  padding: 10px 20px;
+}
+
+.connections-body {
+  padding: 10px 20px;
+}
+
+.connections-connection {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.connections-chip-wrapper {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.connections-subscribe-button svg {
+  fill: #fcba03;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+}
+
+.connections-subscribe-button {
+  display: inline-flex;
+  padding: 10px;
+}

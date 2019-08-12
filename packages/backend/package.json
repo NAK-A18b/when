@@ -11,7 +11,7 @@
     "build": "babel --presets es2015 -d build/ src",
     "deploy": "sls deploy",
     "db:setup": "serverless dynamodb install",
-    "db:migrate": "serverless dynamodb migrate",
+    "db:drop": "rm -rf ./.dynamodb",
     "db:start": "serverless dynamodb start",
     "sls:offline": "sls offline --noTimeout"
   },
