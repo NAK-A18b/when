@@ -31,8 +31,8 @@ const CreateCenturia = () => {
   const submitForm = () => {
     addCenturia({
       variables: {
-        name,
-        semester,
+        name: name,
+        semester: parseInt(semester),
       }
     }).then( () => {
       setName('');
@@ -62,7 +62,7 @@ const CreateCenturia = () => {
           </div>
           <div className={`${baseClassName}-body-inputs-textfield`}>
             <TextField 
-              type='tel'
+              type='number'
               variant="outlined"
               label='Semester'
               name='semester'
