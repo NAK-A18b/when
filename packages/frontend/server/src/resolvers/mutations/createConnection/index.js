@@ -1,15 +1,26 @@
 const uuid = require('uuid');
-const { createEntry } = require('when-aws/dynamodb/actions/create-entry');
+const {getStation} = require('when-backend/src/app/hvv/index');
+const {createEntry} = require('when-aws/dynamodb/actions/create-entry');
 
-module.exports.createConnection = async (root, { start, end }) => {
-  const params = {
-    TableName: process.env.CONNECTION_TABLE,
-    Item: {
-        id: uuid.v1(),
-        start,
-        end,
-      },
-  };
+module.exports.createConnection = async (root, {start, end}) => {
+    const startStation = await getStation(start);
+    if (startStation.results === undefined) {
+        return Promise.reject("Start station not found");
+    }
 
-  return await createEntry(params);
-}
+    const endStation = await getStation(end);
+    if (endStation.results === undefined) {
+        return Promise.reject("End station not found");
+    }
+
+    const params = {
+        TableName: process.env.CONNECTION_TABLE,
+        Item: {
+            id: uuid.v1(),
+            start: startStation.results[0],
+            end: endStation.results[0],
+        },
+    };
+
+    return await createEntry(params);
+};
