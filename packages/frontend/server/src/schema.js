@@ -30,8 +30,21 @@ type Centuria {
 
 type Connection {
   id: ID!
-  start: String!
-  end: String!
+  start: SDName!
+  end: SDName!
+}
+
+type Coordinate {
+  x: String!
+  y: String!
+}
+
+type SDName {
+  name: String!
+  city: String!
+  id: String!
+  type: String!
+  coordinate: Coordinate!
 }
 
 schema {
