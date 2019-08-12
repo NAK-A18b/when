@@ -11,7 +11,8 @@
   "dependencies": {
     "apollo-server-lambda": "^2.8.1",
     "graphql": "^14.4.2",
-    "when-aws": "file:../../aws"
+    "when-aws": "file:../../aws",
+    "when-backend": "file:../../backend"
   },
   "devDependencies": {
     "serverless-offline": "^5.10.1"
