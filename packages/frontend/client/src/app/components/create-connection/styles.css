@@ -1,5 +1,4 @@
 .create-connection-card {
-  max-width: 50%;
   display: inline-flex;
   flex-direction: column;
   margin: 10px;

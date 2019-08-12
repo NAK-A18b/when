@@ -17,6 +17,8 @@ const CREATE_CENTURIA = gql`
   mutation createCenturia($name: String!, $semester: Int!) {
     createCenturia(name: $name, semester: $semester) {
       id
+      name
+      semester
     }
   }
 `;
@@ -31,7 +33,7 @@ const CreateCenturia = () => {
   const submitForm = () => {
     addCenturia({
       variables: {
-        name: name,
+        name,
         semester: parseInt(semester),
       }
     }).then( () => {
