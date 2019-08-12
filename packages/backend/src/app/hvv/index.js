@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const request = require('request');
 
-module.exports.hvvRequest = (method, body) => {
+hvvRequest = (method, body) => {
     return new Promise((resolve, reject) => {
         //Set HVV API Version
         body.version = process.env.HVV_API_VERSION;
@@ -29,13 +29,32 @@ module.exports.hvvRequest = (method, body) => {
         function callback(error, response, body) {
             if (!error && response.statusCode === 200) {
                 console.log(`Request to HVV-API successful with method ${method}`);
-                resolve(body);
+                resolve(JSON.parse(body));
             } else {
-                console.error(`Request to HVV-API failed with response code ${response.statusCode} and body ${body}`);
+                console.error(`Request to HVV-API failed with ${body}`);
                 reject(body);
             }
         }
+
         request(options, callback);
     });
 
+};
+
+module.exports.hvvRequest = hvvRequest;
+
+module.exports.getStation = name => {
+    if (name === '') {
+        return {};
+    }
+
+    const params = {
+        theName: {
+            name: name,
+            type: 'STATION'
+        },
+        maxList: 1
+    };
+
+    return hvvRequest("checkName", params);
 };
