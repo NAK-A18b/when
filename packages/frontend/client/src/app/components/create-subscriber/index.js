@@ -14,6 +14,10 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { SUBSCRIBERS } from '../connections';
+
+import { generateCacheUpdate } from '../../utils/graphql';
+
 import './styles.css';
 
 const baseClassName = 'create-subscriber'
@@ -29,13 +33,23 @@ const CREATE_SUBSCRIBER = gql`
         name
         semester
       }
+      connections {
+        id
+        start {
+          name
+        }
+        end {
+          name
+        }
+      }
     }
   }
 `;
 
-const CENTURIAS = gql`
-  query GetCenturias {
+export const CENTURIAS = gql`
+  query getCenturias {
     centurias {
+      id
       name
     }
   }
@@ -43,7 +57,10 @@ const CENTURIAS = gql`
 
 const CreateSubscriber = () => {
   const { loading, data } = useQuery(CENTURIAS);
-  const [addSubscriber] = useMutation(CREATE_SUBSCRIBER);
+  const [addSubscriber] = useMutation(
+    CREATE_SUBSCRIBER,
+    generateCacheUpdate('createSubscriber', SUBSCRIBERS, 'subscribers')
+  );
 
   const [username, setUsername] = useState('');
   const [tel, setTel] = useState('');
@@ -103,8 +120,8 @@ const CreateSubscriber = () => {
             value={centuria}
             onChange={handleInput(setCenturia)}
           >
-            { !loading && data.centurias.map(({ name }, index) => (
-              <MenuItem key={index} value={name}>{ name }</MenuItem>
+            { !loading && data.centurias.map(({ name, id }, index) => (
+              <MenuItem key={index} value={id}>{ name }</MenuItem>
             ))}
           </Select>
         </FormControl>

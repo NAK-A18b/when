@@ -9,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { CENTURIAS } from '../create-subscriber'
+
+import { generateCacheUpdate } from '../../utils/graphql';
+
 import './styles.css';
 
 const baseClassName = 'create-centuria'
@@ -24,7 +28,10 @@ const CREATE_CENTURIA = gql`
 `;
 
 const CreateCenturia = () => {
-  const [addCenturia] = useMutation(CREATE_CENTURIA);
+  const [addCenturia] = useMutation(
+    CREATE_CENTURIA,
+    generateCacheUpdate('createCenturia', CENTURIAS, 'centurias')
+  );
 
   const [name, setName] = useState('');
   const [semester, setSemester] = useState('');

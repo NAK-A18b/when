@@ -1,4 +1,7 @@
-service: when-notification-app
+service:
+  name: when-notification-app
+  bucketName: when-webapp
+  assetsUrl: https://s3.eu-central-1.amazonaws.com/${self:service.bucketName}
 
 provider:
   name: aws
@@ -16,7 +19,7 @@ custom:
   serverless-offline:
     port: 4000
   client:
-    bucketName: when-webapp
+    bucketName: ${self:service.bucketName}
     distributionFolder: client/build
 
 package:
@@ -37,3 +40,68 @@ functions:
       - http:
           path: graphql
           method: get
+
+resources:
+  Resources:
+    WebappProxyResource:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ParentId:
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        PathPart: '{proxy+}'
+
+    WebappProxyMethod:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: ANY
+        ResourceId:
+          Ref: WebappProxyResource
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        AuthorizationType: NONE
+        RequestParameters:
+          method.request.path.proxy: true
+          method.request.header.Accept: true
+        Integration:
+          CacheKeyParameters:
+            - 'method.request.path.proxy'
+          RequestParameters:
+            integration.request.path.proxy: 'method.request.path.proxy'
+          IntegrationHttpMethod: ANY
+          Type: HTTP_PROXY
+          Uri: ${self:service.assetsUrl}/{proxy}
+          PassthroughBehavior: WHEN_NO_MATCH
+          IntegrationResponses:
+            - StatusCode: 200
+
+    WebappRootProxyMethod:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: ANY
+        ResourceId:
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        AuthorizationType: NONE
+        RequestParameters:
+          method.request.path.proxy: true
+          method.request.header.Accept: true
+        Integration:
+          CacheKeyParameters:
+            - 'method.request.path.proxy'
+          RequestParameters:
+            integration.request.path.proxy: 'method.request.path.proxy'
+          IntegrationHttpMethod: ANY
+          Type: HTTP_PROXY
+          Uri: ${self:service.assetsUrl}/index.html
+          PassthroughBehavior: WHEN_NO_MATCH
+          IntegrationResponses:
+            - StatusCode: 200
