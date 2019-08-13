@@ -8,7 +8,7 @@ const fetchAttribute = async (TableName, Key) => (await getEntry({ TableName, Ke
 module.exports.transformSubscriber = async (subscriber) => {
   const { centuria: centuriaId, connections: connnectionIds } = subscriber;
 
-  subscriber.centuria = await fetchAttribute(env.CENTURIA_TABLE, { id: generateHash(centuriaId)});
+  subscriber.centuria = await fetchAttribute(env.CENTURIA_TABLE, { id: centuriaId});
   subscriber.connections = await Promise.all(
     !connnectionIds ? [] : connnectionIds.map(async (id) => 
       await fetchAttribute(env.CONNECTION_TABLE, { id }))

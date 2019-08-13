@@ -15,7 +15,7 @@ import './styles.css';
 
 const baseClassName = 'connections'
 
-const CONNECTIONS = gql`
+export const CONNECTIONS = gql`
   query connections {
     connections {
       id
@@ -29,7 +29,7 @@ const CONNECTIONS = gql`
   }
 `;
 
-const SUBSCRIBERS = gql`
+export const SUBSCRIBERS = gql`
   query subscribers {
     subscribers {
       id
