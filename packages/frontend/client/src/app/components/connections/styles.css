@@ -1,0 +1,53 @@
+.connections-card {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.connections-head {
+  padding: 10px 20px;
+}
+
+.connections-body {
+  padding: 10px 20px;
+}
+
+.connections-connection {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.connections-chip-wrapper {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.connections-chip {
+  margin-right: 10px;
+}
+
+.connections-subscribe-button svg {
+  fill: #3f51b5;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.connections-subscribe-button {
+  display: inline-flex;
+  padding: 10px 0;
+}
+
+.connections-subscribe-button--disabled {
+  display: inline-flex;
+  padding: 10px 0;
+}
+
+.connections-subscribe-button--disabled svg {
+  fill: #a1a1a1;
+  cursor: inherit;
+  width: 30px;
+  height: 30px;
+}
