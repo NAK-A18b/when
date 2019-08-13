@@ -9,16 +9,16 @@
 }
 
 .create-subscriber-body {
-  padding: 10px 20px;
+  padding: 10px;
 }
 
 .create-subscriber-body-inputs {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.create-subscriber-body-inputs-textfield + .create-subscriber-body-inputs-textfield {
-  margin-left: 10px;
+.create-subscriber-body-inputs-textfield {
+  margin: 5px;
 }
 
 .create-subscriber-body-button {
@@ -27,6 +27,11 @@
   margin-top: 20px;
 }
 
-.centuria-dropdown {
+.MuiFormControl-root.create-subscriber-centuria-dropdown {
+  display: flex;
+  margin: 5px;
+}
+
+.centuria-select {
   min-width: 194px;
 }

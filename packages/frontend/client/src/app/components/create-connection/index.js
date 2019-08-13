@@ -73,7 +73,6 @@ const CreateConnection = () => {
                             onChange={handleInput(setStart)}
                         />
                     </div>
-                    <span className={`${baseClassName}-arrow`}>&#8594;</span>
                     <div className={`${baseClassName}-body-inputs-textfield`}>
                         <TextField
                             type='tel'

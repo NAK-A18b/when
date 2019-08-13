@@ -9,21 +9,18 @@
 }
 
 .create-connection-body {
-  padding: 10px 20px;
-}
-
-.create-connection-arrow {
-  margin: 5px;
+  padding: 10px;
 }
 
 .create-connection-body-inputs {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.create-connection-body-inputs-textfield + .create-connection-body-inputs-textfield {
-  margin-left: 10px;
+.create-connection-body-inputs-textfield {
+  margin: 5px;
 }
 
 .create-connection-body-button {
