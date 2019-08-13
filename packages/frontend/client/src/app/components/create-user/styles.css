@@ -1,33 +1,33 @@
-.create-subscriber-card {
+.create-user-card {
   display: inline-flex;
   flex-direction: column;
   margin: 10px;
 }
 
-.create-subscriber-head {
+.create-user-head {
   padding: 10px 20px;
 }
 
-.create-subscriber-body {
+.create-user-body {
   padding: 10px;
 }
 
-.create-subscriber-body-inputs {
+.create-user-body-inputs {
   display: flex;
   margin-bottom: 10px;
 }
 
-.create-subscriber-body-inputs-textfield {
+.create-user-body-inputs-textfield {
   margin: 5px;
 }
 
-.create-subscriber-body-button {
+.create-user-body-button {
   display: flex;
   flex-direction: row-reverse;
   margin-top: 20px;
 }
 
-.MuiFormControl-root.create-subscriber-centuria-dropdown {
+.MuiFormControl-root.create-user-centuria-dropdown {
   display: flex;
   margin: 5px;
 }

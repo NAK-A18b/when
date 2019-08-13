@@ -14,17 +14,17 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { SUBSCRIBERS } from '../connections';
+import { USERS } from '../connections';
 
 import { generateCacheUpdate } from '../../utils/graphql';
 
 import './styles.css';
 
-const baseClassName = 'create-subscriber'
+const baseClassName = 'create-user'
 
-const CREATE_SUBSCRIBER = gql`
-  mutation createSubscriber($username: String!, $tel: String!, $centuria: String!) {
-    createSubscriber(username: $username, tel: $tel, centuria: $centuria) {
+const CREATE_USER = gql`
+  mutation createUser($username: String!, $tel: String!, $centuria: String!) {
+    createUser(username: $username, tel: $tel, centuria: $centuria) {
       id
       username
       tel
@@ -55,11 +55,11 @@ export const CENTURIAS = gql`
   }
 `
 
-const CreateSubscriber = () => {
+const CreateUser = () => {
   const { loading, data } = useQuery(CENTURIAS);
-  const [addSubscriber] = useMutation(
-    CREATE_SUBSCRIBER,
-    generateCacheUpdate('createSubscriber', SUBSCRIBERS, 'subscribers')
+  const [addUser] = useMutation(
+    CREATE_USER,
+    generateCacheUpdate('createUser', USERS, 'users')
   );
 
   const [username, setUsername] = useState('');
@@ -68,7 +68,7 @@ const CreateSubscriber = () => {
 
   const handleInput = stateFunc => e => stateFunc(e.target.value);
   const submitForm = () => {
-    addSubscriber({
+    addUser({
       variables: {
         username,
         tel,
@@ -85,7 +85,7 @@ const CreateSubscriber = () => {
     <Card className={`${baseClassName}-card`}>
       <div className={`${baseClassName}-head`}>
         <Typography variant="h5">
-          Create Subscriber
+          Create User
         </Typography>
       </div>
       <Divider />
@@ -133,4 +133,4 @@ const CreateSubscriber = () => {
   );
 }
 
-export default CreateSubscriber;
+export default CreateUser;

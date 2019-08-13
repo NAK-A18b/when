@@ -7,7 +7,7 @@ provider:
   name: aws
   runtime: nodejs8.10
   environment:
-    SUBSCRIBER_TABLE: 'when-subscriber-table'
+    USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'
 
