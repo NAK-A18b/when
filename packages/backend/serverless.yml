@@ -10,7 +10,7 @@ provider:
     IS_OFFLINE: true
     HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
-    SUBSCRIBER_TABLE: 'when-subscriber-table'
+    USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'
 
@@ -70,7 +70,7 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.TIMETABLE_TABLE}
-    SubscriberDynamoDbTable:
+    UserDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
@@ -83,7 +83,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.SUBSCRIBER_TABLE}
+        TableName: ${self:provider.environment.USER_TABLE}
     ConnectionDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain

@@ -29,9 +29,9 @@ export const CONNECTIONS = gql`
   }
 `;
 
-export const SUBSCRIBERS = gql`
-  query subscribers {
-    subscribers {
+export const USERS = gql`
+  query users {
+    users {
       id
       username
       connections {
@@ -42,8 +42,8 @@ export const SUBSCRIBERS = gql`
 `
 
 const SUBSCRIBE_CONNECTION = gql`
-  mutation subscribeConnection($subscriber: String!, $connection: String!)  {
-    subscribeConnection(subscriber: $subscriber, connection: $connection) {
+  mutation subscribeConnection($user: String!, $connection: String!)  {
+    subscribeConnection(user: $user, connection: $connection) {
       id
       username
       connections {
@@ -54,8 +54,8 @@ const SUBSCRIBE_CONNECTION = gql`
 `
 
 const UNSUBSCRIBE_CONNECTION = gql`
-  mutation unsubscribeConnection($subscriber: String!, $connection: String!)  {
-    unsubscribeConnection(subscriber: $subscriber, connection: $connection) {
+  mutation unsubscribeConnection($user: String!, $connection: String!)  {
+    unsubscribeConnection(user: $user, connection: $connection) {
       id
       username
       connections {
@@ -65,11 +65,11 @@ const UNSUBSCRIBE_CONNECTION = gql`
   }
 `
 
-const isSubscribedTo = connection => subscriber => (subscriber.connections.map(conn => conn.id)).includes(connection);
+const isSubscribedTo = connection => user => (user.connections.map(conn => conn.id)).includes(connection);
 
 const Connections = () => {
   const connData = useQuery(CONNECTIONS);
-  const subData = useQuery(SUBSCRIBERS);
+  const subData = useQuery(USERS);
 
   const [subscribeConnection] = useMutation(SUBSCRIBE_CONNECTION);
   const [unsubscribeConnection] = useMutation(UNSUBSCRIBE_CONNECTION);
@@ -86,20 +86,20 @@ const Connections = () => {
     setAnchorEl({ ...anchorEl });
   }
 
-  const handleSubscribe = (subscriber, connection) => () => {
+  const handleSubscribe = (user, connection) => () => {
     subscribeConnection({
       variables: {
-        subscriber,
+        user,
         connection
       }
     });
     handleClose(connection)();
   }
 
-  const unSubscribe = (subscriber, connection) => () => {
+  const unSubscribe = (user, connection) => () => {
     unsubscribeConnection({
       variables: {
-        subscriber,
+        user,
         connection
       }
     });
@@ -117,8 +117,8 @@ const Connections = () => {
         { !connData.loading && connData.data.connections.map((connection, index) => {
           const { id } = connection;
 
-          const subs = !subData.loading && subData.data.subscribers.filter(isSubscribedTo(connection.id));
-          const unsubbed = !subData.loading && subData.data.subscribers.filter((sub) => !subs.includes(sub));
+          const subs = !subData.loading && subData.data.users.filter(isSubscribedTo(connection.id));
+          const unsubbed = !subData.loading && subData.data.users.filter((sub) => !subs.includes(sub));
           const hasUnsubbed = unsubbed.length > 0;
 
           return (

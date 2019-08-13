@@ -1,19 +1,19 @@
 type Mutation {
-    createSubscriber(username: String!, tel: String!, centuria: String!): Subscriber!
-    deleteSubscriber(id: String!): Boolean!
+    createUser(username: String!, tel: String!, centuria: String!): User!
+    deleteUser(id: String!): Boolean!
     createCenturia(name: String!, semester: Int!): Centuria!
     createConnection(start: String!, end: String!): Connection!
-    subscribeConnection(connection: String!, subscriber: String!): Subscriber!
-    unsubscribeConnection(connection: String!, subscriber: String!): Subscriber!
+    subscribeConnection(connection: String!, user: String!): User!
+    unsubscribeConnection(connection: String!, user: String!): User!
 }
 
 type Query {
-    subscribers: [Subscriber]
+    users: [User]
     centurias: [Centuria]
     connections: [Connection]
 }
 
-type Subscriber {
+type User {
     id: ID!
     username: String!
     tel: String!
