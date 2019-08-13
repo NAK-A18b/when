@@ -112,15 +112,15 @@ const CreateSubscriber = () => {
             />
           </div>
         </div>
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" className={`${baseClassName}-centuria-dropdown`}>
           <InputLabel htmlFor="age-simple">Zenturie</InputLabel>
           <Select
             input={<OutlinedInput labelWidth={60} name="age" id="outlined-age-simple" />}
-            className="centuria-dropdown"
+            className="centuria-select"
             value={centuria}
             onChange={handleInput(setCenturia)}
           >
-            { !loading && data.centurias.map(({ name, id }, index) => (
+            { !loading && data.centurias && data.centurias.map(({ name, id }, index) => (
               <MenuItem key={index} value={id}>{ name }</MenuItem>
             ))}
           </Select>

@@ -10,7 +10,7 @@
 }
 
 .create-centuria-body {
-  padding: 10px 20px;
+  padding: 10px;
 }
 
 .create-centuria-arrow {
@@ -19,12 +19,13 @@
 
 .create-centuria-body-inputs {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.create-centuria-body-inputs-textfield + .create-centuria-body-inputs-textfield {
-  margin-left: 10px;
+.create-centuria-body-inputs-textfield {
+  margin: 5px;
 }
 
 .create-centuria-body-button {
