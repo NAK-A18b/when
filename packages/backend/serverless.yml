@@ -10,7 +10,9 @@ provider:
     IS_OFFLINE: true
     HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
-    USERS_TABLE: 'when-users'
+    SUBSCRIBER_TABLE: 'when-subscriber-table'
+    CONNECTION_TABLE: 'when-connection-table'
+    CENTURIA_TABLE: 'when-centuria-table'
 
 package:
   include:
@@ -68,17 +70,46 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.TIMETABLE_TABLE}
-    UsersDynamoDbTable:
+    SubscriberDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          - AttributeName: phone
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: phone
+          - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.USERS_TABLE}
+        TableName: ${self:provider.environment.SUBSCRIBER_TABLE}
+    ConnectionDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CONNECTION_TABLE}
+    CenturiaDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CENTURIA_TABLE}
+        

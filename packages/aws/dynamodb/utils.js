@@ -9,3 +9,5 @@ const hashCode = (s) => {
 module.exports.generateDateHash = (date) => (
   hashCode(`${date.getDate()}${date.getMonth()}${date.getFullYear()}`).toString()
 );
+
+module.exports.generateHash = (string) => hashCode(string).toString();

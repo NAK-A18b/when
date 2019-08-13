@@ -1,13 +1,13 @@
 const { dynamodb } = require('..');
 
-module.exports.listTimeEntrys = params => {
+module.exports.deleteEntry = params => {
     return new Promise((resolve, reject) => {
-        dynamodb.scan(params, (error, result) => {
+        dynamodb.delete(params, (error) => {
             if (error) {
                 console.error(error);
                 return reject(error);
             }
-            return resolve(result);
+            resolve(params.Item);
         });
     });
 };

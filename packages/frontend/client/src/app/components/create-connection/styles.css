@@ -1,0 +1,37 @@
+.create-connection-card {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.create-connection-head {
+  padding: 10px 20px;
+}
+
+.create-connection-body {
+  padding: 10px 20px;
+}
+
+.create-connection-arrow {
+  margin: 5px;
+}
+
+.create-connection-body-inputs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.create-connection-body-inputs-textfield + .create-connection-body-inputs-textfield {
+  margin-left: 10px;
+}
+
+.create-connection-body-button {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+}
+
+.centuria-dropdown {
+  min-width: 194px;
+}

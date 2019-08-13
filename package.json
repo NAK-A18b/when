@@ -11,5 +11,11 @@
     "url": "git+https://github.com/eliashuehne/whatsapp-web-driver.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eliashuehne/whatsapp-web-driver/issues"
+  },
+  "homepage": "https://github.com/eliashuehne/whatsapp-web-driver#readme",
+  "dependencies": {},
+  "devDependencies": {}
 }

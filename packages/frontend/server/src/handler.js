@@ -1,10 +1,9 @@
 const { ApolloServer } = require('apollo-server-lambda');
-const { schema } = require('./schema');
+const { importSchema } = require('graphql-import');
 const { resolvers } = require('./resolvers');
 
-console.log(schema)
 const server = new ApolloServer({
-  typeDefs: schema,
+  typeDefs: importSchema('./server/schema.graphql'),
   resolvers,
   formatError: error => {
     console.log(error);
