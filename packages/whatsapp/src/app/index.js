@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const basicAuth = require('express-basic-auth')
+const basicAuth = require('express-basic-auth');
 const sulla = require('sulla');
 
 // Constants
@@ -11,6 +11,11 @@ const HOST = '0.0.0.0';
 sulla.create().then(client => {
   const app = express();
   app.use(express.json());
+  app.use(basicAuth({
+    users: {
+      'nordakademie': 'T&;2]fX3EN/&v>5'
+    }
+  }));
   app.post('/sendMessage', async (req, res) => {
     const messages = req.body;
     for (let index in messages) {
