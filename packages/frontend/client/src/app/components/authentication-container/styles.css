@@ -1,0 +1,14 @@
+.auth-container-inputs-textfield {
+  margin: 5px;
+}
+
+.auth-container-inputs {
+  display: flex;
+  padding: 10px 10px 0 10px;
+}
+
+.auth-container-submit-button {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+}

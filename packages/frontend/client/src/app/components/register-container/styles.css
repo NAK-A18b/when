@@ -1,0 +1,19 @@
+.register-container-inputs-textfield {
+  margin: 5px;
+}
+
+.register-container-inputs {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.register-container-submit-button {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.register-container-inputs-row {
+  display: flex;
+}

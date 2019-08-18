@@ -5,6 +5,5 @@ module.exports.centurias = async (root, args) => {
     TableName: process.env.CENTURIA_TABLE,
   })).Items;
 
-  console.log(response);
   return response;
 }
