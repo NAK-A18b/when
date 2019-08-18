@@ -1,6 +1,8 @@
 type Mutation {
     createUser(username: String!, tel: String!, centuria: String!): User!
     deleteUser(id: String!): Boolean!
+    registerUser(email: String!, username: String!, tel: String!, centuria: String!): String!
+    loginUser(email: String!): String
     createCenturia(name: String!, semester: Int!): Centuria!
     createConnection(start: String!, end: String!): Connection!
     subscribeConnection(connection: String!, user: String!): User!
@@ -11,14 +13,17 @@ type Query {
     users: [User]
     centurias: [Centuria]
     connections: [Connection]
+    currentUser(id: String!, token: Int!): User
 }
 
 type User {
     id: ID!
+    email: String!
     username: String!
     tel: String!
     centuria: Centuria!
     connections: [Connection]!
+    token: String
 }
 
 type Centuria {

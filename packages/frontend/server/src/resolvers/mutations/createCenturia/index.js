@@ -11,6 +11,5 @@ module.exports.createCenturia = async (root, { name, semester }) => {
       },
   };
 
-  console.log(params);
   return await createEntry(params);
 }

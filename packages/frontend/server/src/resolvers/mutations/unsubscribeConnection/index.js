@@ -15,7 +15,6 @@ module.exports.unsubscribeConnection = async (root, { connection, user: id }) =>
   if (connections && !connections.includes(connection)) return transformUser(user);
   user.connections = connections.filter(conn => conn !== connection);
 
-  console.log(user);
   const createParams = {
     TableName: process.env.USER_TABLE,
     Item: user,

@@ -1,0 +1,14 @@
+.login-page-card {
+  margin: auto;
+  position: absolute;
+  top: 45vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.login-page-headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+}

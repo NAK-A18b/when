@@ -35,3 +35,7 @@
 .centuria-select {
   min-width: 194px;
 }
+
+.create-user-loader {
+  margin-right: 10px;
+}

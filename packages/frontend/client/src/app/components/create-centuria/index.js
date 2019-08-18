@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { CENTURIAS } from '../create-user'
+import { CENTURIAS } from '../centuria-dropdown'
 
 import { generateCacheUpdate } from '../../utils/graphql';
 

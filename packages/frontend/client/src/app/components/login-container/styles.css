@@ -1,0 +1,18 @@
+.login-container-inputs-textfield {
+  margin: 5px;
+}
+
+.login-container-inputs-textfield .MuiFormControl-root.MuiTextField-root {
+  min-width: 300px;
+}
+
+.login-container-inputs {
+  display: flex;
+  padding: 10px 10px 0 10px;
+}
+
+.login-container-submit-button {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+}
