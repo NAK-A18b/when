@@ -1,4 +1,3 @@
-import { AUTH_TOKEN, USER_ID } from '../../constants';
+import { AUTH_TOKEN } from '../../constants';
 
-export const authToken = () => parseInt(localStorage.getItem(AUTH_TOKEN));
-export const userId = () => localStorage.getItem(USER_ID);
+export const authToken = () => localStorage.getItem(AUTH_TOKEN);

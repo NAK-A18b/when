@@ -8,7 +8,6 @@ import { Divider } from '@material-ui/core';
 
 import AuthenticationContainer from '../../components/authentication-container';
 import LoginContainer from '../../components/login-container';
-import RegisterContainer from '../../components/register-container';
 
 import { withUser } from '../../context/user';
 
@@ -18,32 +17,39 @@ const baseClassName = 'login-page';
 
 const LoginPage = (props) => {
   const { user } = props;
-  const [ login, setLogin ] = useState(true);
-  const toggleLogin = (state) => () => setLogin(state);
 
+  const [ auth, setAuth ] = useState(false);
+  const [ tel, setTel ] = useState('');
+  const [ token, setToken ] = useState('');
+  
+  const triggerAuth = () => {
+    setAuth(true);
+    user.triggerAuthentication(tel);
+  }
+
+  const loginUser = () => {
+    user.login(tel, parseInt(token));
+  }
   return (
     <Card className={`${baseClassName}-card`}>
-    { user.auth ? (
-      <AuthenticationContainer /> 
-    ) : (
-      <>
         <div className={`${baseClassName}-headline`}>
           <Typography variant="h5">
-            { login ? 'Login' : 'Register'}
+            { 'Login' }
           </Typography>
-          <ButtonGroup className={`${baseClassName}-mode-switch`} color="primary">
-            <Button variant="contained" onClick={toggleLogin(true)}>Login</Button>
-            <Button variant="contained" onClick={toggleLogin(false)}>Register</Button>
-          </ButtonGroup>
         </div>
         <Divider />
-        { login ? (
-          <LoginContainer />
+        { auth ? (
+          <AuthenticationContainer 
+            token={token}
+            setToken={setToken}
+            submitCallback={loginUser}
+          />
         ) : (
-          <RegisterContainer />
+          <LoginContainer 
+            tel={tel} 
+            setTel={setTel} 
+            submitCallback={triggerAuth}/>
         )}
-      </>
-    )}
     </Card>
   )
 }

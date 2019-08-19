@@ -11,11 +11,8 @@ const baseClassName = 'login-container';
 
 
 const LoginContainer = (props) => {
-  const { user } = props;
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
+  const { tel, setTel, submitCallback } = props;
   
-  const login = () => user.login(email, password);
   return (
     <div>
       <div className={`${baseClassName}-inputs`}>
@@ -23,15 +20,15 @@ const LoginContainer = (props) => {
           <TextField 
             type='text' 
             variant="outlined"
-            label='Email' 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)}
+            label='Tel' 
+            value={tel} 
+            onChange={(e) => setTel(e.target.value)}
           />
         </div>
       </div>
       <div className={`${baseClassName}-submit-button`}>  
         <Button 
-          onClick={login}
+          onClick={submitCallback}
           color="primary"
           variant="contained"
         >
@@ -42,4 +39,4 @@ const LoginContainer = (props) => {
   )
 }
 
-export default withUser(LoginContainer);
+export default LoginContainer;

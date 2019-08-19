@@ -1,10 +1,10 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 
-import { AUTH_TOKEN, USER_ID } from '../../constants';
+import { AUTH_TOKEN } from '../../constants';
 
 import { initialContext, Consumer, Provider as ContextProvider } from './context';
-import { loginMutation, registerMutation, currentUserQuery } from './resolvers';
+import { loginMutation, triggerAuth, currentUserQuery } from './resolvers';
 
 import { userId, authToken } from '../../utils/authentication';
 
@@ -18,70 +18,44 @@ export default withApollo (
 
     componentDidMount = async () => {
       const { client } = this.props;
-      const token = authToken();
-      const id = userId();
-      const loggedIn = !!token;
+      const id = authToken();
+      const loggedIn = !!id;
       
       this.setState({
-        data: loggedIn ? await currentUserQuery(client, { id, token }) : null,
-        auth: !!id && !loggedIn,
+        data: loggedIn ? await currentUserQuery(client, { id }) : null,
         loggedIn,
         loading: false,
       });
     }
 
-    login = (email) => {
+    login = (tel, token) => {
       const { client } = this.props;
-      loginMutation(client, { email }).then((data) => {
+      loginMutation(client, { tel, token }).then((data) => {
         if (!data) return;
 
-        localStorage.setItem(USER_ID, data);
+        localStorage.setItem(AUTH_TOKEN, data.id);
         this.setState({
-          auth: true,
+          data,
+          loggedIn: true,
         })
       })
     }
 
     logout = () => {
       localStorage.removeItem(AUTH_TOKEN);
-      localStorage.removeItem(USER_ID);
       this.setState({
         loggedIn: false,
       })
     }
 
-    authenticate = (token) => {
+    triggerAuthentication = async (tel) => {
       const { client } = this.props;
-      const id = userId();
-
-      currentUserQuery(client, { id, token }).then(user => {
-        if (!user) return;
-
-        localStorage.setItem(AUTH_TOKEN, user.token);
-        this.setState({
-          loggedIn: true,
-          auth: false,
-          data: user,
-        });
-      })
-    }
-
-    register = (email, password, username, tel, centuria) => {
-      const { client } = this.props;
-      registerMutation(client, { email, password, username, tel, centuria })
-      .then(id => {
-        if(!id) return;
-
-        localStorage.setItem(USER_ID, id);
-        this.setState({
-          auth: true,
-        });
-      })
+      return triggerAuth(client, { tel });
     }
 
     render = () => {
       const { children } = this.props;
-      const { logout, login, register, authenticate } = this;
+      const { logout, login, triggerAuthentication } = this;
 
       return (
         <ContextProvider
@@ -89,8 +63,7 @@ export default withApollo (
             ...this.state,
             logout,
             login,
-            register,
-            authenticate
+            triggerAuthentication
           }}
         >
           { children }

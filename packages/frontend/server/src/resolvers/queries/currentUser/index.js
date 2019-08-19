@@ -2,7 +2,7 @@ const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
 
 const { transformUser } = require('../../../transformers/user');
 
-module.exports.currentUser = async (root, { id, token }) => {
+module.exports.currentUser = async (root, { id }) => {
   const params = {
     TableName: process.env.USER_TABLE,
     Key: {
@@ -11,5 +11,5 @@ module.exports.currentUser = async (root, { id, token }) => {
   }
 
   const user = await transformUser((await getEntry(params)).Item);
-  return user.token === token ? user : null;
+  return user ? user : null;
 }
