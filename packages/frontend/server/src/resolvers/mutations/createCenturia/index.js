@@ -5,10 +5,10 @@ module.exports.createCenturia = async (root, { name, semester }) => {
   const params = {
     TableName: process.env.CENTURIA_TABLE,
     Item: {
-        id: generateHash(name),
-        name,
-        semester,
-      },
+      id: generateHash(name),
+      name,
+      semester,
+    },
   };
 
   return await createEntry(params);

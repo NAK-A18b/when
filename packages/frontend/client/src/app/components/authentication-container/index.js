@@ -10,10 +10,8 @@ import './styles.css';
 const baseClassName = 'auth-container';
 
 const AuthenticationContainer = (props) => {
-  const { user } = props;
-  const [ token, setToken ] = useState('');
+  const { token, setToken, submitCallback } = props;
 
-  const authenticate = () => user.authenticate(parseInt(token));
   return (
     <div>
       <div className={`${baseClassName}-inputs`}>
@@ -29,7 +27,7 @@ const AuthenticationContainer = (props) => {
       </div>
       <div className={`${baseClassName}-submit-button`}>  
         <Button 
-          onClick={authenticate}
+          onClick={submitCallback}
           color="primary"
           variant="contained"
         >
@@ -40,4 +38,4 @@ const AuthenticationContainer = (props) => {
   )
 }
 
-export default withUser(AuthenticationContainer);
+export default AuthenticationContainer;

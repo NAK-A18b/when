@@ -1,23 +1,37 @@
 import gql from 'graphql-tag';
 
 const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!) {
-    loginUser(email: $email)
+  mutation LoginMutation($tel: String!, $token: Int!) {
+    loginUser(tel: $tel, token: $token) {
+      id
+      token
+      centuria {
+        name
+        semester
+      }
+      connections {
+        id
+        start {
+          name
+        }
+        end {
+          name
+        }
+      }
+    }
   }
 `
 
-const REGISTER_MUTATION = gql`
-  mutation RegisterMutation($email: String!, $username: String!, $tel: String!, $centuria: String!) {
-    registerUser(email: $email, username: $username, tel: $tel, centuria: $centuria)
+const TRIGGER_AUTH_MUTATION = gql`
+  mutation TriggerAuth($tel: String!) {
+    triggerAuth(tel: $tel)
   }
 `
 
 const CURRENT_USER_QUERY = gql`
-  query CurrentUser($id: String!, $token: Int!) {
-    currentUser(id: $id, token: $token) {
+  query CurrentUser($id: String!) {
+    currentUser(id: $id) {
       id
-      username
-      email
       token
       centuria {
         name
@@ -43,9 +57,9 @@ export const loginMutation = (client, variables) =>
   })
   .then(result => result.data.loginUser);
 
-export const registerMutation = (client, variables) => 
+export const triggerAuth = (client, variables) => 
   client.mutate({
-    mutation: REGISTER_MUTATION,
+    mutation: TRIGGER_AUTH_MUTATION,
     variables
   })
   .then(result => result.data.registerUser);

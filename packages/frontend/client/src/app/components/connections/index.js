@@ -33,7 +33,6 @@ export const USERS = gql`
   query users {
     users {
       id
-      username
       connections {
         id
       }
@@ -45,7 +44,6 @@ const SUBSCRIBE_CONNECTION = gql`
   mutation subscribeConnection($user: String!, $connection: String!)  {
     subscribeConnection(user: $user, connection: $connection) {
       id
-      username
       connections {
         id
       }
@@ -57,7 +55,6 @@ const UNSUBSCRIBE_CONNECTION = gql`
   mutation unsubscribeConnection($user: String!, $connection: String!)  {
     unsubscribeConnection(user: $user, connection: $connection) {
       id
-      username
       connections {
         id
       }
@@ -129,7 +126,7 @@ const Connections = () => {
                   <div key={sub.id}>
                     <Chip
                       className={`${baseClassName}-chip`}
-                      label={sub.username}
+                      label={sub.tel}
                       onDelete={unSubscribe(sub.id, connection.id)}
                     />
                   </div>
@@ -150,7 +147,7 @@ const Connections = () => {
                     >
                       { unsubbed.map( (sub) => (
                         <MenuItem key={sub.id} onClick={handleSubscribe(sub.id, connection.id)}>
-                          { sub.username }
+                          { sub.tel }
                         </MenuItem>
                       ))}
                     </Menu>
