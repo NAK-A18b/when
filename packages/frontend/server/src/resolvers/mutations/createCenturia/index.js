@@ -1,7 +1,8 @@
 const { generateHash } = require('when-aws/dynamodb/utils');
 const { createEntry } = require('when-aws/dynamodb/actions/create-entry');
 
-module.exports.createCenturia = async (root, { name, semester }) => {
+module.exports.createCenturia = async (root, { name, semester }, context) => {
+  console.log(context);
   const params = {
     TableName: process.env.CENTURIA_TABLE,
     Item: {
