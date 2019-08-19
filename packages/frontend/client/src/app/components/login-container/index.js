@@ -18,9 +18,9 @@ const LoginContainer = (props) => {
       <div className={`${baseClassName}-inputs`}>
         <div className={`${baseClassName}-inputs-textfield`}>
           <TextField 
-            type='text' 
+            type='tel'
             variant="outlined"
-            label='Tel' 
+            label='Mobile phone number'
             value={tel} 
             onChange={(e) => setTel(e.target.value)}
           />
