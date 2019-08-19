@@ -1,14 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import ApolloClient from 'apollo-boost';
+import { HttpLink } from "apollo-link-http";
 import { ApolloProvider } from 'react-apollo';
+import { setContext } from 'apollo-link-context'
 
 import UserProvider from './app/context/user';
+import { AUTH_TOKEN } from './app/constants'
 
 import App from './app';
 import * as serviceWorker from './serviceWorker';
 
-const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  fetchOptions: {
+    credentials: 'include'
+  },
+  request: async (operation) => {
+    const token = localStorage.getItem(AUTH_TOKEN);
+    operation.setContext({
+      headers: {
+        authorization: token
+      }
+    });
+  },
+});
 
 const ApolloApp = () => (
   <ApolloProvider client={client}>
