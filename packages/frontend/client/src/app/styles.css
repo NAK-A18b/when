@@ -1,9 +1,9 @@
 .page {
-  padding: 20px;
+    padding: 20px;
 }
 
 .background {
-  background-color: #e8e8e8;
-  width: 100vw;
-  height: 100vh;
+    background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
+    width: 100vw;
+    height: 100vh;
 }
