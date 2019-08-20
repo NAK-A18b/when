@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const request = require('request');
 
-hvvRequest = (method, body) => {
+module.exports.hvvRequest = (method, body) => {
     return new Promise((resolve, reject) => {
         //Set HVV API Version
         body.version = process.env.HVV_API_VERSION;
@@ -41,8 +41,6 @@ hvvRequest = (method, body) => {
 
 };
 
-module.exports.hvvRequest = hvvRequest;
-
 module.exports.getStation = name => {
     if (name === '') {
         return {};
@@ -56,5 +54,5 @@ module.exports.getStation = name => {
         maxList: 1
     };
 
-    return hvvRequest("checkName", params);
+    return module.exports.hvvRequest("checkName", params);
 };
