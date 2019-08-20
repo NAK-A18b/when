@@ -41,8 +41,10 @@ functions:
     handler: '/build/functions/update-timetable.updateTimetable'
     events:
       - schedule: cron(0 4 * * ? *)
-  hvvRequest:
-    handler: '/build/functions/hvv-request.hvvRequest'
+  checkTimetable:
+    handler: '/build/functions/check-timetable.checkTimetable'
+  hvvRouteRequest:
+    handler: '/build/functions/hvv-route-request.routeRequest'
   createUser:
     handler: '/build/functions/create-user.createUser'
     events:
@@ -98,6 +100,8 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.CONNECTION_TABLE}
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
     CenturiaDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
