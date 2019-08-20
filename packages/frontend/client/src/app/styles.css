@@ -3,7 +3,7 @@
 }
 
 .background {
-    background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
     width: 100vw;
     height: 100vh;
+    background: #f1f1f1;
 }
