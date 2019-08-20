@@ -23,7 +23,7 @@ const LoginContainer = (props) => {
         <TextField 
           disabled={disabled}
           className={`${baseClassName}-textfield`}
-          type='number'
+          type='text'
           variant="filled"
           label='Mobile phone number'
           value={tel} 
@@ -37,7 +37,7 @@ const LoginContainer = (props) => {
           color="primary"
           variant="contained"
         >
-          { 'Login' }
+          { 'Retrieve Access Code' }
         </Button>
       </div>
     </div>

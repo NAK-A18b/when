@@ -1,3 +1,5 @@
+org: eliashuehne
+app: when-notification-app-app
 service: when-notification-app
 
 provider:
@@ -43,6 +45,8 @@ functions:
       - schedule: cron(0 4 * * ? *)
   checkTimetable:
     handler: '/build/functions/check-timetable.checkTimetable'
+  checkDelay:
+    handler: '/build/functions/check-delay.checkDelay'
   hvvRouteRequest:
     handler: '/build/functions/hvv-route-request.routeRequest'
   createUser:
@@ -74,7 +78,6 @@ resources:
         TableName: ${self:provider.environment.TIMETABLE_TABLE}
     UserDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
           - AttributeName: id
@@ -107,10 +110,10 @@ resources:
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: name
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: name
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
