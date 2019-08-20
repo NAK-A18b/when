@@ -4,18 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "serverless offline"
+    "start": "serverless offline --noTimeout"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server-errors": "^2.3.1",
-    "apollo-server-lambda": "^2.8.1",
+    "apollo-server-lambda": "^2.8.2",
     "graphql": "^14.4.2",
     "graphql-import": "^0.7.1",
     "libphonenumber-js": "^1.7.22",
     "request": "^2.88.0",
     "when-aws": "file:../../aws",
     "when-backend": "file:../../backend"
+  },
+  "devDependencies": {
+    "serverless-offline": "^5.10.1"
   }
 }
