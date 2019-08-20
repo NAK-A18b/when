@@ -8,6 +8,7 @@
     "invoke:update-timetable": "npm run build && sls invoke local --function updateTimetable",
     "invoke:update-hvv-request": "npm run build && sls invoke local --function hvvRequest",
     "invoke:update-create-user": "npm run build && sls invoke local --function createUser",
+    "invoke:update-check-timetable": "npm run build && sls invoke local --function checkTimetable",
     "build": "babel -d build/ src",
     "deploy": "sls deploy",
     "db:setup": "serverless dynamodb install",
@@ -21,7 +22,6 @@
   "license": "ISC",
   "dependencies": {
     "request": "2.88.0",
-    "selenium-webdriver": "4.0.0-alpha.4",
     "when-aws": "file:../aws"
   },
   "devDependencies": {
