@@ -1,14 +1,46 @@
-.auth-container-inputs-textfield {
-  margin: 5px;
+.auth-container-wrapper {
+  width: 25%;
+  margin-left: 23%;
 }
 
-.auth-container-inputs {
-  display: flex;
-  padding: 10px 10px 0 10px;
+
+.auth-container-textfield {
+  margin-bottom: 10px;
+}
+
+.auth-container-textfield .MuiFormControl-root.MuiTextField-root {
+  width: 100%;
 }
 
 .auth-container-submit-button {
   display: flex;
   justify-content: flex-end;
-  padding: 15px;
+}
+
+.auth-container-submit-button button {
+  width: 100%;
+}
+
+.auth-container-headline {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 15px;
+  animation: dayColor 40s linear infinite;
+}
+
+.auth-container-headline h5 {
+  font-weight: bold;
+}
+
+.auth-container-textfield label {
+  animation: dayColor 40s linear infinite;
+}
+
+.auth-container-textfield fieldset {
+  animation: dayColor 40s linear infinite;
+}
+
+.auth-container-textfield input {
+  animation: dayColor 40s linear infinite;
 }

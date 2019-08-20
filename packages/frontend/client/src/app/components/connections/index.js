@@ -33,6 +33,7 @@ export const USERS = gql`
   query users {
     users {
       id
+      tel
       connections {
         id
       }
@@ -62,7 +63,8 @@ const UNSUBSCRIBE_CONNECTION = gql`
   }
 `
 
-const isSubscribedTo = connection => user => (user.connections.map(conn => conn.id)).includes(connection);
+const isSubscribedTo = connection => user => 
+  ((user.connections && user.connections.map(conn => conn.id)) || []).includes(connection);
 
 const Connections = () => {
   const connData = useQuery(CONNECTIONS);

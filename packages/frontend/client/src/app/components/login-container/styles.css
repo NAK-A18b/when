@@ -1,18 +1,46 @@
+.login-container-wrapper {
+  width: 25%;
+  margin-left: 23%;
+}
+
+
 .login-container-inputs-textfield {
-  margin: 5px;
+  margin-bottom: 10px;
 }
 
 .login-container-inputs-textfield .MuiFormControl-root.MuiTextField-root {
-  min-width: 300px;
-}
-
-.login-container-inputs {
-  display: flex;
-  padding: 10px 10px 0 10px;
+  width: 100%;
 }
 
 .login-container-submit-button {
   display: flex;
   justify-content: flex-end;
-  padding: 15px;
+}
+
+.login-container-submit-button button {
+  width: 100%;
+}
+
+.login-container-headline {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 15px;
+  animation: dayColor 40s linear infinite;
+}
+
+.login-container-headline h5 {
+  font-weight: bold;
+}
+
+.login-container-textfield label {
+  animation: dayColor 40s linear infinite;
+}
+
+.login-container-textfield fieldset {
+  animation: dayColor 40s linear infinite;
+}
+
+.login-container-textfield input {
+  animation: dayColor 40s linear infinite;
 }
