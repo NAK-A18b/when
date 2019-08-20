@@ -1,19 +1,9 @@
 import React, {useState} from 'react';
 
-import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import {makeStyles} from "@material-ui/core/styles";
-import {Divider} from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-
 
 import AuthenticationContainer from '../../components/authentication-container';
 import LoginContainer from '../../components/login-container';
-import ChatBubble from '../../components/chat-bubble';
-import green from '@material-ui/core/colors/green';
-
 
 import {withUser} from '../../context/user';
 import {ERRORS} from '../../constants';
@@ -26,7 +16,7 @@ const baseClassName = 'login-page';
 const LoginPage = (props) => {
   const {user} = props;
 
-  const [ clouds, setCloud ] = useState([0, 1]);
+  const [ clouds, setCloud ] = useState([ 0, 1 ]);
   const [ auth, setAuth ] = useState(false);
   const [ error, setError ] = useState('');
   const [ tel, setTel ] = useState('');
@@ -44,28 +34,34 @@ const LoginPage = (props) => {
       })
     });
   };
-  const loginUser = () => {
-    user.login(tel, parseInt(token));
-  }
+
+  const loginUser = () => user.login(tel, parseInt(token));
+  const removeCloud = (index) => () => setCloud(clouds.filter(c => c !== index));
+
   return (
     <Card className={`${baseClassName}-card`}>
       <section className="stage">
-          <div className="cloud"></div>
-          <div className="cloud"></div>
-          <div className="train">
-            <div className="wagon"></div>
-            <div className="wagon"></div>
-            <div className="wagon"></div>
-            <div className="locomotive">
-              <div className="cabin"></div>
-              <div className="motor"></div>
-              <div className="chimney">
-                <div className="smoke"></div>
-              </div>
-              <div className="light"></div>
+        <div className="sun"></div>
+        { clouds.includes(0) &&
+          <div onClick={removeCloud(0)} className="cloud one"></div> 
+        }
+        { clouds.includes(1) &&
+          <div onClick={removeCloud(1)} className="cloud two"></div> 
+        }
+        <div className="train">
+          <div className="wagon"></div>
+          <div className="wagon"></div>
+          <div className="wagon"></div>
+          <div className="locomotive">
+            <div className="cabin"></div>
+            <div className="motor"></div>
+            <div className="chimney">
+              <div className="smoke"></div>
             </div>
+            <div className="light"></div>
           </div>
-        </section>
+        </div>
+      </section>
       <div className={`${baseClassName}-wrapper`}>
         <div className={`${baseClassName}-slider-wrapper${auth ? '--auth' : ''}`}>
           <LoginContainer

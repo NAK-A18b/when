@@ -49,6 +49,7 @@
 }
 
 .cloud {
+  z-index: 2;
   margin: 5% 0 0 100%;
   position: absolute;
 }
@@ -81,12 +82,12 @@
   border-width: 28px;
 }
 
-.cloud:nth-child(1) {
+.one {
   -webkit-animation: wind 80s infinite;
   animation: wind 40s linear infinite;
 }
 
-.cloud:nth-child(2) {
+.two {
   top: 80px;
   -webkit-animation: wind 150s infinite;
   animation: wind 80s linear infinite;
@@ -102,6 +103,19 @@
   border-bottom: 3px dashed #205c6b;
 }
 
+.sun {
+  position: absolute;
+	top: 40px;
+	left: 60px;
+	margin: auto;  
+	width:70px;
+	height:70px;
+	border-radius:50%;	
+	background:white;
+	opacity:0.9;			
+  box-shadow: 0px 0px 40px 15px white; 
+  animation: sunMoonCycle 40s linear infinite;
+}
 
 /*TRAIN*/
 
@@ -298,7 +312,7 @@
     right: 0;
   }
   100% {
-    right: 100%;
+    right: 120%;
   }
 }
 
@@ -307,7 +321,7 @@
     right: -20%;
   }
   100% {
-    right: 110%;
+    right: 120%;
   }
 }
 
@@ -351,5 +365,21 @@
   }
   100% {
     color: #3f51b5;
+  }
+}
+
+@keyframes sunMoonCycle {
+  0% {
+    background:white;
+    box-shadow: 0px 0px 40px 15px white; 
+  }
+  50% {
+    background: transparent;
+    box-shadow: 0px 0px 40px 15px white, inset 10px 5px 5px 0px white;
+   
+  }
+  100% {
+    background:white;
+    box-shadow: 0px 0px 40px 15px white; 
   }
 }
