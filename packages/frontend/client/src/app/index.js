@@ -29,7 +29,7 @@ class App extends React.Component {
           (
             <div>
               <div className="page">
-                <Connections />
+                <Connections currentUser={ user }/>
                 <div className="create-forms">
                   <CreateConnection />
                   <CreateCenturia />

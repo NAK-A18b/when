@@ -5,8 +5,8 @@ import Card from '@material-ui/core/Card';
 import AuthenticationContainer from '../../components/authentication-container';
 import LoginContainer from '../../components/login-container';
 
-import {withUser} from '../../context/user';
-import {ERRORS} from '../../constants';
+import { withUser } from '../../context/user';
+import { ERRORS } from '../../constants';
 
 import './styles.css';
 
