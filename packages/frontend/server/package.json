@@ -16,7 +16,8 @@
     "libphonenumber-js": "^1.7.22",
     "request": "^2.88.0",
     "when-aws": "file:../../aws",
-    "when-backend": "file:../../backend"
+    "when-backend": "file:../../backend",
+    "when-whatsapp": "file:../../whatsapp"
   },
   "devDependencies": {
     "serverless-offline": "^5.10.1"
