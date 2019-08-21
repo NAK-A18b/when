@@ -41,7 +41,7 @@ module.exports.checkTimetable = async event => {
               const opts = {
                 FunctionName: 'when-notification-app-dev-checkDelay',
                 InvocationType: 'Event',
-                Payload: JSON.stringify({id: user.Item.id, connections: user.Item.connections})
+                Payload: JSON.stringify({id: user.Item.id, tel: user.Item.tel, connections: user.Item.connections})
               };
               lambda.invoke(opts, (err, data) => {
                 if (err) {
