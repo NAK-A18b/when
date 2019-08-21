@@ -10,7 +10,8 @@
 }
 
 .connections-head {
-  padding: 10px 20px;
+  text-align: end;
+  padding: 10px;
 }
 
 .connections-body {

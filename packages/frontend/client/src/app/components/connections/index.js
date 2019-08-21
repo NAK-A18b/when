@@ -95,16 +95,15 @@ const Connections = (props) => {
       <Card className={`${baseClassName}-card`}>
         <div className={`${baseClassName}-head`}>
           <Typography variant="h5">
-            { 'My Connections' }
+            { 'Other Connections' }
           </Typography>
         </div>
-        <Divider />
         <div className={`${baseClassName}-body`}>
           <List dense component="div" role="list">
             {unsubbedConnections.map(({ id, start, end}) => (
               <div key={id} className={`${baseClassName}-connection-item`}>
                 <ListItem role="listitem">
-                  <ListItemText primary={`${ start.name } -> ${ end.name }`} />
+                  <ListItemText primary={`${ start.name } → ${ end.name }`} />
                   <Button color="primary" onClick={subscribe(id)}>{ 'subscribe' }</Button>
                 </ListItem>
                 <Divider />
@@ -116,16 +115,15 @@ const Connections = (props) => {
       <Card className={`${baseClassName}-card`}>
         <div className={`${baseClassName}-head`}>
           <Typography variant="h5">
-            { 'Other Connections' }
+            { 'Your Connections' }
           </Typography>
         </div>
-        <Divider />
         <div className={`${baseClassName}-body`}>
           <List dense component="div" role="list">
           {subbedConnections.map(({ id, start, end}) => (
             <div key={id} className={`${baseClassName}-connection-item`}>
               <ListItem role="listitem">
-                <ListItemText primary={`${ start.name } -> ${ end.name }`} />
+                <ListItemText primary={`${ start.name } → ${ end.name }`} />
                 <Button color="primary" onClick={unSubscribe(id)}>{ 'unsubscribe' }</Button>
               </ListItem>
               <Divider />
