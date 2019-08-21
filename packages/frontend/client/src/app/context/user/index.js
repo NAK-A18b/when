@@ -28,6 +28,16 @@ export default withApollo (
       });
     }
 
+    refetchData = async () => {
+      const { client } = this.props;
+
+      currentUserQuery(client, { id: authToken() }).then(data => {
+        this.setState({
+          data,
+        })
+      })
+    }
+
     login = (tel, token) => {
       const { client } = this.props;
       loginMutation(client, { tel, token }).then((data) => {
@@ -55,12 +65,13 @@ export default withApollo (
 
     render = () => {
       const { children } = this.props;
-      const { logout, login, triggerAuthentication } = this;
+      const { logout, login, triggerAuthentication, refetchData } = this;
 
       return (
         <ContextProvider
           value={{
             ...this.state,
+            refetchData,
             logout,
             login,
             triggerAuthentication

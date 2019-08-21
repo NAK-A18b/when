@@ -7,6 +7,7 @@ export const initialContext = {
   login: (tel, token) => null,
   logout: () => null,
   triggerAuthentication: (tel) => null,
+  refetchData: () => null,
 };
 
 export const { Consumer, Provider } = React.createContext(initialContext);

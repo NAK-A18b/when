@@ -1,18 +1,14 @@
 const { createEntry } = require('when-aws/dynamodb/actions/create-entry');
-const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
 
 const { transformUser } = require('../../../transformers/user');
 
-module.exports.unsubscribeConnection = async (root, { connection, user: id }) => {
-  const getParams = {
-    TableName: process.env.USER_TABLE,
-    Key: {
-      id,
-    },
-  };
-  const user = (await getEntry(getParams)).Item;
+module.exports.unsubscribeConnection = async (root, { connection }, context) => {
+  const { currentUser: user } = context;
   const { connections } = user;
-  if (connections && !connections.includes(connection)) return transformUser(user);
+
+  if (connections && !connections.find(conn => conn === connection)) {
+    return transformUser(user);
+  }
   user.connections = connections.filter(conn => conn !== connection);
 
   const createParams = {

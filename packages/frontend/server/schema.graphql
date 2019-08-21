@@ -4,8 +4,8 @@ type Mutation {
     loginUser(tel: String!, token: Int!): User
     createCenturia(name: String!, semester: Int!): Centuria!
     createConnection(start: String!, end: String!): Connection!
-    subscribeConnection(connection: String!, user: String!): User!
-    unsubscribeConnection(connection: String!, user: String!): User!
+    subscribeConnection(connection: String!): User!
+    unsubscribeConnection(connection: String!): User!
 }
 
 type Query {
