@@ -29,7 +29,8 @@ module.exports.getUser = async (id) => {
     }
   }
 
-  return await transformUser((await getEntry(params)).Item);
+  const user = (await getEntry(params)).Item;
+  return user;
 }
 
 module.exports.findUserByTel = async (tel) => {

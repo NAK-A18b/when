@@ -1,17 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import Card from '@material-ui/core/Card';
-import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import AddIcon from '@material-ui/icons/AddCircle';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import './styles.css';
+import { List, ListItem, ListItemText, Button } from '@material-ui/core';
 
 const baseClassName = 'connections'
 
@@ -29,138 +26,113 @@ export const CONNECTIONS = gql`
   }
 `;
 
-export const USERS = gql`
-  query users {
-    users {
-      id
-      tel
-      connections {
-        id
-      }
-    }
-  }
-`
-
 const SUBSCRIBE_CONNECTION = gql`
-  mutation subscribeConnection($user: String!, $connection: String!)  {
-    subscribeConnection(user: $user, connection: $connection) {
+  mutation subscribeConnection($connection: String!)  {
+    subscribeConnection(connection: $connection) {
       id
       connections {
         id
+        start {
+          name
+        }
+        end {
+          name
+        }
       }
     }
   }
 `
 
 const UNSUBSCRIBE_CONNECTION = gql`
-  mutation unsubscribeConnection($user: String!, $connection: String!)  {
-    unsubscribeConnection(user: $user, connection: $connection) {
+  mutation unsubscribeConnection($connection: String!)  {
+    unsubscribeConnection(connection: $connection) {
       id
       connections {
         id
+        start {
+          name
+        }
+        end {
+          name
+        }
       }
     }
   }
 `
 
-const isSubscribedTo = connection => user => 
-  ((user.connections && user.connections.map(conn => conn.id)) || []).includes(connection);
+const isSubscribedTo = (user, connection) => 
+  !!(user.connections && !!user.connections.find(conn => conn.id === connection.id));
 
-const Connections = () => {
-  const connData = useQuery(CONNECTIONS);
-  const subData = useQuery(USERS);
+const Connections = (props) => {
+  const { currentUser } = props
+  const { loading, data: { connections } } = useQuery(CONNECTIONS);
 
   const [subscribeConnection] = useMutation(SUBSCRIBE_CONNECTION);
   const [unsubscribeConnection] = useMutation(UNSUBSCRIBE_CONNECTION);
 
-  const [anchorEl, setAnchorEl] = useState({});
-
-  const handleClick = (id) => (event) => {
-    anchorEl[id] = event.currentTarget;
-    setAnchorEl({ ...anchorEl });
-  }
-
-  const handleClose = (id) => () => {
-    anchorEl[id] = null;
-    setAnchorEl({ ...anchorEl });
-  }
-
-  const handleSubscribe = (user, connection) => () => {
+  const subscribe = (connection) => () =>
     subscribeConnection({
       variables: {
-        user,
         connection
       }
-    });
-    handleClose(connection)();
-  }
+    }).then(currentUser.refetchData);
 
-  const unSubscribe = (user, connection) => () => {
+  const unSubscribe = (connection) => () =>
     unsubscribeConnection({
       variables: {
-        user,
         connection
       }
-    });
+    }).then(currentUser.refetchData);
+
+  const unsubbedConnections = [], subbedConnections = [];
+  if (!loading && connections) {
+    connections.forEach(connection =>
+      (isSubscribedTo(currentUser.data, connection) ? subbedConnections : unsubbedConnections).push(connection));
   }
 
   return (
-    <Card className={`${baseClassName}-card`}>
-      <div className={`${baseClassName}-head`}>
-        <Typography variant="h5">
-          All Connections
-        </Typography>
-      </div>
-      <Divider />
-      <div className={`${baseClassName}-body`}>
-        { !connData.loading && connData.data.connections.map((connection, index) => {
-          const { id } = connection;
-
-          const subs = !subData.loading && subData.data.users.filter(isSubscribedTo(connection.id));
-          const unsubbed = !subData.loading && subData.data.users.filter((sub) => !subs.includes(sub));
-          const hasUnsubbed = unsubbed.length > 0;
-
-          return (
-            <div className={`${baseClassName}-connection`} key={index}>
-              { connection.start.name } -> { connection.end.name }
-              <div className={`${baseClassName}-chip-wrapper`}>
-                { !subData.loading && subs.map(sub => (
-                  <div key={sub.id}>
-                    <Chip
-                      className={`${baseClassName}-chip`}
-                      label={sub.tel}
-                      onDelete={unSubscribe(sub.id, connection.id)}
-                    />
-                  </div>
-                ))}
-                { unsubbed &&
-                  <div>
-                    <div
-                      className={`${baseClassName}-subscribe-button${!hasUnsubbed ? '--disabled' : ''}`}
-                      onClick={hasUnsubbed ? handleClick(id) : null}
-                    >
-                      <AddIcon/>
-                    </div>
-                    <Menu
-                      anchorEl={anchorEl[id]}
-                      keepMounted
-                      open={!!anchorEl[id]}
-                      onClose={handleClose(id)}
-                    >
-                      { unsubbed.map( (sub) => (
-                        <MenuItem key={sub.id} onClick={handleSubscribe(sub.id, connection.id)}>
-                          { sub.tel }
-                        </MenuItem>
-                      ))}
-                    </Menu>
-                  </div>
-                }
-                </div>
+    <div className={`${baseClassName}-wrapper`}>
+      <Card className={`${baseClassName}-card`}>
+        <div className={`${baseClassName}-head`}>
+          <Typography variant="h5">
+            { 'Other Connections' }
+          </Typography>
+        </div>
+        <div className={`${baseClassName}-body`}>
+          <List dense component="div" role="list">
+            {unsubbedConnections.map(({ id, start, end}) => (
+              <div key={id} className={`${baseClassName}-connection-item`}>
+                <ListItem role="listitem">
+                  <ListItemText primary={`${ start.name } → ${ end.name }`} />
+                  <Button color="primary" onClick={subscribe(id)}>{ 'subscribe' }</Button>
+                </ListItem>
                 <Divider />
               </div>
-            )})}
-          </div>
-        </Card>
+            ))}
+          </List>
+        </div>
+      </Card>
+      <Card className={`${baseClassName}-card`}>
+        <div className={`${baseClassName}-head`}>
+          <Typography variant="h5">
+            { 'Your Connections' }
+          </Typography>
+        </div>
+        <div className={`${baseClassName}-body`}>
+          <List dense component="div" role="list">
+          {subbedConnections.map(({ id, start, end}) => (
+            <div key={id} className={`${baseClassName}-connection-item`}>
+              <ListItem role="listitem">
+                <ListItemText primary={`${ start.name } → ${ end.name }`} />
+                <Button color="primary" onClick={unSubscribe(id)}>{ 'unsubscribe' }</Button>
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
+        </List>
+        </div>
+      </Card>
+    </div>
     );
 }
 

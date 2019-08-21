@@ -1,21 +1,26 @@
+.connections-wrapper {
+  display: flex;
+}
+
 .connections-card {
   display: flex;
+  width: 50%;
   flex-direction: column;
   margin: 10px;
 }
 
 .connections-head {
-  padding: 10px 20px;
+  text-align: end;
+  padding: 10px;
 }
 
 .connections-body {
   padding: 10px;
 }
 
-.connections-connection {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+.connections-connection-item {
+  background: #f1f1f1;
+  margin-bottom: 5px;
 }
 
 .connections-chip-wrapper {

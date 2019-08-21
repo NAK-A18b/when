@@ -6,7 +6,7 @@ import { AUTH_TOKEN } from '../../constants';
 import { initialContext, Consumer, Provider as ContextProvider } from './context';
 import { loginMutation, triggerAuth, currentUserQuery } from './resolvers';
 
-import { userId, authToken } from '../../utils/authentication';
+import { authToken } from '../../utils/authentication';
 
 export default withApollo (
   class Provider extends React.Component {
@@ -26,6 +26,16 @@ export default withApollo (
         loggedIn,
         loading: false,
       });
+    }
+
+    refetchData = async () => {
+      const { client } = this.props;
+
+      currentUserQuery(client, { id: authToken() }).then(data => {
+        this.setState({
+          data,
+        })
+      })
     }
 
     login = (tel, token) => {
@@ -55,12 +65,13 @@ export default withApollo (
 
     render = () => {
       const { children } = this.props;
-      const { logout, login, triggerAuthentication } = this;
+      const { logout, login, triggerAuthentication, refetchData } = this;
 
       return (
         <ContextProvider
           value={{
             ...this.state,
+            refetchData,
             logout,
             login,
             triggerAuthentication
