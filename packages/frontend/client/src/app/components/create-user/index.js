@@ -10,14 +10,25 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { USERS } from '../connections';
-
 import { generateCacheUpdate } from '../../utils/graphql';
 
 import './styles.css';
 import CenturiaDropdown from '../centuria-dropdown';
 
 const baseClassName = 'create-user'
+
+const USERS = gql`
+  query users {
+    users {
+      id
+      tel
+      connections {
+        id
+      }
+    }
+  }
+`
+
 
 const CREATE_USER = gql`
   mutation createUser($username: String!, $tel: String!, $centuria: String!) {
