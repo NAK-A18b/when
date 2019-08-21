@@ -6,7 +6,7 @@ import { AUTH_TOKEN } from '../../constants';
 import { initialContext, Consumer, Provider as ContextProvider } from './context';
 import { loginMutation, triggerAuth, currentUserQuery } from './resolvers';
 
-import { userId, authToken } from '../../utils/authentication';
+import { authToken } from '../../utils/authentication';
 
 export default withApollo (
   class Provider extends React.Component {
