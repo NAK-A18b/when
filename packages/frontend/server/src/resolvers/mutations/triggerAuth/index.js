@@ -31,19 +31,24 @@ const tokenNotification = ({tel, token}) => {
 }
 
 module.exports.triggerAuth = async (root, { tel }) => {
-  let user = await findUserByTel(tel);
-  
-  if (!user) {
-    user = await createUser({ tel });
-  } else {
-    user.token = randomToken();
-    user = await createEntry({
-      TableName: process.env.USER_TABLE,
-      Item: user,
-    });
-  } 
+  const phoneNumber = parsePhoneNumberFromString(tel, 'DE');
+  if (phoneNumber !== undefined && phoneNumber.isValid() && phoneNumber.getType() === 'MOBILE') {
+    tel = phoneNumber.number.substr(1);
 
-  await tokenNotification(user);
-  return true;
+    let user = await findUserByTel(tel);
+
+    if (!user) {
+      user = await createUser({ tel });
+    } else {
+      user.token = randomToken();
+      user = await createEntry({
+        TableName: process.env.USER_TABLE,
+        Item: user,
+      });
+    }
+
+    await tokenNotification(user);
+    return true;
+  }
 };
 

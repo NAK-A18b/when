@@ -22,7 +22,8 @@
   "license": "ISC",
   "dependencies": {
     "request": "2.88.0",
-    "when-aws": "file:../aws"
+    "when-aws": "file:../aws",
+    "when-whatsapp": "file:../whatsapp"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
