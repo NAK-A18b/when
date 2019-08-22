@@ -49,9 +49,24 @@ const LoginPage = (props) => {
           <div onClick={removeCloud(1)} className="cloud two"></div> 
         }
         <div className="train">
-          <div className="wagon"></div>
-          <div className="wagon"></div>
-          <div className="wagon"></div>
+          <div className="wagon">
+            <div className="window-left"></div>
+            <div className="window-left"></div>
+            <div className="window-right"></div>
+            <div className="window-right"></div>
+          </div>
+          <div className="wagon">
+            <div className="window-left"></div>
+            <div className="window-left"></div>
+            <div className="window-right"></div>
+            <div className="window-right"></div>
+          </div>
+          <div className="wagon">
+            <div className="window-left"></div>
+            <div className="window-left"></div>
+            <div className="window-right"></div>
+            <div className="window-right"></div>
+          </div>
           <div className="locomotive">
             <div className="cabin"></div>
             <div className="motor"></div>

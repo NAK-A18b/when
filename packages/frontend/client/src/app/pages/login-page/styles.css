@@ -38,8 +38,8 @@
 }
 
 :root {
-  --red: #e04f60;
-  --yellow: #ffc928;
+  --red: 	#9DB926;
+  --yellow: #748a97;
 }
 
 /*CLOUDS*/
@@ -122,7 +122,7 @@
 .train {
   position: absolute;
   bottom: 10px;
-  width: 310px;
+  width: 510px;
   z-index: 1;
 }
 
@@ -141,11 +141,37 @@
 .wagon,
 .locomotive {
   display: inline-block;
-  width: 70px;
-  height: 40px;
+  width: 120px;
+  height: 65px;
   background-color: var(--red);
   position: relative;
   margin: 0 1px;
+}
+
+.window-left {
+  content: ' ';
+  width: 35px;
+  height: 14px;
+  position: relative;
+  top: 2px;
+  left: 15px;
+  border-radius: 3px;
+  border: 2px solid black;
+  margin-top: 3px;
+  background-color: #f1f1f1;
+}
+
+.window-right {
+  content: ' ';
+  width: 35px;
+  height: 14px;
+  position: relative;
+  top: -40px;
+  left: 66px;
+  border-radius: 3px;
+  border: 2px solid black;
+  margin-top: 3px;
+  background-color: #f1f1f1;
 }
 
 
@@ -218,7 +244,7 @@
   top: 10px;
   left: 15px;
   border-radius: 3px;
-  border: 3px solid pink;
+  border: 2px solid black;
   background-color: #f1f1f1;
 }
 
@@ -236,8 +262,8 @@
   width: 15px;
   height: 15px;
   background-color: var(--red);
-  right: -6px;
-  bottom: -5px;
+  right: 40px;
+  bottom: 10px;
   -webkit-animation: puf 4s 2;
   animation: puf 4s 2;
 }
@@ -245,15 +271,16 @@
 .locomotive .light {
   content: " ";
   position: absolute;
-  right: -10px;
-  bottom: -15px;
+  right: 40px;
+  bottom: 14px;
   border-radius: 50%;
-  border: 3px solid pink;
+  border: 3px solid #ffe053;
+  box-shadow: 3px 0px 10px 2px #ffe053;
 }
 
 .train {
   -webkit-animation: voyage 20s linear infinite;
-  animation: voyage 20s linear infinite;
+  animation: voyage 10s linear infinite;
 }
 
 
