@@ -17,7 +17,7 @@
     "request": "^2.88.0",
     "when-aws": "file:../../aws",
     "when-backend": "file:../../backend",
-    "when-whatsapp": "file:../../whatsapp"
+    "when-whatsapp": "file:../../whatsapp/functions"
   },
   "devDependencies": {
     "serverless-offline": "^5.10.1"

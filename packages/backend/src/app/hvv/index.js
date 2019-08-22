@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const request = require('request');
+const https = require('https');
 
 module.exports.hvvRequest = (method, body) => {
     return new Promise((resolve, reject) => {
@@ -13,7 +13,9 @@ module.exports.hvvRequest = (method, body) => {
             .digest('base64');
 
         const options = {
-            url: `https://api-test.geofox.de/gti/public/${method}`,
+            hostname: `api-test.geofox.de`,
+            path: `/gti/public/${method}`,
+            port: 443,
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -26,17 +28,22 @@ module.exports.hvvRequest = (method, body) => {
             body: body
         };
 
-        function callback(error, response, body) {
-            if (!error && response.statusCode === 200) {
+        let json = '';
+        const req = https.request(options, (res) => {
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => json += chunk);
+            res.on('end', () => {
                 console.log(`Request to HVV-API successful with method ${method}`);
-                resolve(JSON.parse(body));
-            } else {
-                console.error(`Request to HVV-API failed with ${body}`);
-                reject(body);
+                resolve(JSON.parse(json));
+            });
+        });
+        req.on('error', (e) => {
+                console.error(`Request to HVV-API failed with ${e}`);
+                reject(json);
             }
-        }
-
-        request(options, callback);
+        );
+        req.write(body);
+        req.end();
     });
 
 };

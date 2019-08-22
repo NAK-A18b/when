@@ -1,5 +1,5 @@
 const request = require('request');
-const {sendMessage} = require("when-whatsapp/functions/send-message");
+const {sendMessage} = require("when-whatsapp/send-message");
 const {parsePhoneNumberFromString} = require('libphonenumber-js/max');
 
 const {UserInputError} = require("apollo-server-errors");
