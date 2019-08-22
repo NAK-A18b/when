@@ -1,19 +1,19 @@
 const {updateEntry} = require('when-aws/dynamodb/actions/update-entry');
 const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
 const {hvvRequest} = require("../app/hvv/index");
-const {sendMessage} = require("when-whatsapp/functions/send-message");
+const aws = require("aws-sdk");
 
 module.exports.checkDelay = (event, context, callback) => {
     callback(null, {});
     const connections = event.connections;
     connections.map(connection => {
-        const connectionsParamas = {
+        const connectionsParams = {
             TableName: process.env.CONNECTION_TABLE,
             Key: {
                 id: connection
             }
         };
-        getEntry(connectionsParamas).then(result => {
+        getEntry(connectionsParams).then(result => {
             let body = {
                 "version": 36,
                 "language": "de",
@@ -21,24 +21,15 @@ module.exports.checkDelay = (event, context, callback) => {
                 "dest": result.Item.end,
                 "time": {
                     "date": "heute",
-                    "time": "jetzt"
+                    "time": event.time.hour + ':' + event.time.minute
                 },
                 "timeIsDeparture": true,
                 "schedulesBefore": 0,
                 "schedulesAfter": 0,
                 "realtime": "REALTIME",
             };
-            hvvRequest("getRoute", body).then(body => {
+            hvvRequest("getRoute", body).then(async body => {
                 if (body.hasOwnProperty('returnCode') && body.returnCode === 'OK' && body.hasOwnProperty('realtimeSchedules')) {
-                    body.realtimeSchedules.map(e => {
-                        e.scheduleElements.map(s => {
-                            delete s.paths;
-                            if (s.from.hasOwnProperty('depDelay') && s.line.name !== 'Umstiegsfußweg' && s.from.depDelay > 59 && s.to.arrDelay > 59) {
-                                sendMessage(event.tel, `${s.line.name} von ${s.from.name} nach ${s.to.name}, ursprünglich um ${s.from.depTime.time}, hat eine Verspätung von ${(s.from.depDelay)/60} Minuten`);
-                            }
-                        });
-                    });
-
                     const connectionParams = {
                         TableName: process.env.CONNECTION_TABLE,
                         Key: {
@@ -52,8 +43,30 @@ module.exports.checkDelay = (event, context, callback) => {
                             ':val1': body.realtimeSchedules
                         }
                     };
-                    updateEntry(connectionParams);
-
+                    const oldEntry = await getEntry(connectionsParams);
+                    await updateEntry(connectionParams);
+                    const newEntry = await getEntry(connectionsParams);
+                    const lambda = new aws.Lambda({
+                        apiVersion: '2031',
+                        endpoint: process.env.IS_OFFLINE ? 'http://localhost:3000' : undefined,
+                        region: 'us-east-1',
+                    });
+                    const opts = {
+                        FunctionName: 'when-notification-app-dev-evaluateDelay',
+                        InvocationType: 'Event',
+                        Payload: JSON.stringify({
+                            oldEntry,
+                            newEntry,
+                            tel: event.tel
+                        })
+                    };
+                    lambda.invoke(opts, (err, data) => {
+                        if (err) {
+                            console.log('Error while invoking function evaluateDelay: ' + err);
+                        } else if (data) {
+                            console.log('evaluateDelay successful invoked');
+                        }
+                    });
                 }
             }).catch(e => {
                 console.log(e)

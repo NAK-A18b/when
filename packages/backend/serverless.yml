@@ -9,7 +9,7 @@ provider:
   memorySize: 256
   region: eu-central-1
   environment:
-    IS_OFFLINE: true
+    IS_OFFLINE: false
     HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
     USER_TABLE: 'when-user-table'
@@ -21,7 +21,7 @@ package:
     - node_modules/**
     - build/**
   exclude:
-    - /**
+    - .dynamodb/**
 
 plugins:
   - serverless-dynamodb-local
@@ -40,17 +40,19 @@ custom:
 
 functions:
   updateTimetable:
-    handler: '/build/functions/update-timetable.updateTimetable'
+    handler: '/src/functions/update-timetable.updateTimetable'
     events:
       - schedule: cron(0 4 * * ? *)
   checkTimetable:
-    handler: '/build/functions/check-timetable.checkTimetable'
+    handler: '/src/functions/check-timetable.checkTimetable'
   checkDelay:
-    handler: '/build/functions/check-delay.checkDelay'
+    handler: '/src/functions/check-delay.checkDelay'
+  evaluateDelay:
+    handler: '/src/functions/evaluate-delay.evaluateDelay'
   hvvRouteRequest:
-    handler: '/build/functions/hvv-route-request.routeRequest'
+    handler: '/src/functions/hvv-route-request.routeRequest'
   createUser:
-    handler: '/build/functions/create-user.createUser'
+    handler: '/src/functions/create-user.createUser'
     events:
       - http:
           path: users/create
