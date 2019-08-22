@@ -14,7 +14,26 @@
     background-color: #cce6fd;
     overflow: hidden;
     animation: dayTime 40s linear infinite;
+    transition: height 1s ease-in-out, width 1s ease-in-out;
 }
+
+.login-page-wrapper-exit-active {
+    width: 70vw;
+    height: 300px;
+    transition: height 1s ease-in-out, width 1s ease-in-out;
+}
+
+.login-page-wrapper-expanded {
+    width: 70vw;
+    height: 300px;
+    padding: 75px 0px 110px;
+    display: flex;
+    background-color: white;
+    overflow: hidden;
+    transition: height 1s ease-in-out, width 1s ease-in-out;
+}
+
+
 
 .login-page-submit-button {
     display: flex;
