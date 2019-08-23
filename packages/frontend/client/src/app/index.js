@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import CreateUser from './components/create-user';
 import CreateConnection from './components/create-connection';
@@ -14,17 +14,31 @@ import { withUser } from './context/user';
 
 import './styles.css';
 import { Button } from '@material-ui/core';
+import Sidebar from './components/sidebar';
 
 class App extends React.Component {
 
+  state = {
+    pageIndex: 0
+  }
+
+  setPageIndex = index => {
+    this.setState({
+      pageIndex: index
+    })
+  }
+  
   render = () => {
-    const { user } = this.props
-    if (user.loading) {
-      return  <div className={`background`}></div>
-    }
+    const { user } = this.props;
+    const { pageIndex } = this.state;
+    if (user.loading) return  <div className={`background`}></div>;
 
     return (
-      <div className={`background`}>
+      <>
+        <Sidebar 
+          navigationCallback={this.setPageIndex}
+          pageIndex={pageIndex} />
+        <div className={`background`}>
         { user.loggedIn ? 
           (
             <div>
@@ -42,6 +56,7 @@ class App extends React.Component {
           )
         }
       </div>
+      </>
     )
     
   }
