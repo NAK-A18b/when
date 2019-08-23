@@ -42,7 +42,7 @@ const LoginPage = (props) => {
   };
 
   const loginUser = () => {
-    if(user.login(tel, parseInt(token))) {}
+    user.login(tel, parseInt(token));
     setShowMessage(false);
   };
   const removeCloud = (index) => () => setCloud(clouds.filter(c => c !== index));

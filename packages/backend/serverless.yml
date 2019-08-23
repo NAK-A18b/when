@@ -9,6 +9,7 @@ provider:
   memorySize: 256
   region: eu-central-1
   environment:
+    HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
     IS_OFFLINE: false
     HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
@@ -32,11 +33,17 @@ custom:
     stages:
       - dev
     start:
+      seed: true
       port: 8000
       inMemory: true
       migrate: true
     migration:
       dir: /src/offline/migrations
+    seed:
+      domain:
+        sources:
+          - table: ${self:provider.environment.CENTURIA_TABLE}
+            sources: [./src/offline/seeds/centurias.json]
 
 functions:
   updateTimetable:
