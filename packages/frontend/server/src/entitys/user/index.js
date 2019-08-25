@@ -1,7 +1,5 @@
 const uuid = require('uuid');
 
-const { transformUser } = require('../../transformers/user');
-
 const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
 const  { createEntry } = require('when-aws/dynamodb/actions/create-entry');
 const { listEntrys } = require('when-aws/dynamodb/actions/list-entrys');
@@ -18,6 +16,13 @@ module.exports.createUser = async (args) => {
   };
 
   return await createEntry(params);
+}
+
+module.exports.updateUser = async (user) => {
+  return await createEntry({
+    TableName: process.env.USER_TABLE,
+    Item: user,
+  });
 }
 
 module.exports.getUser = async (id) => {

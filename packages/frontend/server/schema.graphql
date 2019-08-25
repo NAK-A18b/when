@@ -1,6 +1,6 @@
 type Mutation {
     deleteUser(id: String!): Boolean!
-    triggerAuth(tel: String!): Boolean!
+    triggerAuth(tel: String!): String
     loginUser(tel: String!, token: Int!): User
     createCenturia(name: String!, semester: Int!): Centuria!
     createConnection(start: String!, end: String!): Connection!
