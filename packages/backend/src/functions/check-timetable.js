@@ -19,51 +19,41 @@ module.exports.checkTimetable = async event => {
         }
         console.log(time);
         if (true || schoolEnd.hour - hour <= 2 && schoolEnd.hour - hour >= 0) {
-            const centuriaParams = {
-                TableName: process.env.CENTURIA_TABLE,
-                Key: {
-                    name: time.centuria
-                }
-            };
             let departTime = schoolEnd;
             if (departTime.minute >= 45) {
               departTime.hour++;
               departTime.minute = 0;
             }
-            getEntry(centuriaParams).then(result => {
-                    result.Item.users.map(async id => {
-                        const userParams = {
-                            TableName: process.env.USER_TABLE,
-                            Key: {
-                                id
-                            }
-                        };
-                        const user = await getEntry(userParams);
-                        const lambda = new aws.Lambda({
-                            apiVersion: '2031',
-                            endpoint: process.env.IS_OFFLINE ? 'http://localhost:3000' : undefined,
-                            region: 'us-east-1',
-                        });
-                        const opts = {
-                            FunctionName: 'when-notification-app-dev-checkDelay',
-                            InvocationType: 'Event',
-                            Payload: JSON.stringify({
-                                id: user.Item.id,
-                                tel: user.Item.tel,
-                                connections: user.Item.connections,
-                                time: departTime
-                            })
-                        };
-                        lambda.invoke(opts, (err, data) => {
-                            if (err) {
-                                console.log('Error while invoking function checkDelay: ' + err);
-                            } else if (data) {
-                                console.log('checkDelay successful invoked');
-                            }
-                        });
-                    });
-                }
-            )
+
+            const allUsers = await listEntrys({
+                TableName: process.env.USER_TABLE,
+            });
+
+            centuriaUsers = allUsers.filter(user => user.centuria === time.centuria);
+            centuriaUsers.map(async user => {
+                const lambda = new aws.Lambda({
+                    apiVersion: '2031',
+                    endpoint: process.env.IS_OFFLINE ? 'http://localhost:3000' : undefined,
+                    region: 'us-east-1',
+                });
+                const opts = {
+                    FunctionName: 'when-notification-app-dev-checkDelay',
+                    InvocationType: 'Event',
+                    Payload: JSON.stringify({
+                        id: user.Item.id,
+                        tel: user.Item.tel,
+                        connections: user.Item.connections,
+                        time: departTime
+                    })
+                };
+                lambda.invoke(opts, (err, data) => {
+                    if (err) {
+                        console.log('Error while invoking function checkDelay: ' + err);
+                    } else if (data) {
+                        console.log('checkDelay successful invoked');
+                    }
+                });
+            });
         }
     })
 }

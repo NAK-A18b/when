@@ -7,8 +7,7 @@ module.exports.hvvRequest = (method, body) => {
         body.version = process.env.HVV_API_VERSION;
         body = JSON.stringify(body);
         //Generate hash needed for hvv api server authentication
-        const secret = '***REMOVED***';
-        const hash = crypto.createHmac('sha1', secret)
+        const hash = crypto.createHmac('sha1', process.env.HVV_API_KEY)
             .update(body)
             .digest('base64');
 

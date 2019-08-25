@@ -7,6 +7,7 @@ jspm_packages
 # Serverless directories
 .dynamodb
 .serverless
+secrets.yml
 
 # Editor configurations
 .idea
