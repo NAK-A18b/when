@@ -5,7 +5,6 @@ service: when-notification-app
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: ${opt:stage, 'dev'}
   memorySize: 256
   region: eu-central-1
   environment:
