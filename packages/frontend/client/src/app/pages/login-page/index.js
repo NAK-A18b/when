@@ -44,13 +44,12 @@ const LoginPage = (props) => {
   };
 
   const loginUser = () => {
-    user.login(tel, parseInt(token));
     setShowMessage(false);
   };
   const removeCloud = (index) => () => setCloud(clouds.filter(c => c !== index));
 
   return (
-      !showButton ? (
+    !showButton ? (
       <Card className={`${baseClassName}-card`}>
         <section className="stage">
           <div className="sun"></div>
@@ -89,39 +88,39 @@ const LoginPage = (props) => {
             </div>
           </div>
         </section>
-        <CSSTransition 
-          in={showMessage} 
-          timeout={1000} 
-          classNames="login-page-wrapper" 
+        <CSSTransition
+          in={showMessage}
+          timeout={1000}
+          classNames="login-page-wrapper"
           unmountOnExit
           onEnter={() => setShowButton(false)}
-          onExited={() => setShowButton(true)}
+          onExited={() => user.login(tel, parseInt(token))}
         >
           <div className={`${baseClassName}-wrapper`}>
             <div className={`${baseClassName}-slider-wrapper${auth ? '--auth' : ''}`}>
               <LoginContainer
-                  tel={tel}
-                  setTel={setTel}
-                  disabled={auth}
-                  submitCallback={triggerAuth}
+                tel={tel}
+                setTel={setTel}
+                disabled={auth}
+                submitCallback={triggerAuth}
               />
               <AuthenticationContainer
-                  token={token}
-                  setToken={setToken}
-                  submitCallback={loginUser}
+                token={token}
+                setToken={setToken}
+                submitCallback={loginUser}
               />
             </div>
           </div>
         </CSSTransition>
         {showButton && (
-            <h1></h1>
+          <h1></h1>
         )}
       </Card>
-      ) : (<Card className={`${baseClassName}-card`}>
-        <div className={`${baseClassName}-wrapper-exit-active`}>
-          Test
-        </div>
-      </Card>)
+    ) : (<Card className={`${baseClassName}-card`}>
+      <div className={`${baseClassName}-wrapper-exit-active`}>
+        Test
+      </div>
+    </Card>)
   )
 }
 
