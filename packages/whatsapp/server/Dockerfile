@@ -13,6 +13,6 @@ RUN npm i puppeteer \
 WORKDIR /
 COPY package*.json ./
 RUN npm install
-COPY .. .
+COPY . .
 EXPOSE 8080
 CMD ["node", "src/app/index.js"]

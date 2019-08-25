@@ -51,6 +51,10 @@ functions:
     handler: '/src/functions/evaluate-delay.evaluateDelay'
   hvvRouteRequest:
     handler: '/src/functions/hvv-route-request.routeRequest'
+  warnLateStart:
+    handler: '/src/functions/warn-late-start.warnLateStart'
+    events:
+      - schedule: cron(0 20 * * ? *)
   createUser:
     handler: '/src/functions/create-user.createUser'
     events:

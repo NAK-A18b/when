@@ -12,8 +12,8 @@ module.exports.checkTimetable = async event => {
 
     const times = (await listEntrys(params)).Items || [];
     times.map(async time => {
-        const schoolStart = parseTime(time.start.toString());
-        const schoolEnd = parseTime(time.end.toString());
+        const schoolStart = time.start;
+        const schoolEnd = time.end;
         if (schoolStart.hour - hour <= 2 && schoolStart.hour - hour >= 0) {
 
         }
