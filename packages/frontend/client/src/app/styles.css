@@ -1,5 +1,17 @@
+.page-container {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.page-wrapper {
+    transition: all 0.5s ease;
+    position: absolute;
+    margin-left: 150px;
+}
+
 .page {
-    padding: 20px;
+    height: 100vh;
 }
 
 .background {

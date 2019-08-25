@@ -3,7 +3,7 @@ import React from 'react';
 import CreateConnection from '../../components/create-connection';
 import CreateCenturia from '../../components/create-centuria';
 
-const DelayPage = () => {
+const ConnectionPage = () => {
   return (
     <div>
       <CreateConnection />
@@ -12,4 +12,4 @@ const DelayPage = () => {
   );
 }
 
-export default DelayPage;
+export default ConnectionPage;

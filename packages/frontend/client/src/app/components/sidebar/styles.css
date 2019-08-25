@@ -8,28 +8,37 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .sidebar-item {
-  padding: 25px;
+  padding: 15px 25px;
 }
 
 .sidebar-item svg {
+  opacity: 1;
   width: 40px;
   height: auto;
   fill: #888585;
   cursor: pointer;
+  transition: all 0.1s ease;
 }
 
 .sidebar-item--active {
-  padding: 25px;
+  padding: 15px 25px;
 }
 
 .sidebar-item--active svg {
+  opacity: 1;
   width: 40px;
   height: auto;
   fill: #3F51B5;
   cursor: pointer;
+}
+
+.sidebar-item:hover svg {
+  fill: #3F51B5;
+  opacity: 0.75;
 }
 
 .sidebar-indicator {
@@ -37,7 +46,7 @@
   height: 50px;
   background: #3F51B5;
   position: absolute;
-  top: 0;
+  top: 145px;
   right: -1px;
   transition: all 0.5s ease;
 }
