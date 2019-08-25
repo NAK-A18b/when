@@ -28,9 +28,10 @@ class App extends React.Component {
   }
 
   persistPath = () => {
+    const currentPath = this.currentPage();
     this.setState({
-      pageIndex: this.currentPage(),
-    })
+      pageIndex: currentPath ? currentPath : 0,
+    });
   }
 
   persistPage = () => {
