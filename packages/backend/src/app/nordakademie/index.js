@@ -10,10 +10,14 @@ const getMondayThisOrNextWeek = () => {
     }
 };
 
-module.exports.getTimes = (zenturie, semester) => {
+module.exports.getTimes = (zenturie, semester, tomorrow = false) => {
     return new Promise(((resolve, reject) => {
         const date = new Date();
-        const today = `${date.getFullYear()}${date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}${date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate()}`;
+        let day = date.getDate();
+        if(tomorrow) {
+            day++;
+        }
+        const today = `${date.getFullYear()}${date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1}${day < 10 ? "0" + day : day}`;
         let todayStartTimes = [];
         let todayEndTimes = [];
         const url = `https://cis.nordakademie.de/fileadmin/Infos/Stundenplaene/${zenturie}_${semester}.ics`;
@@ -52,7 +56,7 @@ module.exports.getTimes = (zenturie, semester) => {
                 const lastTime = Math.max.apply(Math, todayEndTimes);
 
                 if (isFinite(firstTime) && isFinite(lastTime)) {
-                    resolve({"start": firstTime, "end": lastTime});
+                    resolve({"start": parseTime(firstTime.toString()), "end": parseTime(lastTime.toString())});
                 } else {
                     resolve({});
                     console.log(`No times found for ${zenturie}`);
@@ -62,4 +66,17 @@ module.exports.getTimes = (zenturie, semester) => {
         req.on('error', (e) => console.log("Error while accessing " + url + " with " + e));
         req.end();
     }));
+};
+
+const parseTime = time => {
+    let h;
+    let m;
+    if (time.length === 5) {
+        h = '0' + time.substr(0, 1);
+        m = time.substr(1, 2);
+    } else {
+        h = time.substr(0, 2);
+        m = time.substr(2, 2);
+    }
+    return {hour: parseInt(h), minute: parseInt(m)};
 };
