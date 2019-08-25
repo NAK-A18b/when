@@ -111,8 +111,6 @@ const Connections = (props) => {
             ))}
           </List>
         </div>
-      </Card>
-      <Card className={`${baseClassName}-card`}>
         <div className={`${baseClassName}-head`}>
           <Typography variant="h5">
             { 'Your Connections' }
@@ -126,7 +124,7 @@ const Connections = (props) => {
                 <ListItemText primary={`${ start.name } → ${ end.name }`} />
                 <Button color="primary" onClick={unSubscribe(id)}>{ 'unsubscribe' }</Button>
               </ListItem>
-              <Divider />
+              <Divider /> 
             </div>
           ))}
         </List>

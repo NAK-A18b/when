@@ -27,7 +27,9 @@ const LoginPage = (props) => {
   const [token, setToken] = useState('');
 
   const triggerAuth = () => {
-    user.triggerAuthentication(tel).then(() => {
+    if (!tel) return;
+    user.triggerAuthentication(tel).then((formattedTel) => {
+      setTel(formattedTel);
       setAuth(true);
       setError('');
     }).catch(e => {
@@ -42,7 +44,7 @@ const LoginPage = (props) => {
   };
 
   const loginUser = () => {
-    if(user.login(tel, parseInt(token))) {}
+    user.login(tel, parseInt(token));
     setShowMessage(false);
   };
   const removeCloud = (index) => () => setCloud(clouds.filter(c => c !== index));
@@ -87,9 +89,14 @@ const LoginPage = (props) => {
             </div>
           </div>
         </section>
-        <CSSTransition in={showMessage} timeout={1000} classNames="login-page-wrapper" unmountOnExit
-                       onEnter={() => setShowButton(false)}
-                       onExited={() => setShowButton(true)}>
+        <CSSTransition 
+          in={showMessage} 
+          timeout={1000} 
+          classNames="login-page-wrapper" 
+          unmountOnExit
+          onEnter={() => setShowButton(false)}
+          onExited={() => setShowButton(true)}
+        >
           <div className={`${baseClassName}-wrapper`}>
             <div className={`${baseClassName}-slider-wrapper${auth ? '--auth' : ''}`}>
               <LoginContainer

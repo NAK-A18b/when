@@ -1,12 +1,9 @@
-const request = require('request');
 const {sendMessage} = require("when-whatsapp/send-message");
 const {parsePhoneNumberFromString} = require('libphonenumber-js/max');
 
 const {UserInputError} = require("apollo-server-errors");
 
-const {createUser, findUserByTel} = require('../../../entitys/user');
-
-const {createEntry} = require('when-aws/dynamodb/actions/create-entry');
+const { createUser, findUserByTel, updateUser } = require('../../../entitys/user');
 
 module.exports.randomToken = randomToken = (min = 1000, max = 9999) => {
     return Math.floor(Math.random() * (max - min) + min);
@@ -27,17 +24,14 @@ module.exports.triggerAuth = async (root, {tel}) => {
         let user = await findUserByTel(tel);
 
         if (!user) {
-            user = await createUser({tel});
+            user = await createUser({ tel });
         } else {
             user.token = randomToken();
-            user = await createEntry({
-                TableName: process.env.USER_TABLE,
-                Item: user,
-            });
+            user = await updateUser(user);
         }
 
         await tokenNotification(user);
-        return true;
+        return tel;
     } else {
         throw new UserInputError('', {BAD_PHONE_NUMBER: true});
     }

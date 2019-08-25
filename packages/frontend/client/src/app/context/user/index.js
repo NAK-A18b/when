@@ -60,7 +60,7 @@ export default withApollo (
 
     triggerAuthentication = async (tel) => {
       const { client } = this.props;
-      return triggerAuth(client, { tel });
+      return await triggerAuth(client, { tel });
     }
 
     render = () => {

@@ -62,7 +62,7 @@ export const triggerAuth = (client, variables) =>
     mutation: TRIGGER_AUTH_MUTATION,
     variables
   })
-  .then(result => result.data.registerUser);
+  .then(result => result.data.triggerAuth);
 
 export const currentUserQuery = (client, variables) =>
   client.query({

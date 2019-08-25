@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import ApolloClient from 'apollo-boost';
-import { HttpLink } from "apollo-link-http";
 import { ApolloProvider } from 'react-apollo';
-import { setContext } from 'apollo-link-context'
 
 import UserProvider from './app/context/user';
 import { AUTH_TOKEN } from './app/constants'
