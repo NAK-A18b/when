@@ -1,7 +1,7 @@
 .sidebar-wrapper {
   position: fixed;
   height: calc(100% - 160px);
-  border-right: 1px solid #707070;
+  border-right: 1px solid #888585;
   margin: 80px 0;
   padding: 0 20px;
   display: flex;
@@ -36,7 +36,7 @@
   cursor: pointer;
 }
 
-.sidebar-item:hover svg {
+.sidebar-item svg:hover {
   fill: #3F51B5;
   opacity: 0.75;
 }

@@ -39,12 +39,13 @@ const Sidebar = (props) => {
         const isCurrent = index === pageIndex;
         return (
           <div 
-            onClick={() => navigationCallback(index)}
             ref={ isCurrent ? currentItem : null }
             key={ index }
             className={`${baseClassName}-item${isCurrent ? '--active' : ''}`}
           >
-            <item.icon />
+            <div onClick={() => navigationCallback(index)}>
+              <item.icon />
+            </div>
           </div>
         )
       })}
