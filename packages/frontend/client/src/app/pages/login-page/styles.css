@@ -18,9 +18,10 @@
 }
 
 .login-page-wrapper-exit-active {
-    width: 70vw;
-    height: 300px;
-    transition: height 1s ease-in-out, width 1s ease-in-out;
+    width: 100vw;
+    height: 70vh;
+    opacity: 0;
+    transition: height 1s ease-in-out, width 1s ease-in-out, opacity 1s ease-in-out;
 }
 
 .login-page-wrapper-expanded {
@@ -32,7 +33,6 @@
     overflow: hidden;
     transition: height 1s ease-in-out, width 1s ease-in-out;
 }
-
 
 
 .login-page-submit-button {
