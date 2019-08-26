@@ -87,6 +87,9 @@ class App extends React.Component {
                   <div className={ 'page' }>
                     <ConnectionPage />
                   </div>
+                  <div className={ 'page' }>
+                    <ConnectionPage />
+                  </div>
                 </div>
               </div>
             </>
