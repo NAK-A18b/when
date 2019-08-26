@@ -28,22 +28,30 @@ class App extends React.Component {
   }
 
   persistPath = () => {
-    const currentPath = this.currentPage();
+    let currentPath = this.currentPage();
+    if (!currentPath) {
+      this.changePage(0);
+      currentPath = this.currentPage();
+    }
+
     this.setState({
-      pageIndex: currentPath ? currentPath : 0,
+      pageIndex: currentPath,
     });
   }
 
   persistPage = () => {
-    if (this.pageWrapper.current) {
-      this.pageWrapper.current.style.top = `calc(-${this.currentPage()} * 100%)`
-    }
+    if (!this.pageWrapper.current) return;
+    this.pageWrapper.current.style.top = `calc(-${this.currentPage()} * 100%)`
   }
 
   changePage = index => {
     const url = new URL(window.location);
     url.searchParams.set(PAGE_PARAM_NAME, index.toString());
     window.history.pushState({}, '', url);
+  }
+
+  updatePage = index => {
+    this.changePage(index);
     this.persistPath();
   }
 
@@ -64,7 +72,7 @@ class App extends React.Component {
           (
             <>
               <Sidebar 
-                navigationCallback={ this.changePage }
+                navigationCallback={ this.updatePage }
                 pageIndex={ pageIndex }
                 user={ user }
               />
