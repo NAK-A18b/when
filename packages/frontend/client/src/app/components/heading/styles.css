@@ -1,0 +1,11 @@
+.heading-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.heading-subtitle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: left;
+}

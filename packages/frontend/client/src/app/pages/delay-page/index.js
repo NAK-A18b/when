@@ -1,7 +1,7 @@
 import React from 'react';
 
 import SubwayIllustration from '../../components/illustrations/subway';
-import Title from '../../components/title';
+import Heading from '../../components/heading';
 import Label from '../../components/label';
 import ConnectionIndicator from '../../components/connection-indicator';
 
@@ -19,10 +19,7 @@ const DelayPage = (props) => {
 
   return (
     <div>
-      <div className={ 'title-wrapper' }>
-        <Title>Verspätungen</Title>
-        <Label className={ 'delays-count-label' }>{ delays.length } gemeldet</Label>
-      </div>
+      <Heading title={ 'Verspätungen' } subtitle={`${ delays.length } gemeldet`} />
       <div className={ 'body-wrapper' }>
         {
           delays.length > 0 ? (
