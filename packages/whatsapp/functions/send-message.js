@@ -5,7 +5,7 @@ module.exports.sendMessage = (tel, message) => {
         var username = 'nordakademie';
         var password = 'T&;2]fX3EN/&v>5';
         var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
-// new Buffer() is deprecated from v6
+        // new Buffer() is deprecated from v6
 
         const options = {
             hostname: `35.196.195.229`,
@@ -27,7 +27,7 @@ module.exports.sendMessage = (tel, message) => {
             });
         });
         req.on('error', (e) => {
-                console.error(`Request to HVV-API failed with ${e}`);
+                console.error(`Request to Whatsapp Server failed with ${e}`);
                 reject(json);
             }
         );
