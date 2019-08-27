@@ -2,18 +2,22 @@
     position: relative;
     overflow: hidden;
     height: 100vh;
+    color: #707070;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    letter-spacing: 0;
 }
 
 .page-wrapper {
     transition: all 0.5s ease;
     position: absolute;
     margin-left: 130px;
+    width: 100%;
 }
 
 .page {
     padding-left: 150px;
     padding-top: 30px;
-    height: 100vh;
+    height: calc(100vh - 30px)
 }
 
 .background {
