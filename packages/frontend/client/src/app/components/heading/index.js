@@ -8,7 +8,7 @@ const Heading = (props) => {
     return (
         <div className={ 'heading-wrapper' }>
             <Title>{ props.title }</Title>
-            <Label className={ 'heading-subtitle' }>{ props.subtitle } gemeldet</Label>
+            <Label className={ 'heading-subtitle' }>{ props.subtitle }</Label>
         </div>
     );
 };
