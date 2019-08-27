@@ -8,6 +8,7 @@
 
 .login-page-wrapper {
     width: 50vw;
+    max-width: 600px;
     height: 150px;
     padding: 75px 0px 110px;
     display: flex;
