@@ -36,7 +36,7 @@ const DelayPage = (props) => {
                         <Label primary>{ delay.end.name }</Label>
                       </div>
                     </div>
-                    <Label fontWeight={ '1000' }  big>{ delay.train }</Label>
+                    <Label fontWeight={ 'bold' }  big>{ delay.train }</Label>
                     <div className={ 'delay-time-info' }>
                       <Label color={ isLongDelay ? '#F04040' : '#fcba03' } big>{ delay.delay } min.</Label>
                       <Label primary>
