@@ -24,7 +24,7 @@ const server = new ApolloServer({
 
     const token = event.headers.authorization || '';
     const user = await getUser(token);
-    if (!user && !isPublic) throw new AuthenticationError('you must be logged in'); 
+    //if (!user && !isPublic) throw new AuthenticationError('you must be logged in'); 
 
     return {
       currentUser: user,

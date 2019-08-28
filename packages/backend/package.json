@@ -8,7 +8,7 @@
     "invoke:update-timetable": "sls invoke local --function updateTimetable",
     "invoke:update-hvv-request": "sls invoke local --function hvvRequest",
     "invoke:update-create-user": "sls invoke local --function createUser",
-    "invoke:update-check-timetable": "sls invoke local --function checkTimetable",
+    "invoke:check-timetable": "sls invoke local --function checkTimetable",
     "deploy": "sls deploy",
     "db:setup": "serverless dynamodb install",
     "db:drop": "rm -rf ./.dynamodb",
