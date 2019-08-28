@@ -4,12 +4,12 @@ const {createEntry} = require('when-aws/dynamodb/actions/create-entry');
 
 module.exports.createConnection = async (root, {start, end}) => {
     const startStation = await getStation(start);
-    if (startStation.results === undefined) {
+    if (!startStation.results) {
         return Promise.reject("Start station not found");
     }
 
     const endStation = await getStation(end);
-    if (endStation.results === undefined) {
+    if (!endStation.results) {
         return Promise.reject("End station not found");
     }
 

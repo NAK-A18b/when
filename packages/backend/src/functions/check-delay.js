@@ -1,10 +1,11 @@
-const {updateEntry} = require('when-aws/dynamodb/actions/update-entry');
-const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
-const {hvvRequest} = require("../app/hvv/index");
 const aws = require("aws-sdk");
 
+const {updateEntry} = require('when-aws/dynamodb/actions/update-entry');
+const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
+
+const {hvvRequest} = require("../app/hvv/index");
+
 module.exports.checkDelay = (event, context, callback) => {
-    callback(null, {});
     const connections = event.connections;
     connections.map(connection => {
         const connectionsParams = {
@@ -29,7 +30,7 @@ module.exports.checkDelay = (event, context, callback) => {
                 "realtime": "REALTIME",
             };
             hvvRequest("getRoute", body).then(async body => {
-                if (body.hasOwnProperty('returnCode') && body.returnCode === 'OK' && body.hasOwnProperty('realtimeSchedules')) {
+                if (!!body.returnCode && body.returnCode === 'OK' && !!body.realtimeSchedules) {
                     const connectionParams = {
                         TableName: process.env.CONNECTION_TABLE,
                         Key: {

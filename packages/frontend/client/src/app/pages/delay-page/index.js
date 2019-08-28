@@ -15,7 +15,7 @@ const parseTime = time => {
 }
 
 const DelayPage = (props) => {
-  const { delays = Delay } = props;
+  const { delays = [] } = props;
 
   return (
     <div>
@@ -23,7 +23,8 @@ const DelayPage = (props) => {
       <div className={ 'body-wrapper' }>
         {
           delays.length > 0 ? (
-            delays.map( (delay, i) => {
+            <div className={ 'scroll-wrapper' }>
+            {delays.map( (delay, i) => {
               const isLongDelay = delay.delay > 10;
               return (
                 <div className={ 'delay-wrapper' } key={i}>
@@ -46,7 +47,8 @@ const DelayPage = (props) => {
                   </div>
                 </div>
               )
-            })
+            })}
+            </div>
           ) : (
             <SubwayIllustration />
           )

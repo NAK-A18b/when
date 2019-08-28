@@ -1,5 +1,12 @@
 .body-wrapper {
   margin-top: 100px;
+}
+
+.body-wrapper svg {
+  max-width: 100%;
+}
+
+.scroll-wrapper {
   max-width: 75%;
   overflow: scroll;
   max-height: 500px;

@@ -3,8 +3,9 @@ import React from 'react';
 import Sidebar from './components/sidebar';
 
 import DelayPage from './pages/delay-page';
-import ConnectionPage from './pages/connection-page';
 import LoginPage from './pages/login-page';
+import AllConnectionsPage from './pages/all-connections-page';
+import MyConnectionsPage from './pages/my-connections-page';
 
 import { withUser } from './context/user';
 
@@ -85,10 +86,10 @@ class App extends React.Component {
                     <DelayPage />
                   </div>
                   <div className={ 'page' }>
-                    <ConnectionPage />
+                    <AllConnectionsPage />
                   </div>
                   <div className={ 'page' }>
-                    <ConnectionPage />
+                    <MyConnectionsPage />
                   </div>
                 </div>
               </div>

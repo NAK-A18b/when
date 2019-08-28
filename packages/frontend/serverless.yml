@@ -7,6 +7,7 @@ provider:
   name: aws
   runtime: nodejs8.10
   environment:
+    HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
     USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'

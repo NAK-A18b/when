@@ -17,7 +17,8 @@ module.exports.checkTimetable = async event => {
         if (schoolStart.hour - hour <= 2 && schoolStart.hour - hour >= 0) {
 
         }
-        console.log(time);
+
+        console.log(schoolEnd)
         if (true || schoolEnd.hour - hour <= 2 && schoolEnd.hour - hour >= 0) {
             let departTime = schoolEnd;
             if (departTime.minute >= 45) {
@@ -29,7 +30,7 @@ module.exports.checkTimetable = async event => {
                 TableName: process.env.USER_TABLE,
             });
 
-            centuriaUsers = allUsers.filter(user => user.centuria === time.centuria);
+            centuriaUsers = allUsers.Items.filter(user => user.centuria === time.centuria);
             centuriaUsers.map(async user => {
                 const lambda = new aws.Lambda({
                     apiVersion: '2031',
