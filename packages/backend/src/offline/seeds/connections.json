@@ -1,0 +1,23 @@
+[{
+  "id": "2ce02d50-ccef-11e9-b467-1be46f97e8e7",
+  "start": {
+    "name": "Hamburg Airport (Flughafen)",
+    "id": "Master:99651",
+    "coordinate": {
+      "x": 10.006698,
+      "y": 53.632534
+    },
+    "type": "STATION",
+    "city": "Hamburg"
+  },
+  "end": {
+    "name": "Elmshorn",
+    "id": "Master:97960",
+    "coordinate": {
+      "x": 9.659292,
+      "y": 53.754662
+    },
+    "type": "STATION",
+    "city": "Elmshorn"
+  }
+}]

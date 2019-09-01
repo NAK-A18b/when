@@ -43,6 +43,10 @@ custom:
         sources:
           - table: ${self:provider.environment.CENTURIA_TABLE}
             sources: [./src/offline/seeds/centurias.json]
+          - table: ${self:provider.environment.USER_TABLE}
+            sources: [./src/offline/seeds/users.json]
+          - table: ${self:provider.environment.CONNECTION_TABLE}
+            sources: [./src/offline/seeds/connections.json]
 
 functions:
   updateTimetable:
@@ -131,4 +135,3 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.CENTURIA_TABLE}
-        

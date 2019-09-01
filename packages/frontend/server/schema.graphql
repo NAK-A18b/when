@@ -1,11 +1,16 @@
 type Mutation {
-    deleteUser(id: String!): Boolean!
+    updateUser(input: UserInput!): User
     triggerAuth(tel: String!): String
     loginUser(tel: String!, token: Int!): User
     createCenturia(name: String!, semester: Int!): Centuria!
     createConnection(start: String!, end: String!): Connection!
     subscribeConnection(connection: String!): User!
     unsubscribeConnection(connection: String!): User!
+}
+
+input UserInput {
+    centuria: String,
+    tel: String
 }
 
 type Query {
@@ -24,7 +29,6 @@ type User {
 }
 
 type Centuria {
-    id: ID!
     name: String!
     semester: Int!
 }
