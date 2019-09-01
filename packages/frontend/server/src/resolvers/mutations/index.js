@@ -1,4 +1,4 @@
-const {deleteUser} = require('./deleteUser');
+const {updateUser} = require('./updateUser');
 const {createCenturia} = require('./createCenturia');
 const {createConnection} = require('./createConnection');
 
@@ -10,12 +10,12 @@ const {loginUser} = require('./loginUser');
 const {triggerAuth} = require('./triggerAuth');
 
 module.exports.Mutation = {
-    deleteUser,
-    createCenturia,
-    createConnection,
-    subscribeConnection,
-    subscribeCenturia,
-    unsubscribeConnection,
-    loginUser,
-    triggerAuth,
+  updateUser,
+  createCenturia,
+  createConnection,
+  subscribeConnection,
+  subscribeCenturia,
+  unsubscribeConnection,
+  loginUser,
+  triggerAuth,
 }
