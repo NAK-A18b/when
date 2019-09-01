@@ -3,6 +3,7 @@ type Mutation {
     triggerAuth(tel: String!): String
     loginUser(tel: String!, token: Int!): User
     createCenturia(name: String!, semester: Int!): Centuria!
+    subscribeCenturia(centuria: String!): User!
     createConnection(start: String!, end: String!): Connection!
     subscribeConnection(connection: String!): User!
     unsubscribeConnection(connection: String!): User!
@@ -24,7 +25,6 @@ type User {
 }
 
 type Centuria {
-    id: ID!
     name: String!
     semester: Int!
 }

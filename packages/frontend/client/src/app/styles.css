@@ -17,7 +17,8 @@
 .page {
     padding-left: 150px;
     padding-top: 30px;
-    height: calc(100vh - 30px)
+    height: calc(100vh - 30px);
+    overflow: hidden;
 }
 
 .background {

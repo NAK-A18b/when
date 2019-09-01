@@ -20,7 +20,6 @@ const baseClassName = 'create-centuria'
 const CREATE_CENTURIA = gql`
   mutation createCenturia($name: String!, $semester: Int!) {
     createCenturia(name: $name, semester: $semester) {
-      id
       name
       semester
     }

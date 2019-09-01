@@ -10,6 +10,8 @@ import MyConnectionsPage from './pages/my-connections-page';
 import { withUser } from './context/user';
 
 import './styles.css';
+import Card from "@material-ui/core/Card";
+import SelectCenturia from "./components/select-centuria";
 
 const PAGE_PARAM_NAME = 'page';
 
@@ -65,20 +67,20 @@ class App extends React.Component {
     const { user } = this.props;
     const { pageIndex } = this.state;
     if (user.loading) return <div className={`background`}></div>;
-
+    console.log(user);
     return (
       <>
         <div className={`background`}>
-        { user.loggedIn ? 
+        { user.loggedIn && user.data && user.data.centuria ?
           (
             <>
-              <Sidebar 
+              <Sidebar
                 navigationCallback={ this.updatePage }
                 pageIndex={ pageIndex }
                 user={ user }
               />
               <div className={ 'page-container' }>
-                <div 
+                <div
                   ref={ this.pageWrapper }
                   className={ 'page-wrapper' }
                 >
@@ -94,14 +96,18 @@ class App extends React.Component {
                 </div>
               </div>
             </>
-          ) : (
+          ) : user.loggedIn && !user.centuria ?(
+                (
+                  <SelectCenturia user={user}/>
+                )
+            ) : (
             <LoginPage />
-          )
+            )
         }
       </div>
       </>
     )
-    
+
   }
 }
 
