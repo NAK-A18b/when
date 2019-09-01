@@ -12,6 +12,7 @@ import { withUser } from './context/user';
 import './styles.css';
 import Card from "@material-ui/core/Card";
 import SelectCenturia from "./components/select-centuria";
+import SettingsPage from "./pages/settings-page";
 
 const PAGE_PARAM_NAME = 'page';
 
@@ -68,6 +69,7 @@ class App extends React.Component {
     const { pageIndex } = this.state;
     if (user.loading) return <div className={`background`}></div>;
     console.log(user);
+
     return (
       <>
         <div className={`background`}>
@@ -88,17 +90,22 @@ class App extends React.Component {
                     <DelayPage />
                   </div>
                   <div className={ 'page' }>
-                    <AllConnectionsPage />
+                    <AllConnectionsPage user={ user }/>
                   </div>
                   <div className={ 'page' }>
                     <MyConnectionsPage />
+                  </div>
+                  <div className={ 'page' }>
+                    <SettingsPage user={ user } />
                   </div>
                 </div>
               </div>
             </>
           ) : user.loggedIn && !user.centuria ?(
                 (
+                  <div className="select-centuria-wrapper">
                   <SelectCenturia user={user}/>
+                  </div>
                 )
             ) : (
             <LoginPage />

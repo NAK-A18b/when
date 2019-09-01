@@ -18,10 +18,18 @@
     padding-left: 150px;
     padding-top: 30px;
     height: calc(100vh - 30px);
-    overflow: hidden;
+    overflow: auto;
 }
 
 .background {
     width: 100vw;
     height: 100vh;
+}
+
+.select-centuria-wrapper {
+    margin: auto;
+    position: absolute;
+    top: 45vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
 }

@@ -1,7 +1,12 @@
-.connections-card {
-    margin: auto;
-    position: absolute;
-    top: 45vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
+.centuria-card {
+    width: 50vw;
+}
+
+.centuria-buttons {
+    animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0}
+    to   { opacity: 1}
 }
