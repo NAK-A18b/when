@@ -1,5 +1,5 @@
 
-const { deleteUser } = require('./deleteUser');
+const { updateUser } = require('./updateUser');
 const { createCenturia } = require('./createCenturia');
 const { createConnection } = require('./createConnection');
 
@@ -10,7 +10,7 @@ const { loginUser } = require('./loginUser');
 const { triggerAuth } = require('./triggerAuth');
 
 module.exports.Mutation = {
-  deleteUser,
+  updateUser,
   createCenturia,
   createConnection,
   subscribeConnection,
