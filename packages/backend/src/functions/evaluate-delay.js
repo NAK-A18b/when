@@ -1,16 +1,15 @@
-const { sendMessage } = require('when-whatsapp/send-message');
+const {sendMessage} = require('when-whatsapp/send-message');
 
 module.exports.evaluateDelay = async event => {
-  const { oldEntry, newEntry } = event;
+  const {oldEntry, newEntry} = event;
 
   if (!oldEntry.realtimeSchedules) {
     console.info('First Delay');
-    //First delay
   } else {
     if (JSON.stringify(oldEntry) !== JSON.stringify(newEntry)) {
       newEntry.realtimeSchedules.forEach(entry => {
         entry.scheduleElements.forEach(element => {
-          const { from, line, to } = element;
+          const {from, line, to} = element;
 
           if (
             from.depDelay &&

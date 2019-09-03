@@ -69,7 +69,7 @@ module.exports.requestOptions = (connection, event) => ({
   dest: connection.end,
   time: {
     date: 'heute',
-    time: event.time.hour + ':' + event.time.minute
+    time: 'jetzt'
   },
   timeIsDeparture: true,
   schedulesBefore: 0,

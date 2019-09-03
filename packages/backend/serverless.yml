@@ -15,6 +15,7 @@ provider:
     USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'
+    DELAY_TABLE: 'when-delay-table'
 
 package:
   include:
@@ -119,8 +120,20 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.CONNECTION_TABLE}
-        StreamSpecification:
-          StreamViewType: NEW_AND_OLD_IMAGES
+    DelayDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DELAY_TABLE}
     CenturiaDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain

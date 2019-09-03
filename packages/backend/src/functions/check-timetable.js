@@ -16,7 +16,6 @@ module.exports.checkTimetable = async event => {
         const { start, end } = time;
         if (start.hour - hour <= 2 && start.hour - hour >= 0) {
         }
-
         if (true || (end.hour - hour <= 2 && end.hour - hour >= 0)) {
           let departTime = end;
           if (departTime.minute >= 45) {
@@ -32,7 +31,7 @@ module.exports.checkTimetable = async event => {
             user => user.centuria === time.centuria
           );
 
-          centuriaUsers.map(user => {
+          centuriaUsers.forEach(user => {
             const lambda = new aws.Lambda({
               apiVersion: '2031',
               endpoint: process.env.IS_OFFLINE
@@ -50,7 +49,6 @@ module.exports.checkTimetable = async event => {
                 time: departTime
               })
             };
-
             lambda.invoke(opts).send();
           });
         }
