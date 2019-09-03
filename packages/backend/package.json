@@ -1,20 +1,17 @@
 {
   "name": "when-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "WHEN backend providing lambda functions and business logic",
   "main": "src/app/index.js",
   "scripts": {
     "invoke:app": "node build/app/index.js",
     "invoke:update-timetable": "sls invoke local --function updateTimetable",
-    "invoke:update-hvv-request": "sls invoke local --function hvvRequest",
-    "invoke:update-create-user": "sls invoke local --function createUser",
     "invoke:check-timetable": "sls invoke local --function checkTimetable",
     "deploy": "sls deploy",
     "db:setup": "serverless dynamodb install",
     "db:drop": "rm -rf ./.dynamodb",
     "db:start": "serverless dynamodb start --seed=domain",
-    "sls:offline": "sls offline --noTimeout",
-    "babel-version": "babel --version"
+    "sls:offline": "sls offline --noTimeout"
   },
   "keywords": [],
   "author": "",

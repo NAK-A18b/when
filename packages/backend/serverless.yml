@@ -60,23 +60,10 @@ functions:
     handler: '/src/functions/check-delay.checkDelay'
   evaluateDelay:
     handler: '/src/functions/evaluate-delay.evaluateDelay'
-  hvvRouteRequest:
-    handler: '/src/functions/hvv-route-request.routeRequest'
   warnLateStart:
     handler: '/src/functions/warn-late-start.warnLateStart'
     events:
       - schedule: cron(0 20 * * ? *)
-  createUser:
-    handler: '/src/functions/create-user.createUser'
-    events:
-      - http:
-          path: users/create
-          method: get
-          request:
-            parameters:
-              querystrings:
-                phone: true
-
 resources:
   Resources:
     TimeDynamoDbTable:

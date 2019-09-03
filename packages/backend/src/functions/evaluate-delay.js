@@ -1,50 +1,22 @@
 const {sendMessage} = require('when-whatsapp/send-message');
-
+const {generateMessage} = require('../app/hvv/message-generator');
 module.exports.evaluateDelay = async event => {
-  const {oldEntry, newEntry} = event;
-
-  if (!oldEntry.realtimeSchedules) {
-    console.info('First Delay');
-  } else {
-    if (JSON.stringify(oldEntry) !== JSON.stringify(newEntry)) {
+  const {oldEntry, newEntry, tel} = event;
+  return Promise.resolve(() => {
+    if (JSON.stringify(oldEntry) === JSON.stringify(newEntry)) {
       newEntry.realtimeSchedules.forEach(entry => {
         entry.scheduleElements.forEach(element => {
-          const {from, line, to} = element;
-
-          if (
-            from.depDelay &&
-            line.name !== 'Umstiegsfußweg' &&
-            from.depDelay > 59 &&
-            to.arrDelay > 59
-          ) {
+          if (element.line.name !== 'Umstiegsfußweg') {
+            const msg = generateMessage(element);
+            console.log(`Sending message "${msg}" to ${tel}`);
             sendMessage(
-              event.tel,
-              `${line.name} von ${from.name} nach ${to.name}, ursprünglich um ${
-                from.depTime.time
-              }, hat eine Verspätung von ${from.depDelay / 60} Minuten 🙄`
+              tel,
+              msg
             );
-
-            if (to.arrDelay < 120) {
-              sendMessage(
-                event.tel,
-                `Der Zug wird dennoch vorrausichtlich pünktlich in ${to.name} ankommen`
-              );
-            } else if (to.arrDelay !== from.depDelay) {
-              sendMessage(
-                event.tel,
-                `Der Zug wird in ${
-                  to.name
-                } mit einer Verspätung von ${to.arrDelay / 60} Minuten ankommen`
-              );
-            }
           }
+
         });
       });
-    } else {
-      //Entries are identical
-      console.log(
-        'Compared two entries with the result that both are identical'
-      );
     }
-  }
+  });
 };
