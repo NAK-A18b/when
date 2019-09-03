@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eliashuehne/whatsapp-web-driver.git"
+    "url": "git+https://github.com/eliashuehne/WHEN.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/eliashuehne/whatsapp-web-driver/issues"
+    "url": "https://github.com/eliashuehne/WHEN/issues"
   },
-  "homepage": "https://github.com/eliashuehne/whatsapp-web-driver#readme",
+  "homepage": "https://github.com/eliashuehne/WHEN#readme",
   "dependencies": {},
   "devDependencies": {}
 }

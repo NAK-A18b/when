@@ -15,12 +15,11 @@
     background-color: #cce6fd;
     overflow: hidden;
     animation: dayTime 40s linear infinite;
-    transition: height 1s ease-in-out, width 1s ease-in-out;
+    transition: left 1s ease-in-out
 }
 
 .login-page-wrapper-exit-active {
-    width: 100vw;
-    height: 70vh;
+    left: -100%;
     opacity: 0;
     transition: height 1s ease-in-out, width 1s ease-in-out, opacity 1s ease-in-out;
 }
@@ -55,6 +54,13 @@
     display: flex;
     transition: left 1s ease;
     left: -96%;
+}
+
+.login-page-centuria-button {
+    margin: 40px;
+}
+
+.select-centuria {
 }
 
 :root {

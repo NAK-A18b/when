@@ -10,35 +10,32 @@ module.exports.evaluateDelay = async event => {
     if (JSON.stringify(oldEntry) !== JSON.stringify(newEntry)) {
       newEntry.realtimeSchedules.forEach(entry => {
         entry.scheduleElements.forEach(element => {
-          delete element.paths;
+          const { from, line, to } = element;
+
           if (
-            element.from.depDelay &&
-            element.line.name !== 'Umstiegsfußweg' &&
-            element.from.depDelay > 59 &&
-            element.to.arrDelay > 59
+            from.depDelay &&
+            line.name !== 'Umstiegsfußweg' &&
+            from.depDelay > 59 &&
+            to.arrDelay > 59
           ) {
             sendMessage(
               event.tel,
-              `${element.line.name} von ${element.from.name} nach ${
-                element.to.name
-              }, ursprünglich um ${
-                element.from.depTime.time
-              }, hat eine Verspätung von ${element.from.depDelay /
-                60} Minuten 🙄`
+              `${line.name} von ${from.name} nach ${to.name}, ursprünglich um ${
+                from.depTime.time
+              }, hat eine Verspätung von ${from.depDelay / 60} Minuten 🙄`
             );
 
-            if (element.to.arrDelay < 120) {
+            if (to.arrDelay < 120) {
               sendMessage(
                 event.tel,
-                `Der Zug wird dennoch vorrausichtlich pünktlich in ${element.to.name} ankommen`
+                `Der Zug wird dennoch vorrausichtlich pünktlich in ${to.name} ankommen`
               );
-            } else if (element.to.arrDelay !== element.from.depDelay) {
+            } else if (to.arrDelay !== from.depDelay) {
               sendMessage(
                 event.tel,
                 `Der Zug wird in ${
-                  element.to.name
-                } mit einer Verspätung von ${element.to.arrDelay /
-                  60} Minuten ankommen`
+                  to.name
+                } mit einer Verspätung von ${to.arrDelay / 60} Minuten ankommen`
               );
             }
           }

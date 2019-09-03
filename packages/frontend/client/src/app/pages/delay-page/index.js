@@ -15,7 +15,7 @@ const parseTime = time => {
 }
 
 const DelayPage = (props) => {
-  const { delays = [] } = props;
+  const { delays = Delay } = props;
 
   return (
     <div>
