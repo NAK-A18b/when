@@ -1,6 +1,10 @@
 import React from 'react';
 
 import Sidebar from './components/sidebar';
+import ClockIcon from './components/icons/clock';
+import TrainIcon from './components/icons/train';
+import AvatarIcon from './components/icons/avatar';
+import SliderIcon from './components/icons/slider';
 
 import DelayPage from './pages/delay-page';
 import LoginPage from './pages/login-page';
@@ -16,9 +20,17 @@ import SettingsPage from './pages/settings-page';
 const PAGE_PARAM_NAME = 'page';
 const NUMBER_OF_PAGES = 4;
 
+const PAGES = [
+  { icon: ClockIcon, component: DelayPage },
+  { icon: TrainIcon, component: AllConnectionsPage },
+  { icon: AvatarIcon, component: MyConnectionsPage },
+  { icon: SliderIcon, component: SettingsPage }
+];
+
 class App extends React.Component {
   pageWrapper = React.createRef();
   state = {
+    pageTransition: false,
     pageIndex: 0
   };
 
@@ -34,16 +46,27 @@ class App extends React.Component {
     const { pageIndex } = this.state;
 
     if (code === 'ArrowUp') {
-      this.updatePage(pageIndex - 1);
+      this.changePage(pageIndex - 1);
     } else if (code === 'ArrowDown') {
-      this.updatePage(pageIndex + 1);
+      this.changePage(pageIndex + 1);
     }
+  };
+
+  startPageTransition = () =>
+    this.setState({
+      pageTransition: true
+    });
+
+  stopPageTransition = () => {
+    this.setState({
+      pageTransition: false
+    });
   };
 
   persistPath = () => {
     let currentPath = this.currentPage();
     if (!currentPath) {
-      this.changePage(0);
+      this.changePageParam(0);
       currentPath = this.currentPage();
     }
 
@@ -57,15 +80,17 @@ class App extends React.Component {
     this.pageWrapper.current.style.top = `calc(-${this.currentPage()} * 100%)`;
   };
 
-  changePage = index => {
+  changePageParam = index => {
     if (index < 0 || index >= NUMBER_OF_PAGES) return;
     const url = new URL(window.location);
     url.searchParams.set(PAGE_PARAM_NAME, index.toString());
     window.history.pushState({}, '', url);
   };
 
-  updatePage = index => {
-    this.changePage(index);
+  changePage = index => {
+    this.startPageTransition();
+    window.setTimeout(this.stopPageTransition, 600);
+    this.changePageParam(index);
     this.persistPath();
   };
 
@@ -76,7 +101,7 @@ class App extends React.Component {
 
   render = () => {
     const { user } = this.props;
-    const { pageIndex } = this.state;
+    const { pageIndex, pageTransition } = this.state;
     if (user.loading) return <div className={`background`}></div>;
 
     return (
@@ -85,24 +110,21 @@ class App extends React.Component {
           {user.loggedIn && user.data && user.data.centuria ? (
             <>
               <Sidebar
-                navigationCallback={this.updatePage}
+                navigationCallback={this.changePage}
                 pageIndex={pageIndex}
                 user={user}
+                pages={PAGES}
               />
               <div className={'page-container'}>
                 <div ref={this.pageWrapper} className={'page-wrapper'}>
-                  <div className={'page'}>
-                    <DelayPage />
-                  </div>
-                  <div className={'page'}>
-                    <AllConnectionsPage user={user} />
-                  </div>
-                  <div className={'page'}>
-                    <MyConnectionsPage />
-                  </div>
-                  <div className={'page'}>
-                    <SettingsPage user={user} />
-                  </div>
+                  {PAGES.map((page, index) => (
+                    <div
+                      key={index}
+                      className={`page${pageTransition ? '--small' : ''}`}
+                    >
+                      <page.component mounted={!pageTransition} user={user} />
+                    </div>
+                  ))}
                 </div>
               </div>
             </>

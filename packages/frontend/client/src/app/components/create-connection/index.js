@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 
 import { CONNECTIONS } from '../connections';
 
-import { generateCacheUpdate } from '../../utils/graphql';
+import { generateArrayCacheUpdate } from '../../utils/graphql';
 
 import './styles.css';
 
@@ -34,7 +34,7 @@ const CREATE_CONNECTION = gql`
 const CreateConnection = props => {
   const [addConnection] = useMutation(
     CREATE_CONNECTION,
-    generateCacheUpdate('createConnection', CONNECTIONS, 'connections')
+    generateArrayCacheUpdate('createConnection', CONNECTIONS, 'connections')
   );
 
   const [start, setStart] = useState('');

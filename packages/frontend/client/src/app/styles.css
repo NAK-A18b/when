@@ -8,17 +8,27 @@
 }
 
 .page-wrapper {
-    transition: all 0.5s ease;
+    transition: all 1s ease;
     position: absolute;
     margin-left: 130px;
     width: calc(100% - 130px);
 }
 
 .page {
+    transition: all 0.5s ease;
     position: relative;
     padding: 30px 20% 0;
     height: calc(100vh - 30px);
     overflow: auto;
+}
+
+.page--small {
+    transition: all 0.5s ease;
+    position: relative;
+    padding: 30px 20% 0;
+    height: calc(100vh - 30px);
+    overflow: auto;
+    transform: scale(0.8);
 }
 
 .background {

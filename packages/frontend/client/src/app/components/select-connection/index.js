@@ -1,30 +1,73 @@
 import React from 'react';
+import gql from 'graphql-tag';
 
+import SaveIcon from '../icons/save';
 import ConnectionIndicator from '../connection-indicator';
 import Label from '../label';
 
-import AddIcon from '@material-ui/icons/Add';
-
-import Fab from '@material-ui/core/Fab';
-import Box from '@material-ui/core/Box';
-
 import './styles.css';
+import { useMutation } from '@apollo/react-hooks';
+
+const baseClassName = 'selectConnection';
+
+export const SUBSCRIBE_CONNECTION = gql`
+  mutation subscribeConnection($connection: String!) {
+    subscribeConnection(connection: $connection) {
+      id
+      connections {
+        id
+        start {
+          name
+        }
+        end {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const UNSUBSCRIBE_CONNECTION = gql`
+  mutation unsubscribeConnection($connection: String!) {
+    unsubscribeConnection(connection: $connection) {
+      id
+      connections {
+        id
+        start {
+          name
+        }
+        end {
+          name
+        }
+      }
+    }
+  }
+`;
 
 const SelectConnection = props => {
+  const { user, start, end, id, action } = props;
+  const [subscribeAction] = useMutation(action);
+
+  const clickAction = () =>
+    subscribeAction({
+      variables: {
+        connection: id
+      }
+    }).then(user.refetchData);
+
   return (
-    <div className={'delay-wrapper'}>
-      <div className={'delay-body-wrapper'}>
-        <div className={'delay-station-info-wrapper'}>
+    <div className={`${baseClassName}-wrapper`}>
+      <div className={`${baseClassName}-body-wrapper`}>
+        <div className={`${baseClassName}-station-info-wrapper`}>
           <ConnectionIndicator color='#3F51B5' />
-          <div className={'delay-station-info'}>
-            <Label primary>{props.start}</Label>
-            <Label primary>{props.end}</Label>
+          <div className={`${baseClassName}-station-info`}>
+            <Label primary>{start}</Label>
+            <Label primary>{end}</Label>
           </div>
         </div>
-        <Box ml={2} />
-        <Fab size='small' color='secondary' aria-label='add'>
-          <AddIcon />
-        </Fab>
+        <div className={`${baseClassName}-save-icon`} onClick={clickAction}>
+          <SaveIcon />
+        </div>
       </div>
     </div>
   );

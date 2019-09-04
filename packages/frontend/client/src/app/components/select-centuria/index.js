@@ -10,7 +10,7 @@ import './styles.css';
 import { Button, CardContent } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { generateCacheUpdate } from '../../utils/graphql';
+import { generateObjectCacheUpdate } from '../../utils/graphql';
 import { CURRENT_USER_QUERY } from '../../context/user/resolvers';
 
 const baseClassName = 'centuria';
@@ -19,6 +19,7 @@ export const CENTURIAS = gql`
   query centuria {
     centurias {
       name
+      semester
     }
   }
 `;
@@ -29,6 +30,7 @@ const SUBSCRIBE_CENTURIA = gql`
       id
       centuria {
         name
+        semester
       }
     }
   }
@@ -49,7 +51,11 @@ const SelectCenturia = props => {
   } = useQuery(CENTURIAS);
   const [subscribeCenturia] = useMutation(
     SUBSCRIBE_CENTURIA,
-    generateCacheUpdate('subscribeCenturia', CURRENT_USER_QUERY, 'CurrentUser')
+    generateObjectCacheUpdate(
+      'subscribeCenturia',
+      CURRENT_USER_QUERY,
+      'currentUser'
+    )
   );
 
   const subscribe = centuria => () => {
@@ -73,7 +79,7 @@ const SelectCenturia = props => {
                 <Button
                   key={item.name}
                   variant='contained'
-                  color={isSelected ? 'primary' : 'grey'}
+                  color={isSelected ? 'primary' : 'default'}
                   onClick={!isSelected ? subscribe(item) : null}
                   className={`centuria-buttons ` + classes.button}
                 >

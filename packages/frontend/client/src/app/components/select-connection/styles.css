@@ -1,10 +1,10 @@
-.delay-wrapper {
+.selectConnection-wrapper {
     box-shadow: 0px 3px 6px #00000016;
     display: flex;
     margin-bottom: 20px;
 }
 
-.delay-body-wrapper {
+.selectConnection-body-wrapper {
     padding: 20px;
     display: flex;
     width: 100%;
@@ -12,12 +12,12 @@
     align-items: center;
 }
 
-.delay-station-info-wrapper {
+.selectConnection-station-info-wrapper {
     display: flex;
     align-items: center;
 }
 
-.delay-station-info {
+.selectConnection-station-info {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -26,8 +26,24 @@
     margin-left: 15px;
 }
 
-.delay-time-info {
+.selectConnection-time-info {
     display: flex;
     flex-direction: column;
     text-align: end;
+}
+
+.selectConnection-save-icon {
+    margin-left: 20px;
+}
+
+.selectConnection-save-icon svg {
+    width: 40px;
+    height: auto;
+    fill: #888585;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.selectConnection-save-icon:hover svg {
+    fill: #3F51B5;
 }

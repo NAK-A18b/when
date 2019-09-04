@@ -10,12 +10,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { generateCacheUpdate } from '../../utils/graphql';
+import { generateArrayCacheUpdate } from '../../utils/graphql';
 
 import './styles.css';
 import CenturiaDropdown from '../centuria-dropdown';
 
-const baseClassName = 'create-user'
+const baseClassName = 'create-user';
 
 const USERS = gql`
   query users {
@@ -27,8 +27,7 @@ const USERS = gql`
       }
     }
   }
-`
-
+`;
 
 const CREATE_USER = gql`
   mutation createUser($username: String!, $tel: String!, $centuria: String!) {
@@ -57,7 +56,7 @@ const CREATE_USER = gql`
 const CreateUser = () => {
   const [addUser] = useMutation(
     CREATE_USER,
-    generateCacheUpdate('createUser', USERS, 'users')
+    generateArrayCacheUpdate('createUser', USERS, 'users')
   );
 
   const [username, setUsername] = useState('');
@@ -71,41 +70,39 @@ const CreateUser = () => {
       variables: {
         username,
         tel,
-        centuria,
+        centuria
       }
-    }).then( () => {
+    }).then(() => {
       setLoading(false);
       setCenturia('');
       setTel('');
       setUsername('');
-    })
+    });
     setLoading(true);
-  }
+  };
 
   return (
     <Card className={`${baseClassName}-card`}>
       <div className={`${baseClassName}-head`}>
-        <Typography variant="h5">
-          Create User
-        </Typography>
+        <Typography variant='h5'>Create User</Typography>
       </div>
       <Divider />
       <div className={`${baseClassName}-body`}>
         <div className={`${baseClassName}-body-inputs`}>
           <div className={`${baseClassName}-body-inputs-textfield`}>
-            <TextField 
-              type='text' 
-              variant="outlined"
-              label='Username' 
-              name='name' 
-              value={username} 
+            <TextField
+              type='text'
+              variant='outlined'
+              label='Username'
+              name='name'
+              value={username}
               onChange={handleInput(setUsername)}
             />
           </div>
           <div className={`${baseClassName}-body-inputs-textfield`}>
-            <TextField 
+            <TextField
               type='tel'
-              variant="outlined"
+              variant='outlined'
               label='Phone'
               name='phone'
               value={tel}
@@ -114,15 +111,22 @@ const CreateUser = () => {
           </div>
         </div>
         <div className={`${baseClassName}-body-inputs-textfield`}>
-          <CenturiaDropdown value={ centuria } changeCallback={ handleInput(setCenturia) } />
+          <CenturiaDropdown
+            value={centuria}
+            changeCallback={handleInput(setCenturia)}
+          />
         </div>
         <div className={`${baseClassName}-body-button`}>
-          <Button onClick={submitForm} variant="contained" color="primary" >Create</Button>
-          { mutationLoading && <CircularProgress className={`${baseClassName}-loader`} /> }
+          <Button onClick={submitForm} variant='contained' color='primary'>
+            Create
+          </Button>
+          {mutationLoading && (
+            <CircularProgress className={`${baseClassName}-loader`} />
+          )}
         </div>
       </div>
     </Card>
   );
-}
+};
 
 export default CreateUser;

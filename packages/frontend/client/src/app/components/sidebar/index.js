@@ -11,48 +11,41 @@ import { Button } from '@material-ui/core';
 const baseClassName = 'sidebar';
 
 const PADDING_OFFSET = 10;
-const PageItems = [ 
-  { icon: ClockIcon },
-  { icon: TrainIcon },
-  { icon: AvatarIcon },
-  { icon: SliderIcon },
-];
 
-const Sidebar = (props) => {
+const Sidebar = props => {
+  const { pages, pageIndex, navigationCallback } = props;
   const indicator = useRef(null);
   const currentItem = useRef(null);
 
-  const { pageIndex, navigationCallback } = props;
-  
-  useEffect(
-    () => {
-      if (indicator.current) {
-        indicator.current.style.top = `${currentItem.current.offsetTop + PADDING_OFFSET}px`;
-      }
-    },
-  );
-  
+  useEffect(() => {
+    if (indicator.current) {
+      indicator.current.style.top = `${currentItem.current.offsetTop +
+        PADDING_OFFSET}px`;
+    }
+  });
 
-  return <div className={`${baseClassName}-wrapper`}>
-    <div>
-      { PageItems.map((item, index) => {
-        const isCurrent = index === pageIndex;
-        return (
-          <div 
-            ref={ isCurrent ? currentItem : null }
-            key={ index }
-            className={`${baseClassName}-item${isCurrent ? '--active' : ''}`}
-          >
-            <div onClick={() => navigationCallback(index)}>
-              <item.icon />
+  return (
+    <div className={`${baseClassName}-wrapper`}>
+      <div>
+        {pages.map((item, index) => {
+          const isCurrent = index === pageIndex;
+          return (
+            <div
+              ref={isCurrent ? currentItem : null}
+              key={index}
+              className={`${baseClassName}-item${isCurrent ? '--active' : ''}`}
+            >
+              <div onClick={() => navigationCallback(index)}>
+                <item.icon />
+              </div>
             </div>
-          </div>
-        )
-      })}
+          );
+        })}
+      </div>
+      <Button onClick={props.user.logout}>logout</Button>
+      <div ref={indicator} className={`${baseClassName}-indicator`}></div>
     </div>
-    <Button onClick={ props.user.logout }>logout</Button>
-    <div ref={indicator} className={`${baseClassName}-indicator`}></div>
-  </div>
-}
+  );
+};
 
 export default Sidebar;

@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 
 import { CENTURIAS } from '../centuria-dropdown';
 
-import { generateCacheUpdate } from '../../utils/graphql';
+import { generateArrayCacheUpdate } from '../../utils/graphql';
 
 import './styles.css';
 
@@ -29,7 +29,7 @@ const CREATE_CENTURIA = gql`
 const CreateCenturia = () => {
   const [addCenturia] = useMutation(
     CREATE_CENTURIA,
-    generateCacheUpdate('createCenturia', CENTURIAS, 'centurias')
+    generateArrayCacheUpdate('createCenturia', CENTURIAS, 'centurias')
   );
 
   const [name, setName] = useState('');
