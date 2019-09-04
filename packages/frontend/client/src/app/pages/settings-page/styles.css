@@ -1,8 +1,8 @@
-.connectionsPage-body-wrapper {
-  margin-top: 100px;
+.settingsPage-body-wrapper {
+  margin-top: 50px;
 }
 
-.connectionsPage-body-wrapper svg {
+.settingsPage-body-wrapper svg {
   height: 400px;
   width: 600px;
 }

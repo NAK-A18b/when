@@ -1,48 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import Heading from "../../components/heading";
+import Heading from '../../components/heading';
 import CreateConnection from '../../components/create-connection';
-import Connections, {CONNECTIONS} from "../../components/connections";
-import SelectConnection from "../../components/select-connection";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import gql from "graphql-tag";
-import {useQuery} from "@apollo/react-hooks";
+import { CONNECTIONS } from '../../components/connections';
+import SelectConnection from '../../components/select-connection';
+
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+
+import { useQuery } from '@apollo/react-hooks';
+
+import './styles.css';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
+  grid: {
+    marginTop: 50
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20
+  }
 }));
 
 const AllConnectionsPage = props => {
-  const {loading, data: {connections}} = useQuery(CONNECTIONS);
-  const cons = [];
-  if(connections) {
-    connections.forEach((item, index) => {
-      cons.push(<Grid item><SelectConnection key={index} start={item.start.name} end={item.end.name}/></Grid>
-      )
-    });
-  }
   const classes = useStyles();
+  const [modal, setModal] = useState(false);
+  const {
+    loading,
+    data: { connections }
+  } = useQuery(CONNECTIONS);
 
   return (
     <div>
-      <Heading title="Connections" subtitle="0"/>
-      <br/>
-      <CreateConnection/>
-      <br/>
-      <Grid container spacing={1}>
-        {cons}
+      <Heading
+        title='Verbindungen'
+        subtitle={connections && connections.length}
+      />
+      {modal && (
+        <CreateConnection closeCallback={() => setModal(false)} open={modal} />
+      )}
+      <Grid className={classes.grid} container spacing={1}>
+        {!loading &&
+          connections &&
+          connections.map((item, index) => (
+            <Grid key={index} item>
+              <SelectConnection
+                key={index}
+                start={item.start.name}
+                end={item.end.name}
+              />
+            </Grid>
+          ))}
       </Grid>
+      <Fab
+        className={classes.fab}
+        size='large'
+        color='secondary'
+        aria-label='add'
+        onClick={() => setModal(true)}
+      >
+        <AddIcon />
+      </Fab>
     </div>
   );
-}
+};
 
 export default AllConnectionsPage;

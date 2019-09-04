@@ -5,8 +5,8 @@ export const generateCacheUpdate = (mutationName, query, queryName) => ({
     newData[queryName] = queryData.concat(data[mutationName]);
 
     cache.writeQuery({
-        query,
-        data: newData,
+      query,
+      data: newData
     });
   }
-})
+});

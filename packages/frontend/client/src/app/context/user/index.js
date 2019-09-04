@@ -3,65 +3,66 @@ import { withApollo } from 'react-apollo';
 
 import { AUTH_TOKEN } from '../../constants';
 
-import { initialContext, Consumer, Provider as ContextProvider } from './context';
+import {
+  initialContext,
+  Consumer,
+  Provider as ContextProvider
+} from './context';
 import { loginMutation, triggerAuth, currentUserQuery } from './resolvers';
 
 import { authToken } from '../../utils/authentication';
 
-export default withApollo (
+export default withApollo(
   class Provider extends React.Component {
-
     state = {
       loading: true,
-      data: null,
-    }
+      data: null
+    };
 
     componentDidMount = async () => {
       const { client } = this.props;
-      const id = authToken();
-      const loggedIn = !!id;
-      
+      const loggedIn = !!authToken();
+
       this.setState({
-        data: loggedIn ? await currentUserQuery(client, { id }) : null,
+        data: loggedIn ? await currentUserQuery(client) : null,
         loggedIn,
-        loading: false,
+        loading: false
       });
-    }
+    };
 
     refetchData = async () => {
       const { client } = this.props;
-
-      currentUserQuery(client, { id: authToken() }).then(data => {
+      currentUserQuery(client).then(data => {
         this.setState({
-          data,
-        })
-      })
-    }
+          data
+        });
+      });
+    };
 
     login = (tel, token) => {
       const { client } = this.props;
-      loginMutation(client, { tel, token }).then((data) => {
+      loginMutation(client, { tel, token }).then(data => {
         if (!data) return;
 
         localStorage.setItem(AUTH_TOKEN, data.id);
         this.setState({
           data,
-          loggedIn: true,
-        })
-      })
-    }
+          loggedIn: true
+        });
+      });
+    };
 
     logout = () => {
       localStorage.removeItem(AUTH_TOKEN);
       this.setState({
-        loggedIn: false,
-      })
-    }
+        loggedIn: false
+      });
+    };
 
-    triggerAuthentication = async (tel) => {
+    triggerAuthentication = async tel => {
       const { client } = this.props;
       return await triggerAuth(client, { tel });
-    }
+    };
 
     render = () => {
       const { children } = this.props;
@@ -77,16 +78,16 @@ export default withApollo (
             triggerAuthentication
           }}
         >
-          { children }
+          {children}
         </ContextProvider>
       );
-    }
+    };
   }
 );
 
 const withUser = WrappedComponent => props => (
   <Consumer>
-    {(context) => <WrappedComponent {...props} user={context} />}
+    {context => <WrappedComponent {...props} user={context} />}
   </Consumer>
 );
 
