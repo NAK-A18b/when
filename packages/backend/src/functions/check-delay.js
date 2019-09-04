@@ -1,12 +1,12 @@
 const aws = require('aws-sdk');
 
-const { updateEntry } = require('when-aws/dynamodb/actions/update-entry');
-const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
+const {updateEntry} = require('when-aws/dynamodb/actions/update-entry');
+const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
 
-const { hvvRequest, requestOptions } = require('../app/hvv/index');
+const {hvvRequest, requestOptions} = require('../app/hvv/index');
 
 module.exports.checkDelay = (event, context, callback) => {
-  const { connections } = event;
+  const {connections} = event;
   connections.map(async id => {
     const connectionParams = {
       TableName: process.env.CONNECTION_TABLE,
@@ -15,8 +15,16 @@ module.exports.checkDelay = (event, context, callback) => {
       }
     };
 
-    const oldEntry = (await getEntry(connectionParams)).Item;
-    const body = requestOptions(oldEntry, event);
+    const delayParams = {
+      TableName: process.env.DELAY_TABLE,
+      Key: {
+        id
+      }
+    };
+
+    const connection = (await getEntry(connectionParams)).Item;
+    const oldEntry = (await getEntry(delayParams)).Item || [];
+    const body = requestOptions(connection, event);
 
     hvvRequest('getRoute', body)
       .then(async body => {
@@ -25,10 +33,15 @@ module.exports.checkDelay = (event, context, callback) => {
           body.returnCode === 'OK' &&
           !!body.realtimeSchedules
         ) {
+          body.realtimeSchedules.map(e => {
+            e.scheduleElements.map(s => {
+              delete s.paths;
+            });
+          });
           const updateParams = {
-            TableName: process.env.CONNECTION_TABLE,
+            TableName: process.env.DELAY_TABLE,
             Key: {
-              id: oldEntry.id
+              id: connection.id
             },
             UpdateExpression: 'SET #realtimeSchedules =:val1',
             ExpressionAttributeNames: {
@@ -40,7 +53,7 @@ module.exports.checkDelay = (event, context, callback) => {
           };
 
           await updateEntry(updateParams);
-          const newEntry = (await getEntry(connectionParams)).Item;
+          const newEntry = (await getEntry(delayParams)).Item;
 
           const lambda = new aws.Lambda({
             apiVersion: '2031',
@@ -54,6 +67,7 @@ module.exports.checkDelay = (event, context, callback) => {
             FunctionName: 'when-notification-app-dev-evaluateDelay',
             InvocationType: 'Event',
             Payload: JSON.stringify({
+              connection,
               oldEntry,
               newEntry,
               tel: event.tel

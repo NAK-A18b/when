@@ -3,6 +3,7 @@ services:
   whatsapp:
     build:
       context: ..
+      dockerfile: Dockerfile
     image: when/whatsapp
     ports:
       - "80:8080"

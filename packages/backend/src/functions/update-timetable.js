@@ -13,7 +13,7 @@ module.exports.updateTimetable = async event => {
     centurias.map(async centuria => {
       const { name, semester } = centuria;
 
-      const times = await getTimes(name, semester, true);
+      const times = await getTimes(name, semester, false);
       let params = {
         TableName: process.env.TIMETABLE_TABLE,
         Item: {
