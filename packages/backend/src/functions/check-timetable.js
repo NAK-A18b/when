@@ -1,14 +1,7 @@
 const {listEntrys} = require('when-aws/dynamodb/actions/list-entrys');
 const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
-const aws = require('aws-sdk');
 
-const lambda = new aws.Lambda({
-  apiVersion: '2031',
-  endpoint: process.env.IS_OFFLINE
-    ? 'http://localhost:3000'
-    : undefined,
-  region: 'eu-central-1'
-});
+const {lambda} = require('../app/helper');
 
 module.exports.checkTimetable = async event => {
   const now = new Date();
@@ -70,6 +63,7 @@ module.exports.checkTimetable = async event => {
 const callCheckDelay = payload => {
   const opts = {
     FunctionName: 'when-notification-app-dev-checkDelay',
+    InvocationType: 'Event',
     Payload: JSON.stringify(payload)
   };
   lambda.invoke(opts).send();

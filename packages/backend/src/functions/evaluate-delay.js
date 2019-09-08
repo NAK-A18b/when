@@ -1,9 +1,8 @@
 const {sendMessage} = require('when-whatsapp/send-message');
 const {generateMessage} = require('../app/hvv/message-generator');
-module.exports.evaluateDelay = async event => {
+module.exports.evaluateDelay = event => {
   const {oldEntry, newEntry, tel} = event;
-  return Promise.resolve(() => {
-    if (JSON.stringify(oldEntry) === JSON.stringify(newEntry)) {
+    if (JSON.stringify(oldEntry) !== JSON.stringify(newEntry)) {
       newEntry.realtimeSchedules.forEach(entry => {
         entry.scheduleElements.forEach(element => {
           if (element.line.name !== 'Umstiegsfußweg') {
@@ -14,9 +13,7 @@ module.exports.evaluateDelay = async event => {
               msg
             );
           }
-
         });
       });
     }
-  });
 };
