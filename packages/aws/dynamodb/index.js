@@ -10,4 +10,5 @@ if (process.env.IS_OFFLINE) {
   };
 }
 
-module.exports.dynamodb = new AWS.DynamoDB.DocumentClient(options);
+//Use new AWS.DynamoDB.DocumentClient() when deploying to AWS!
+module.exports.dynamodb = new AWS.DynamoDB.DocumentClient();

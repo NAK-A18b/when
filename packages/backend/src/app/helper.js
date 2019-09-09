@@ -6,7 +6,8 @@ For offline usage add
     ? 'http://localhost:3000'
     : undefined,
  */
-export const lambda = new aws.Lambda({
+const lambda = new aws.Lambda({
   apiVersion: '2031',
   region: 'eu-central-1'
 });
+module.exports.lambda = lambda;
