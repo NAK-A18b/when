@@ -1,16 +1,19 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+
+import { Grid, makeStyles } from '@material-ui/core';
 
 import Heading from '../../components/heading';
 import EmptyIllustration from '../../components/illustrations/empty';
-
-import './styles.css';
-import { CONNECTIONS } from '../../components/connections';
-import { useQuery } from '@apollo/react-hooks';
-import { isSubscribedTo } from '../../utils/connections';
 import SelectConnection, {
   UNSUBSCRIBE_CONNECTION
 } from '../../components/select-connection';
-import { Grid, makeStyles } from '@material-ui/core';
+import { CONNECTIONS } from '../../components/connections';
+import TrashIcon from '../../components/icons/trash';
+
+import { isSubscribedTo } from '../../utils/connections';
+
+import './styles.css';
 
 const baseClassName = 'connectionsPage';
 
@@ -49,6 +52,7 @@ const MyConnectionsPage = props => {
                 start={item.start.name}
                 end={item.end.name}
                 action={UNSUBSCRIBE_CONNECTION}
+                icon={TrashIcon}
               />
             </Grid>
           ))}

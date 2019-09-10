@@ -66,7 +66,7 @@ const SelectConnection = props => {
           </div>
         </div>
         <div className={`${baseClassName}-save-icon`} onClick={clickAction}>
-          <SaveIcon />
+          <props.icon />
         </div>
       </div>
     </div>

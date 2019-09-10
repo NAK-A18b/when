@@ -74,7 +74,9 @@ const SelectCenturia = props => {
           {centurias &&
             centurias.map(item => {
               const isSelected =
-                !user.loading && user.data.centuria.name === item.name;
+                !user.loading &&
+                user.data.centuria &&
+                user.data.centuria.name === item.name;
               return (
                 <Button
                   key={item.name}

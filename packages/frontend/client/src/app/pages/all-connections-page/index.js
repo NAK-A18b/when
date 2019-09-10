@@ -5,6 +5,7 @@ import { isSubscribedTo } from '../../utils/connections';
 import Heading from '../../components/heading';
 import CreateConnection from '../../components/create-connection';
 import { CONNECTIONS } from '../../components/connections';
+import SaveIcon from '../../components/icons/save';
 import SelectConnection, {
   SUBSCRIBE_CONNECTION
 } from '../../components/select-connection';
@@ -72,6 +73,7 @@ const AllConnectionsPage = props => {
                 start={item.start.name}
                 end={item.end.name}
                 action={SUBSCRIBE_CONNECTION}
+                icon={SaveIcon}
               />
             </Grid>
           ))}
