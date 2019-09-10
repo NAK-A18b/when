@@ -1,10 +1,11 @@
 service:
-  name: when-notification-app
-  bucketName: when-webapp
+  name: when-notification-app-frontend
+  bucketName: when-webapp-frontend
   assetsUrl: https://s3.eu-central-1.amazonaws.com/${self:service.bucketName}
 
 provider:
   name: aws
+  region: eu-central-1
   runtime: nodejs8.10
   environment:
     HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
@@ -29,7 +30,8 @@ package:
     - server/src/**
   exclude:
     - /**
-
+    - /node_modules/**
+    - client/**
 functions:
   graphql:
     handler: server/src/handler.graphqlHandler
@@ -41,6 +43,7 @@ functions:
       - http:
           path: graphql
           method: get
+          cors: true
 
 resources:
   Resources:

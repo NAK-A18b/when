@@ -1,9 +1,8 @@
-const aws = require('aws-sdk');
-
 const {updateEntry} = require('when-aws/dynamodb/actions/update-entry');
 const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
 
 const {hvvRequest, requestOptions} = require('../app/hvv/index');
+const {lambda} = require('../app/helper');
 
 module.exports.checkDelay = (event, context, callback) => {
   const {connections} = event;
@@ -54,15 +53,6 @@ module.exports.checkDelay = (event, context, callback) => {
 
           await updateEntry(updateParams);
           const newEntry = (await getEntry(delayParams)).Item;
-
-          const lambda = new aws.Lambda({
-            apiVersion: '2031',
-            endpoint: process.env.IS_OFFLINE
-              ? 'http://localhost:3000'
-              : undefined,
-            region: 'us-east-1'
-          });
-
           const opts = {
             FunctionName: 'when-notification-app-dev-evaluateDelay',
             InvocationType: 'Event',
@@ -73,16 +63,7 @@ module.exports.checkDelay = (event, context, callback) => {
               tel: event.tel
             })
           };
-
-          lambda.invoke(opts, (err, data) => {
-            if (err) {
-              console.log(
-                'Error while invoking function evaluateDelay: ' + err
-              );
-            } else if (data) {
-              console.log('evaluateDelay successful invoked');
-            }
-          });
+          lambda.invoke(opts).send();
         }
       })
       .catch(e => {

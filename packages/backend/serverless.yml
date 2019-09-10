@@ -1,11 +1,12 @@
 org: eliashuehne
 app: when-notification-app-app
-service: when-notification-app
+service: when-notification-app-backend
 
 provider:
   name: aws
   runtime: nodejs8.10
   memorySize: 256
+  timeout: 120
   region: eu-central-1
   environment:
     HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
@@ -20,7 +21,6 @@ provider:
 package:
   include:
     - node_modules/**
-    - build/**
   exclude:
     - .dynamodb/**
 
@@ -56,6 +56,8 @@ functions:
       - schedule: cron(0 4 * * ? *)
   checkTimetable:
     handler: '/src/functions/check-timetable.checkTimetable'
+    events:
+      - schedule: cron(0/10 * ? * MON-FRI *)
   checkDelay:
     handler: '/src/functions/check-delay.checkDelay'
   evaluateDelay:

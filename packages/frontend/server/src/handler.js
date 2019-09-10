@@ -22,7 +22,7 @@ const server = new ApolloServer({
     const { body } = event;
     const isPublic = !!publicQueries.find(query => body.includes(query));
 
-    const token = event.headers.authorization || '';
+    const token = event.headers.Authorization || '';
     const user = await getUser(token);
     if (!user && !isPublic)
       throw new AuthenticationError('you must be logged in');
