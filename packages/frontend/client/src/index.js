@@ -5,7 +5,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 import UserProvider from './app/context/user';
-import { AUTH_TOKEN } from './app/constants'
+import { AUTH_TOKEN } from './app/constants';
 
 import App from './app';
 import * as serviceWorker from './serviceWorker';
@@ -15,14 +15,14 @@ const client = new ApolloClient({
   fetchOptions: {
     credentials: 'include'
   },
-  request: async (operation) => {
+  request: async operation => {
     const token = localStorage.getItem(AUTH_TOKEN);
     operation.setContext({
       headers: {
-        authorization: token
+        Authorization: token
       }
     });
-  },
+  }
 });
 
 const ApolloApp = () => (

@@ -10,7 +10,6 @@ provider:
   region: eu-central-1
   environment:
     HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
-    IS_OFFLINE: false
     HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
     USER_TABLE: 'when-user-table'
