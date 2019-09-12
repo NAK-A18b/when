@@ -54,7 +54,7 @@ module.exports.checkDelay = (event, context, callback) => {
           await updateEntry(updateParams);
           const newEntry = (await getEntry(delayParams)).Item;
           const opts = {
-            FunctionName: 'when-notification-app-dev-evaluateDelay',
+            FunctionName: 'when-notification-app-backend-dev-evaluateDelay',
             InvocationType: 'Event',
             Payload: JSON.stringify({
               connection,

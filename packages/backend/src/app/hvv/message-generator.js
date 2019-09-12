@@ -17,7 +17,7 @@ module.exports.generateMessage = (element) => {
   } else if (hasDelay(to)) {
     return `${line.name} ab ${from.name} um ${from.depTime.time} wird voraussichtlich ${to.arrDelay / 60} Minuten später ${to.name} erreichen ${emojis[emoji]}`;
   } else {
-    return `${line.name} ab ${from.name} um ${from.depTime.time} hat keine Verspätung`;
+    console.log(`${line.name} von ${from.name} nach ${to.name} um ${from.depTime.time} hat keine Verspätung`);
   }
 };
 
@@ -25,9 +25,9 @@ const hasDelay = element => {
   //Delay has to be at least two minutes
   return (
     element.depDelay &&
-    element.depDelay > 119) || (
+    element.depDelay > 59) || (
     element.arrDelay &&
-    element.arrDelay > 119
+    element.arrDelay > 59
   );
 };
 
