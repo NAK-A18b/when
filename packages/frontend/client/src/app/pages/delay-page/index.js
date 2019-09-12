@@ -1,4 +1,5 @@
 import React from 'react';
+import gql from 'graphql-tag';
 
 import SubwayIllustration from '../../components/illustrations/subway';
 import Heading from '../../components/heading';
@@ -8,20 +9,45 @@ import ConnectionIndicator from '../../components/connection-indicator';
 import Delay from './test.json';
 
 import './styles.css';
+import { useQuery } from '@apollo/react-hooks';
 
-const parseTime = time => {
+export const DELAY_QUERY = gql`
+  query DelayQuery {
+    delays {
+      id
+      depDelay
+      arrDelay
+      start {
+        name
+        time
+      }
+      end {
+        name
+        time
+      }
+    }
+  }
+`;
+
+const parseTime = (time, delay) => {
   time = time.toString();
   return `${time.substring(0, 2)}:${time.substring(2, 4)}`;
 };
 
 const DelayPage = props => {
-  const { delays = [] } = props;
+  const {
+    loading,
+    data: { delays }
+  } = useQuery(DELAY_QUERY);
 
   return (
     <div>
-      <Heading title={'Verspätungen'} subtitle={`${delays.length} gemeldet`} />
+      <Heading
+        title={'Verspätungen'}
+        subtitle={`${!loading && delays.length} gemeldet`}
+      />
       <div className={'body-wrapper'}>
-        {delays.length > 0 ? (
+        {!loading && delays.length > 0 ? (
           <div className={'scroll-wrapper'}>
             {delays.map((delay, i) => {
               const isLongDelay = delay.delay > 10;
@@ -43,11 +69,11 @@ const DelayPage = props => {
                     </Label>
                     <div className={'delay-time-info'}>
                       <Label color={isLongDelay ? '#F04040' : '#fcba03'} big>
-                        {delay.delay} min.
+                        {delay.depDelay} min.
                       </Label>
                       <Label primary>
-                        {parseTime(delay.start.time + delay.delay)} -{' '}
-                        {parseTime(delay.end.time + delay.delay)}
+                        {parseTime(delay.start.time, delay.depDelay)} -{' '}
+                        {parseTime(delay.end.time, delay.depDelay)}
                       </Label>
                     </div>
                   </div>

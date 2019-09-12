@@ -12,6 +12,7 @@ provider:
     USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'
+    DELAY_TABLE: 'when-delay-table'
 
 plugins:
   - serverless-finch
@@ -32,6 +33,7 @@ package:
     - /**
     - /node_modules/**
     - client/**
+    
 functions:
   graphql:
     handler: server/src/handler.graphqlHandler

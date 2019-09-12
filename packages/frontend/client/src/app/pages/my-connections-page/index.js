@@ -25,39 +25,27 @@ const useStyles = makeStyles(theme => ({
 
 const MyConnectionsPage = props => {
   const { user } = props;
+  const { connections } = user.data;
   const classes = useStyles();
-  const {
-    loading,
-    data: { connections }
-  } = useQuery(CONNECTIONS);
-
-  const filteredConnections =
-    connections &&
-    connections.filter(connection => isSubscribedTo(user.data, connection));
 
   return (
     <div>
-      <Heading
-        title='Meine Verbindungen'
-        subtitle={!loading && filteredConnections.length}
-      />
+      <Heading title='Meine Verbindungen' subtitle={connections.length} />
       <Grid className={classes.grid} container spacing={1}>
-        {!loading &&
-          filteredConnections &&
-          filteredConnections.map((item, index) => (
-            <Grid key={index} item>
-              <SelectConnection
-                user={user}
-                id={item.id}
-                start={item.start.name}
-                end={item.end.name}
-                action={UNSUBSCRIBE_CONNECTION}
-                icon={TrashIcon}
-              />
-            </Grid>
-          ))}
+        {connections.map((item, index) => (
+          <Grid key={index} item>
+            <SelectConnection
+              user={user}
+              id={item.id}
+              start={item.start.name}
+              end={item.end.name}
+              action={UNSUBSCRIBE_CONNECTION}
+              icon={TrashIcon}
+            />
+          </Grid>
+        ))}
       </Grid>
-      {filteredConnections && filteredConnections.length === 0 && (
+      {connections.length === 0 && (
         <div className={`${baseClassName}-body-wrapper`}>
           <EmptyIllustration />
         </div>

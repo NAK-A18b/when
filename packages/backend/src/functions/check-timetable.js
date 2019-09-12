@@ -1,7 +1,7 @@
-const {listEntrys} = require('when-aws/dynamodb/actions/list-entrys');
-const {getEntry} = require('when-aws/dynamodb/actions/get-entry');
+const { listEntrys } = require('when-aws/dynamodb/actions/list-entrys');
+const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
 
-const {lambda} = require('../app/helper');
+const { lambda } = require('../app/helper');
 
 module.exports.checkTimetable = event => {
   const now = new Date();
@@ -14,7 +14,7 @@ module.exports.checkTimetable = event => {
   listEntrys(params).then(result => {
     const times = result.Items || [];
     times.map(async time => {
-      let {start, end} = time;
+      let { start, end } = time;
       //Add 15 minutes for walking
       if (end.minute >= 45) {
         end.hour++;
@@ -27,9 +27,14 @@ module.exports.checkTimetable = event => {
         minute: end.minute < 45 ? 60 - (45 - end.minute) : end.minute - 45
       };
 
-      const endCondition = true || (hour <= end.hour && hour >= startEnd.hour) &&
-        (end.minute >= 45 ? (minute <= end.minute && minute >= startEnd.minute) : (
-          (minute >= startEnd.minute && hour === startEnd.hour) || (minute <= end.minute && hour !== startEnd.hour)));
+      const endCondition =
+        true ||
+        (hour <= end.hour &&
+          hour >= startEnd.hour &&
+          (end.minute >= 45
+            ? minute <= end.minute && minute >= startEnd.minute
+            : (minute >= startEnd.minute && hour === startEnd.hour) ||
+              (minute <= end.minute && hour !== startEnd.hour)));
 
       const startCondition = false;
       if (startCondition || endCondition) {
@@ -41,7 +46,8 @@ module.exports.checkTimetable = event => {
         );
         if (startCondition) {
           let departTime = start;
-          departTime.hour = departTime >= 2 ? departTime.hour -= 2 : departTime.hour;
+          departTime.hour =
+            departTime >= 2 ? (departTime.hour -= 2) : departTime.hour;
           centuriaUsers.forEach(user => {
             callCheckDelay({
               id: user.id,
@@ -69,9 +75,8 @@ module.exports.checkTimetable = event => {
           });
         }
       }
-    })
+    });
   });
-
 };
 
 const callCheckDelay = payload => {

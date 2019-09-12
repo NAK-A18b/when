@@ -2,8 +2,9 @@ import React from 'react';
 
 import Heading from '../../components/heading';
 
-import './styles.css';
 import SelectCenturia from '../../components/select-centuria';
+
+import './styles.css';
 
 const baseClassName = 'settingsPage';
 

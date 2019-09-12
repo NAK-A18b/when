@@ -19,6 +19,7 @@ type Query {
   centurias: [Centuria]
   connections: [Connection]
   currentUser: User
+  delays: [Delay]
 }
 
 type User {
@@ -38,6 +39,19 @@ type Connection {
   id: ID!
   start: SDName!
   end: SDName!
+}
+
+type Delay {
+  id: ID!
+  start: StationInfo!
+  end: StationInfo!
+  depDelay: String
+  arrDelay: String
+}
+
+type StationInfo {
+  name: String!
+  time: String!
 }
 
 type Coordinate {

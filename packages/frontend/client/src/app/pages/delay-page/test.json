@@ -1,5 +1,4 @@
-[ 
-  { 
+[{
     "start": {
       "time": 1600,
       "name": "Hamburg Hbf"
@@ -11,7 +10,7 @@
     "train": "RE70",
     "delay": 60
   },
-  { 
+  {
     "start": {
       "time": 1600,
       "name": "Hamburg Hbf"
@@ -23,7 +22,7 @@
     "train": "RE70",
     "delay": 10
   },
-  { 
+  {
     "start": {
       "time": 1600,
       "name": "Hamburg Hbf"
@@ -35,7 +34,7 @@
     "train": "RE70",
     "delay": 5
   },
-  { 
+  {
     "start": {
       "time": 1600,
       "name": "Hamburg Hbf"
@@ -47,7 +46,7 @@
     "train": "RE70",
     "delay": 60
   },
-  { 
+  {
     "start": {
       "time": 1600,
       "name": "Hamburg Hbf"
@@ -59,7 +58,7 @@
     "train": "RE70",
     "delay": 60
   },
-  { 
+  {
     "start": {
       "time": 1600,
       "name": "Hamburg Hbf"
