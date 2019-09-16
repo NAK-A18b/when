@@ -31,11 +31,7 @@ export const DELAY_QUERY = gql`
 
 const parseTime = (time, delay) => {
   time = time.toString();
-  console.log(time);
-  console.log(delay);
   const summedUpTime = parseInt(time.substring(3, 5)) + delay / 60;
-  console.log(summedUpTime);
-  console.log(summedUpTime > 59 ? `${time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`);
   return summedUpTime > 59 ? `${time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`;
 
 };
