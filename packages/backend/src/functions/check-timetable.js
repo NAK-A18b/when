@@ -5,7 +5,8 @@ const { lambda } = require('../app/helper');
 
 module.exports.checkTimetable = event => {
   const now = new Date();
-  const hour = now.getHours();
+  //Default timezone is UTC
+  const hour = now.getHours() + 2;
   const minute = now.getMinutes();
   const params = {
     TableName: process.env.TIMETABLE_TABLE
@@ -28,7 +29,6 @@ module.exports.checkTimetable = event => {
       };
 
       const endCondition =
-        true ||
         (hour <= end.hour &&
           hour >= startEnd.hour &&
           (end.minute >= 45

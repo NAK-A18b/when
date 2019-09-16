@@ -1,24 +1,41 @@
 const emojis = ['🙄', '😑', '😐', '😒'];
 
 module.exports.generateMessage = (element) => {
-  const {from, to, line} = element;
+  const {from, to, line, cancelled} = element;
   const emoji = getRandomInt(4);
-  if (hasDelay(from) && hasDelay(to)) {
-    const i = 0;
-    if (i === 0) {
-      return `${line.name} von ${from.name} nach ${to.name}, ursprünglich um ${
-        from.depTime.time
-      }, hat eine Verspätung von ${from.depDelay / 60} Minuten und wird ${to.arrDelay / 60} Minuten später ankommen ${emojis[emoji]}`;
-    }
-  } else if (hasDelay(from)) {
-    return `${line.name} ab ${from.name}, ursprünglich um ${
+  if (cancelled) {
+    return `⚠️ ${line.name} von ${from.name} nach ${to.name}, ursprünglich um ${
       from.depTime.time
-    }, hat eine Verspätung von ${from.depDelay / 60} Minuten  ${emojis[emoji]}. Immerhin soll er pünkltich an ${to.name} ankommen...`;
+    }, fällt aus ${emojis[emoji]}`;
+  } else if (hasDelay(from) && hasDelay(to)) {
+    const newDepTime = calculateNewDepTime(from);
+    const newArrTime = calculateNewArrTime(to);
+    return `Verspätung für ${line.name} von ${from.name} nach ${to.name}
+    Abfahrt: ~${from.depTime.time}~ ${newDepTime} (+${from.depDelay / 60})
+    Ankunft: ~${to.arrTime.time}~ ${newArrTime} (+${to.arrDelay / 60})`;
+  } else if (hasDelay(from)) {
+    const newDepTime = calculateNewDepTime(from);
+    return `Abfahrtsverspätung für ${line.name} von ${from.name} nach ${to.name}
+    Abfahrt: ~${from.depTime.time}~ ${newDepTime} (+${from.depDelay / 60})
+    Ankunft: pünktlich ✔`;
   } else if (hasDelay(to)) {
-    return `${line.name} ab ${from.name} um ${from.depTime.time} wird voraussichtlich ${to.arrDelay / 60} Minuten später ${to.name} erreichen ${emojis[emoji]}`;
+    const newArrTime = calculateNewArrTime(to);
+    return `Ankunftsverspätung für ${line.name} von ${from.name} nach ${to.name}
+    Abfahrt: pünktlich ✔
+    Ankunft: ~${to.arrTime.time}~ ${newArrTime} (+${to.arrDelay / 60})`;
   } else {
     console.log(`${line.name} von ${from.name} nach ${to.name} um ${from.depTime.time} hat keine Verspätung`);
   }
+};
+
+const calculateNewDepTime = from => {
+  const summedUpTime = from.depTime.time.substring(3, 5) + from.depDelay / 60;
+  return summedUpTime > 59 ? `${from.depTime.time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${from.depTime.time.substring(0, 2)}:${summedUpTime}`;
+};
+
+const calculateNewArrTime = to => {
+  const summedUpTime = to.arrTime.time.substring(3, 5) + to.arrDelay / 60;
+  return summedUpTime > 59 ? `${to.arrTime.time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${to.arrTime.time.substring(0, 2)}:${summedUpTime}`;
 };
 
 const hasDelay = element => {
