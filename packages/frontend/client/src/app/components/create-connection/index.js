@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { CONNECTIONS } from '../connections';
+import { CONNECTIONS } from '../../pages/all-connections-page';
 
 import { generateArrayCacheUpdate } from '../../utils/graphql';
 
@@ -42,6 +42,7 @@ const CreateConnection = props => {
 
   const handleInput = stateFunc => e => stateFunc(e.target.value);
   const submitForm = () => {
+    if (!start || !end) return;
     addConnection({
       variables: {
         start,

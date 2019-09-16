@@ -1,5 +1,4 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
 
 import { Grid, makeStyles } from '@material-ui/core';
 
@@ -8,10 +7,7 @@ import EmptyIllustration from '../../components/illustrations/empty';
 import SelectConnection, {
   UNSUBSCRIBE_CONNECTION
 } from '../../components/select-connection';
-import { CONNECTIONS } from '../../components/connections';
 import TrashIcon from '../../components/icons/trash';
-
-import { isSubscribedTo } from '../../utils/connections';
 
 import './styles.css';
 

@@ -1,10 +1,10 @@
+import gql from 'graphql-tag';
 import React, { useState } from 'react';
 
 import { isSubscribedTo } from '../../utils/connections';
 
 import Heading from '../../components/heading';
 import CreateConnection from '../../components/create-connection';
-import { CONNECTIONS } from '../../components/connections';
 import SaveIcon from '../../components/icons/save';
 import SelectConnection, {
   SUBSCRIBE_CONNECTION
@@ -18,6 +18,20 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useQuery } from '@apollo/react-hooks';
 
 import './styles.css';
+
+export const CONNECTIONS = gql`
+  query connections {
+    connections {
+      id
+      start {
+        name
+      }
+      end {
+        name
+      }
+    }
+  }
+`;
 
 const useStyles = makeStyles(theme => ({
   grid: {
