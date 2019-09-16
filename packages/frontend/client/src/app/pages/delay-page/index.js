@@ -31,7 +31,13 @@ export const DELAY_QUERY = gql`
 
 const parseTime = (time, delay) => {
   time = time.toString();
-  return `${time.substring(0, 2)}:${time.substring(2, 4)}`;
+  console.log(time);
+  console.log(delay);
+  const summedUpTime = parseInt(time.substring(3, 5)) + delay / 60;
+  console.log(summedUpTime);
+  console.log(summedUpTime > 59 ? `${time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`);
+  return summedUpTime > 59 ? `${time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`;
+
 };
 
 const DelayPage = props => {
@@ -50,7 +56,7 @@ const DelayPage = props => {
         {!loading && delays.length > 0 ? (
           <div className={'scroll-wrapper'}>
             {delays.map((delay, i) => {
-              const isLongDelay = delay.delay > 10;
+              const isLongDelay = delay.depDelay/60 > 10;
               return (
                 <div className={'delay-wrapper'} key={i}>
                   <div
@@ -69,7 +75,7 @@ const DelayPage = props => {
                     </Label>
                     <div className={'delay-time-info'}>
                       <Label color={isLongDelay ? '#F04040' : '#fcba03'} big>
-                        {delay.depDelay} min.
+                        {delay.depDelay/60} min.
                       </Label>
                       <Label primary>
                         {parseTime(delay.start.time, delay.depDelay)} -{' '}

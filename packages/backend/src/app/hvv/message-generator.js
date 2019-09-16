@@ -29,13 +29,15 @@ module.exports.generateMessage = (element) => {
 };
 
 const calculateNewDepTime = from => {
-  const summedUpTime = from.depTime.time.substring(3, 5) + from.depDelay / 60;
-  return summedUpTime > 59 ? `${from.depTime.time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${from.depTime.time.substring(0, 2)}:${summedUpTime}`;
+  const time = from.depTime.time.toString();
+  const summedUpTime = parseInt(time.substring(3, 5)) + from.depDelay / 60;
+  return summedUpTime > 59 ? `${parseInt(time.substring(0, 2)) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`;
 };
 
 const calculateNewArrTime = to => {
-  const summedUpTime = to.arrTime.time.substring(3, 5) + to.arrDelay / 60;
-  return summedUpTime > 59 ? `${to.arrTime.time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${to.arrTime.time.substring(0, 2)}:${summedUpTime}`;
+  const time = to.arrTime.time.toString();
+  const summedUpTime = parseInt(time.substring(3, 5)) + to.arrDelay / 60;
+  return summedUpTime > 59 ? `${parseInt(time.substring(0, 2)) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`;
 };
 
 const hasDelay = element => {
