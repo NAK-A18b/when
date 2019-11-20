@@ -6,7 +6,12 @@
   "scripts": {
     "dev:backend": "cd packages/backend && npm run dev",
     "dev:frontend": "cd packages/frontend && npm run dev",
-    "dev": "npm-run-all --parallel dev:backend dev:frontend"
+    "dev": "npm-run-all --parallel dev:backend dev:frontend",
+    "build:frontend": "cd packages/frontend && npm run build:client",
+    "build": "npm run build:frontend",
+    "deploy:backend": "cd packages/backend && npm run deploy",
+    "deploy:frontend": "cd packages/frontend && npm run deploy",
+    "deploy": "npm-run-all --parallel deploy:backend deploy:frontend"
   },
   "repository": {
     "type": "git",
