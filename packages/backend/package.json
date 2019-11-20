@@ -4,15 +4,8 @@
   "description": "WHEN backend providing lambda functions and business logic",
   "main": "src/app/index.js",
   "scripts": {
-    "invoke:app": "node build/app/index.js",
     "invoke:update-timetable": "sls invoke local --function updateTimetable",
-    "invoke:check-timetable": "sls invoke local --function checkTimetable",
-    "deploy": "sls deploy",
-    "db:setup": "serverless dynamodb install",
-    "db:drop": "rm -rf ./.dynamodb",
-    "db:start": "serverless dynamodb start --seed=domain",
-    "sls:offline": "sls offline --noTimeout",
-    "dev": "npm-run-all --parallel db:start sls:offline"
+    "invoke:check-timetable": "sls invoke local --function checkTimetable"
   },
   "keywords": [],
   "author": "",
@@ -22,8 +15,6 @@
     "when-whatsapp": "file:../whatsapp/functions"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "serverless-dynamodb-local": "^0.2.38",
-    "serverless-offline": "^5.11.0"
+    "npm-run-all": "^4.1.5"
   }
 }

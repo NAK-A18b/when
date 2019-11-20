@@ -6,8 +6,6 @@ import Heading from '../../components/heading';
 import Label from '../../components/label';
 import ConnectionIndicator from '../../components/connection-indicator';
 
-import Delay from './test.json';
-
 import './styles.css';
 import { useQuery } from '@apollo/react-hooks';
 
@@ -32,8 +30,9 @@ export const DELAY_QUERY = gql`
 const parseTime = (time, delay) => {
   time = time.toString();
   const summedUpTime = parseInt(time.substring(3, 5)) + delay / 60;
-  return summedUpTime > 59 ? `${time.substring(0, 2) + 1}:${summedUpTime - 60}` : `${time.substring(0, 2)}:${summedUpTime}`;
-
+  return summedUpTime > 59
+    ? `${time.substring(0, 2) + 1}:${summedUpTime - 60}`
+    : `${time.substring(0, 2)}:${summedUpTime}`;
 };
 
 const DelayPage = props => {
@@ -52,7 +51,7 @@ const DelayPage = props => {
         {!loading && delays.length > 0 ? (
           <div className={'scroll-wrapper'}>
             {delays.map((delay, i) => {
-              const isLongDelay = delay.depDelay/60 > 10;
+              const isLongDelay = delay.depDelay / 60 > 10;
               return (
                 <div className={'delay-wrapper'} key={i}>
                   <div
@@ -71,7 +70,7 @@ const DelayPage = props => {
                     </Label>
                     <div className={'delay-time-info'}>
                       <Label color={isLongDelay ? '#F04040' : '#fcba03'} big>
-                        {delay.depDelay/60} min.
+                        {delay.depDelay / 60} min.
                       </Label>
                       <Label primary>
                         {parseTime(delay.start.time, delay.depDelay)} -{' '}

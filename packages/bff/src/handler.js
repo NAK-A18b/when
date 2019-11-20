@@ -1,5 +1,6 @@
 const { ApolloServer, AuthenticationError } = require('apollo-server-lambda');
 const { importSchema } = require('graphql-import');
+const path = require('path');
 
 const { getUser } = require('./entitys/user');
 
@@ -8,7 +9,7 @@ const { resolvers } = require('./resolvers');
 const publicQueries = ['triggerAuth', 'loginUser'];
 
 const server = new ApolloServer({
-  typeDefs: importSchema('./server/schema.graphql'),
+  typeDefs: importSchema(path.join(__dirname, '../schema.graphql')),
   resolvers,
   formatError: error => {
     console.log(error);

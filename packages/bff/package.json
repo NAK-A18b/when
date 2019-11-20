@@ -1,11 +1,9 @@
 {
-  "name": "when-server",
+  "name": "when-bff",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "serverless offline --noTimeout"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -15,11 +13,8 @@
     "graphql-import": "^0.7.1",
     "libphonenumber-js": "^1.7.22",
     "request": "^2.88.0",
-    "when-aws": "file:../../aws",
-    "when-backend": "file:../../backend",
-    "when-whatsapp": "file:../../whatsapp/functions"
-  },
-  "devDependencies": {
-    "serverless-offline": "^5.10.1"
+    "when-aws": "file:../aws",
+    "when-backend": "file:../backend",
+    "when-whatsapp": "file:../whatsapp/functions"
   }
 }

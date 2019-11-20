@@ -1,0 +1,213 @@
+service:
+  name: when-notification-app-frontend
+  bucketName: when-webapp-frontend
+  assetsUrl: https://s3.eu-central-1.amazonaws.com/${self:service.bucketName}
+
+provider:
+  name: aws
+  region: eu-central-1
+  runtime: nodejs10.x
+  memorySize: 256
+  timeout: 120
+  environment:
+    HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
+    USER_TABLE: 'when-user-table'
+    CONNECTION_TABLE: 'when-connection-table'
+    CENTURIA_TABLE: 'when-centuria-table'
+    DELAY_TABLE: 'when-delay-table'
+    HVV_API_VERSION: 36
+    TIMETABLE_TABLE: 'when-timetable'
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-finch
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    port: 4000
+  client:
+    bucketName: ${self:service.bucketName}
+    distributionFolder: packages/frontend/build
+  dynamodb:
+    stages:
+      - dev
+    start:
+      seed: true
+      port: 8000
+      inMemory: true
+      migrate: true
+    migration:
+      dir: packages/dynamodb/migrations
+    seed:
+      domain:
+        sources:
+          - table: ${self:provider.environment.CENTURIA_TABLE}
+            sources: [packages/dynamodb/seeds/centurias.json]
+          - table: ${self:provider.environment.USER_TABLE}
+            sources: [packages/dynamodb/seeds/users.json]
+          - table: ${self:provider.environment.CONNECTION_TABLE}
+            sources: [packages/dynamodb/seeds/connections.json]
+
+package:
+  include:
+    - packages/bff/node_modules/**
+    - packages/bff/src/**
+  exclude:
+    - /**
+    - /node_modules/**
+
+functions:
+  updateTimetable:
+    handler: packages/backend/src/functions/update-timetable.updateTimetable
+    events:
+      - schedule: cron(0 4 * * ? *)
+  checkTimetable:
+    handler: packages/backend/src/functions/check-timetable.checkTimetable
+    events:
+      - schedule: cron(0/10 * ? * MON-FRI *)
+  checkDelay:
+    handler: packages/backend/src/functions/check-delay.checkDelay
+  evaluateDelay:
+    handler: packages/backend/src/functions/evaluate-delay.evaluateDelay
+  warnLateStart:
+    handler: packages/backend/src/functions/warn-late-start.warnLateStart
+    events:
+      - schedule: cron(0 20 * * ? *)
+  graphql:
+    handler: packages/bff/src/handler.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    WebappProxyResource:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ParentId:
+          'Fn::GetAtt': ['ApiGatewayRestApi', 'RootResourceId']
+        PathPart: '{proxy+}'
+    WebappProxyMethod:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: ANY
+        ResourceId:
+          Ref: WebappProxyResource
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        AuthorizationType: NONE
+        RequestParameters:
+          method.request.path.proxy: true
+          method.request.header.Accept: true
+        Integration:
+          CacheKeyParameters:
+            - 'method.request.path.proxy'
+          RequestParameters:
+            integration.request.path.proxy: 'method.request.path.proxy'
+          IntegrationHttpMethod: ANY
+          Type: HTTP_PROXY
+          Uri: ${self:service.assetsUrl}/{proxy}
+          PassthroughBehavior: WHEN_NO_MATCH
+          IntegrationResponses:
+            - StatusCode: 200
+    WebappRootProxyMethod:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        HttpMethod: ANY
+        ResourceId:
+          'Fn::GetAtt': ['ApiGatewayRestApi', 'RootResourceId']
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        AuthorizationType: NONE
+        RequestParameters:
+          method.request.path.proxy: true
+          method.request.header.Accept: true
+        Integration:
+          CacheKeyParameters:
+            - 'method.request.path.proxy'
+          RequestParameters:
+            integration.request.path.proxy: 'method.request.path.proxy'
+          IntegrationHttpMethod: ANY
+          Type: HTTP_PROXY
+          Uri: ${self:service.assetsUrl}/index.html
+          PassthroughBehavior: WHEN_NO_MATCH
+          IntegrationResponses:
+            - StatusCode: 200
+    TimeDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: centuria
+            AttributeType: S
+        KeySchema:
+          - AttributeName: centuria
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.TIMETABLE_TABLE}
+    UserDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.USER_TABLE}
+    ConnectionDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CONNECTION_TABLE}
+    DelayDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DELAY_TABLE}
+    CenturiaDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CENTURIA_TABLE}
