@@ -11,7 +11,8 @@
     "db:setup": "serverless dynamodb install",
     "db:drop": "rm -rf ./.dynamodb",
     "db:start": "serverless dynamodb start --seed=domain",
-    "sls:offline": "sls offline --noTimeout"
+    "sls:offline": "sls offline --noTimeout",
+    "dev": "npm-run-all --parallel db:start sls:offline"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "when-whatsapp": "file:../whatsapp/functions"
   },
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "serverless-dynamodb-local": "^0.2.38",
     "serverless-offline": "^5.11.0"
   }
