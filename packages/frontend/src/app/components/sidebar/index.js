@@ -1,10 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 
-import ClockIcon from '../icons/clock';
-import TrainIcon from '../icons/train';
-import AvatarIcon from '../icons/avatar';
-import SliderIcon from '../icons/slider';
-
 import './styles.css';
 import { Button } from '@material-ui/core';
 

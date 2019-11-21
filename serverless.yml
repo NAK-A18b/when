@@ -11,11 +11,11 @@ provider:
   timeout: 120
   environment:
     HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
+    HVV_API_VERSION: 36
     USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
     CENTURIA_TABLE: 'when-centuria-table'
     DELAY_TABLE: 'when-delay-table'
-    HVV_API_VERSION: 36
     TIMETABLE_TABLE: 'when-timetable'
 
 plugins:

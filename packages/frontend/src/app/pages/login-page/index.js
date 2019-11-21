@@ -89,6 +89,7 @@ const LoginPage = props => {
         <div
           className={`${baseClassName}-slider-wrapper${auth ? '--auth' : ''}`}
         >
+          {error}
           <LoginContainer
             tel={tel}
             setTel={setTel}

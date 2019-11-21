@@ -1,7 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
 
-import SaveIcon from '../icons/save';
 import ConnectionIndicator from '../connection-indicator';
 import Label from '../label';
 
