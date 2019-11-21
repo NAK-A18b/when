@@ -10,7 +10,7 @@
     "bootstrap": "lerna bootstrap",
     "sls:offline": "sls offline",
     "start": "lerna run --parallel start",
-    "dev": "npm-run-all --parallel start sls:offline db:start"
+    "dev": "cross-env npm-run-all --parallel start sls:offline db:start"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "serverless": "^1.58.0",
     "serverless-dynamodb-local": "^0.2.38",
     "serverless-finch": "^2.4.2",
-    "serverless-offline": "^5.10.1"
+    "serverless-offline": "^5.10.1",
+    "cross-env": "^6.0.3"
   }
 }
