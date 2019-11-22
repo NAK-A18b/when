@@ -6,11 +6,12 @@ cache:
     - node_modules
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_236e6c9c4fa5_key -iv $encrypted_236e6c9c4fa5_iv
-  - in secrets.yml.enc -out secrets.yml -d
+  - openssl aes-256-cbc -K $encrypted_236e6c9c4fa5_key -iv $encrypted_236e6c9c4fa5_iv -in secrets.yml.enc -out secrets.yml -d
+
+install:
+  - lerna bootstrap
 
 script:
-  - lerna bootstrap
   - lerna run --parallel build
 
 deploy:
