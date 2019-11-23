@@ -10,7 +10,7 @@ provider:
   memorySize: 256
   timeout: 120
   environment:
-    HVV_API_KEY: ${file(./secrets.yml):HVV_API_KEY}
+    HVV_API_KEY: ${file(./secrets/secrets.yml):HVV_API_KEY}
     HVV_API_VERSION: 36
     USER_TABLE: 'when-user-table'
     CONNECTION_TABLE: 'when-connection-table'
