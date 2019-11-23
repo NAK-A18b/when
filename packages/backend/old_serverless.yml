@@ -1,0 +1,109 @@
+org: eliashuehne
+app: when-notification-app-app
+service: when-notification-app-backend
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 256
+  timeout: 120
+  region: eu-central-1
+  environment:
+
+package:
+  include:
+    - node_modules/**
+  exclude:
+    - .dynamodb/**
+
+plugins:
+  - serverless-offline
+
+functions:
+  updateTimetable:
+    handler: '/src/functions/update-timetable.updateTimetable'
+    events:
+      - schedule: cron(0 4 * * ? *)
+  checkTimetable:
+    handler: '/src/functions/check-timetable.checkTimetable'
+    events:
+      - schedule: cron(0/10 * ? * MON-FRI *)
+  checkDelay:
+    handler: '/src/functions/check-delay.checkDelay'
+  evaluateDelay:
+    handler: '/src/functions/evaluate-delay.evaluateDelay'
+  warnLateStart:
+    handler: '/src/functions/warn-late-start.warnLateStart'
+    events:
+      - schedule: cron(0 20 * * ? *)
+resources:
+  Resources:
+    TimeDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: centuria
+            AttributeType: S
+        KeySchema:
+          - AttributeName: centuria
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.TIMETABLE_TABLE}
+    UserDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.USER_TABLE}
+    ConnectionDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CONNECTION_TABLE}
+    DelayDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DELAY_TABLE}
+    CenturiaDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CENTURIA_TABLE}

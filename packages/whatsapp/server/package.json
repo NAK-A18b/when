@@ -1,0 +1,14 @@
+{
+  "name": "when-whatsapp-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app/index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-basic-auth": "^1.2.0",
+    "sulla": "^1.1.1"
+  }
+}

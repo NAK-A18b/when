@@ -1,0 +1,41 @@
+.create-user-card {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.create-user-head {
+  padding: 10px 20px;
+}
+
+.create-user-body {
+  padding: 10px;
+}
+
+.create-user-body-inputs {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.create-user-body-inputs-textfield {
+  margin: 5px;
+}
+
+.create-user-body-button {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+}
+
+.MuiFormControl-root.create-user-centuria-dropdown {
+  display: flex;
+  margin: 5px;
+}
+
+.centuria-select {
+  min-width: 194px;
+}
+
+.create-user-loader {
+  margin-right: 10px;
+}

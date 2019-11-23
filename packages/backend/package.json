@@ -1,0 +1,17 @@
+{
+  "name": "when-backend",
+  "version": "1.0.0",
+  "description": "WHEN backend providing lambda functions and business logic",
+  "main": "src/app/index.js",
+  "scripts": {
+    "invoke:update-timetable": "sls invoke local --function updateTimetable",
+    "invoke:check-timetable": "sls invoke local --function checkTimetable"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "when-aws": "file:../aws",
+    "when-whatsapp": "file:../whatsapp/functions"
+  }
+}

@@ -1,0 +1,438 @@
+.login-page-card {
+    margin: auto;
+    position: absolute;
+    top: 45vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+}
+
+.login-page-wrapper {
+    width: 50vw;
+    max-width: 600px;
+    height: 150px;
+    padding: 75px 0px 110px;
+    display: flex;
+    background-color: #cce6fd;
+    overflow: hidden;
+    animation: dayTime 40s linear infinite;
+    transition: left 1s ease-in-out
+}
+
+.login-page-wrapper-exit-active {
+    left: -100%;
+    opacity: 0;
+    transition: height 1s ease-in-out, width 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.login-page-wrapper-expanded {
+    width: 70vw;
+    height: 300px;
+    padding: 75px 0px 110px;
+    display: flex;
+    background-color: white;
+    overflow: hidden;
+    transition: height 1s ease-in-out, width 1s ease-in-out;
+}
+
+
+.login-page-submit-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.login-page-slider-wrapper {
+    width: 200%;
+    position: absolute;
+    display: flex;
+    transition: left 1s ease;
+    left: 0;
+}
+
+.login-page-slider-wrapper--auth {
+    width: 200%;
+    position: absolute;
+    display: flex;
+    transition: left 1s ease;
+    left: -96%;
+}
+
+.login-page-centuria-button {
+    margin: 40px;
+}
+
+.select-centuria {
+}
+
+:root {
+    --red: #FA373C;
+    --yellow: #0A1E6E;
+}
+
+/*CLOUDS*/
+
+.sky {
+    position: relative;
+}
+
+.cloud {
+    z-index: 2;
+    margin: 5% 0 0 100%;
+    position: absolute;
+    opacity: 0.9;
+}
+
+.cloud:before,
+.cloud:after {
+    position: absolute;
+    content: '';
+}
+
+.cloud,
+.cloud:before,
+.cloud:after {
+    background: #fff;
+    border-radius: 50%;
+    border: 25px solid #fff;
+    width: 0.5%;
+    overflow: visible;
+}
+
+.cloud:before {
+    top: -34px;
+    right: -60px;
+    border-width: 30px;
+}
+
+.cloud:after {
+    bottom: -31px;
+    right: -90px;
+    border-width: 28px;
+}
+
+.one {
+    -webkit-animation: wind 80s infinite;
+    animation: wind 40s linear infinite;
+    position: absolute;
+}
+
+.two {
+    top: 80px;
+    -webkit-animation: wind 150s infinite;
+    animation: wind 80s linear infinite;
+}
+
+.stage:after {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 3px solid #205c6b;
+    border-bottom: 3px dashed #205c6b;
+}
+
+.sun {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    margin: auto;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.9;
+    box-shadow: 0px 0px 40px 15px white;
+    animation: sunMoonCycle 40s linear infinite;
+}
+
+/*TRAIN*/
+
+.train {
+    position: absolute;
+    bottom: 10px;
+    width: 500px;
+    z-index: 1;
+}
+
+.wagon,
+.cabin,
+.chimney {
+    border-radius: 4px 4px 0 0;
+    border-top: 4px solid var(--yellow);
+}
+
+.wagon,
+.motor {
+    border-bottom: 2px solid var(--yellow);
+}
+
+.wagon,
+.locomotive {
+    display: inline-block;
+    width: 120px;
+    height: 65px;
+    background-color: var(--red);
+    position: relative;
+    margin: 0 1px;
+}
+
+.window-left {
+    content: ' ';
+    width: 35px;
+    height: 14px;
+    position: relative;
+    top: 2px;
+    left: 15px;
+    border-radius: 3px;
+    border: 2px solid black;
+    margin-top: 3px;
+    background-color: #f1f1f1;
+}
+
+.window-right {
+    content: ' ';
+    width: 35px;
+    height: 14px;
+    position: relative;
+    top: -40px;
+    left: 66px;
+    border-radius: 3px;
+    border: 2px solid black;
+    margin-top: 3px;
+    background-color: #f1f1f1;
+}
+
+
+/*WHEELS*/
+
+.wagon:before,
+.wagon:after,
+.motor:before,
+.motor:after,
+.cabin:after {
+    content: ' ';
+    color: #fff;
+    padding: 6px;
+    position: absolute;
+    border-radius: 46%;
+    border: 6px solid #333;
+    bottom: -10px;
+    background-color: #666;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}
+
+.wagon:before {
+    left: 6px;
+}
+
+.wagon:after {
+    right: 6px;
+}
+
+.motor:before {
+    left: 32px;
+}
+
+.motor:after {
+    right: 4px;
+}
+
+.cabin:after {
+    bottom: -50px;
+    padding: 8px;
+    left: 3px;
+}
+
+
+/*LOCOMOTIVE*/
+
+.locomotive {
+    background-color: transparent;
+}
+
+.locomotive .cabin {
+    width: 58px;
+    height: 35px;
+    background-color: var(--red);
+    position: relative;
+    z-index: 1;
+    border-radius: 8px 8px 0 0;
+}
+
+
+/*locomotive window*/
+
+.locomotive .cabin:before {
+    content: ' ';
+    width: 25px;
+    height: 18px;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    border-radius: 3px;
+    border: 2px solid black;
+    background-color: #f1f1f1;
+}
+
+.locomotive .motor {
+    display: inline-block;
+    width: 85px;
+    height: 40px;
+    background-color: var(--red);
+    position: relative;
+    border-radius: 0 8px 0px 0px;
+}
+
+.locomotive .chimney {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: var(--red);
+    right: 40px;
+    bottom: 24px;
+}
+
+.locomotive .light {
+    content: " ";
+    position: absolute;
+    right: 40px;
+    bottom: 14px;
+    border-radius: 50%;
+    border: 3px solid #ffe053;
+    box-shadow: 3px 0px 10px 2px #ffe053;
+}
+
+.train {
+    -webkit-animation: voyage 30s linear infinite;
+    animation: voyage 30s linear infinite;
+}
+
+
+/*ANIMATIONS*/
+
+@-webkit-keyframes dayTime {
+    0% {
+        background-color: #cce6fd;
+    }
+    50% {
+        background-color: #252645;
+    }
+    100% {
+        background-color: #cce6fd;
+    }
+}
+
+@keyframes dayTime {
+    0% {
+        background-color: #cce6fd;
+    }
+    50% {
+        background-color: #252645;
+    }
+    100% {
+        background-color: #cce6fd;
+    }
+}
+
+@-webkit-keyframes puf {
+    0% {
+        bottom: 0px
+    }
+    25% {
+        bottom: -1px;
+    }
+    100% {
+        bottom: 1px;
+    }
+}
+
+@keyframes puf {
+    0% {
+        bottom: 0px
+    }
+    25% {
+        bottom: -1px;
+    }
+    100% {
+        bottom: 1px;
+    }
+}
+
+@-webkit-keyframes wind {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: 120%;
+    }
+}
+
+@keyframes wind {
+    0% {
+        right: -20%;
+    }
+    100% {
+        right: 120%;
+    }
+}
+
+@-webkit-keyframes voyage {
+    0% {
+        left: -610px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes voyage {
+    0% {
+        left: -610px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dayColor {
+    0% {
+        color: #3f51b5;
+    }
+    50% {
+        color: white;
+    }
+    100% {
+        color: #3f51b5;
+    }
+}
+
+@keyframes sunMoonCycle {
+    0% {
+        background: white;
+        box-shadow: 0px 0px 40px 15px white;
+    }
+    50% {
+        background: transparent;
+        box-shadow: 0px 0px 40px 15px white, inset 10px 5px 5px 0px white;
+
+    }
+    100% {
+        background: white;
+        box-shadow: 0px 0px 40px 15px white;
+    }
+}
