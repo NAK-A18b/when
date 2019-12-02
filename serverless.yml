@@ -1,5 +1,5 @@
 service:
-  name: when-notification-app-frontend
+  name: when-notification-app
   bucketName: when-webapp-frontend
   assetsUrl: https://s3.eu-central-1.amazonaws.com/${self:service.bucketName}
 
@@ -50,18 +50,21 @@ custom:
             sources: [packages/dynamodb/seeds/connections.json]
 
 package:
-  include:
-    - packages/bff/node_modules/**
-    - packages/bff/src/**
+  individually: true
   exclude:
-    - /**
-    - /node_modules/**
+    - packages/**
+    - secrets/**
+    - node_modules/**
+    - .dynamodb/**
 
 functions:
   updateTimetable:
     handler: packages/backend/src/functions/update-timetable.updateTimetable
     events:
       - schedule: cron(0 4 * * ? *)
+    package:
+      include:
+        - packages/backend/**
   checkTimetable:
     handler: packages/backend/src/functions/check-timetable.checkTimetable
     events:

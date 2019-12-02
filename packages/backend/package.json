@@ -2,16 +2,31 @@
   "name": "when-backend",
   "version": "1.0.0",
   "description": "WHEN backend providing lambda functions and business logic",
-  "main": "src/app/index.js",
+  "main": "",
+  "types": "index.d.ts",
   "scripts": {
     "invoke:update-timetable": "sls invoke local --function updateTimetable",
-    "invoke:check-timetable": "sls invoke local --function checkTimetable"
+    "invoke:check-timetable": "sls invoke local --function checkTimetable",
+    "watch": "tsc -w",
+    "build": "rimraf ./build && tsc",
+    "test": "ts-node src/app/nordakademie/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node-fetch": "^2.5.4",
+    "date-fns": "^2.8.1",
+    "node-fetch": "^2.6.0",
+    "node-ical": "^0.10.0",
     "when-aws": "file:../aws",
     "when-whatsapp": "file:../whatsapp/functions"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.12",
+    "nodemon": "^2.0.1",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2"
   }
 }

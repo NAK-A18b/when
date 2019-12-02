@@ -1,5 +1,5 @@
-const { listEntrys } = require('when-aws/dynamodb/actions/list-entrys');
-const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
+const { listEntrys } = require('when-aws/src/dynamodb/actions/list-entrys');
+const { getEntry } = require('when-aws/src/dynamodb/actions/get-entry');
 
 const { lambda } = require('../app/helper');
 
@@ -29,12 +29,12 @@ module.exports.checkTimetable = event => {
       };
 
       const endCondition =
-        (hour <= end.hour &&
-          hour >= startEnd.hour &&
-          (end.minute >= 45
-            ? minute <= end.minute && minute >= startEnd.minute
-            : (minute >= startEnd.minute && hour === startEnd.hour) ||
-              (minute <= end.minute && hour !== startEnd.hour)));
+        hour <= end.hour &&
+        hour >= startEnd.hour &&
+        (end.minute >= 45
+          ? minute <= end.minute && minute >= startEnd.minute
+          : (minute >= startEnd.minute && hour === startEnd.hour) ||
+            (minute <= end.minute && hour !== startEnd.hour));
 
       const startCondition = false;
       if (startCondition || endCondition) {

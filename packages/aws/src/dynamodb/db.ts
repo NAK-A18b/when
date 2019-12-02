@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
 
 let options = {};
 
@@ -14,4 +14,4 @@ if (env.IS_LOCAL || env.IS_OFFLINE) {
 }
 
 //Use new AWS.DynamoDB.DocumentClient() when deploying to AWS!
-module.exports.dynamodb = new AWS.DynamoDB.DocumentClient(options);
+export const dynamodb = new AWS.DynamoDB.DocumentClient(options);

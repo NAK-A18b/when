@@ -1,5 +1,5 @@
-const { updateEntry } = require('when-aws/dynamodb/actions/update-entry');
-const { getEntry } = require('when-aws/dynamodb/actions/get-entry');
+const { updateEntry } = require('when-aws/src/dynamodb/actions/update-entry');
+const { getEntry } = require('when-aws/src/dynamodb/actions/get-entry');
 
 const { hvvRequest, requestOptions } = require('../app/hvv/index');
 const { lambda } = require('../app/helper');

@@ -2,13 +2,21 @@
   "name": "when-aws",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w",
+    "build": "rimraf ./build && tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.505.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.12",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.2"
   }
 }
