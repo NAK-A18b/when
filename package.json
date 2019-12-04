@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "serverless-dynamodb-local": "^0.2.38",
-    "serverless-finch": "^2.4.3"
+    "serverless-finch": "^2.4.3",
+    "node.extend": ">=1.1.7"
   }
 }
