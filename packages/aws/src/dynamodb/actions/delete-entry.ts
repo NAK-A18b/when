@@ -1,7 +1,6 @@
-import { dynamodb } from '..';
-import { DeleteItemInput } from 'aws-sdk/clients/dynamodb';
+import { dynamodb } from "..";
 
-export const deleteEntry = (params: DeleteItemInput): Promise<void> => {
+export const deleteEntry = (params: any): Promise<void> => {
   return new Promise((resolve, reject) => {
     dynamodb.delete(params, error => {
       if (error) {

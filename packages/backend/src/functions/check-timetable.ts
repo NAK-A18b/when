@@ -1,23 +1,30 @@
-import { listEntrys } from 'when-aws';
+import { listEntrys, lambda } from "when-aws";
 
-import { TimeEntry, User } from '../typings';
-import { lambda } from '../app/helper';
+import { TimeEntry } from "../typings";
 import {
-  getMinutes,
-  getHours,
   setMinutes,
   setHours,
-  addMinutes,
   subMinutes,
-  isWithinInterval
-} from 'date-fns';
-import { centuriaUsers } from '../app/utils/user';
+  isWithinInterval,
+  addMinutes,
+  subHours
+} from "date-fns";
+import { centuriaUsers } from "../app/utils/user";
 
-const { TIMETABLE_TABLE, USER_TABLE } = process.env;
+const INTERVAL_MINUTES = 45;
+const { TIMETABLE_TABLE } = process.env;
 
 if (!TIMETABLE_TABLE) {
-  throw Error('Missing Environment Variable: TIMETABLE_TABLE');
+  throw Error("Missing Environment Variable: TIMETABLE_TABLE");
 }
+
+const controlInterval = (date: Date) => ({
+  start: subMinutes(date, INTERVAL_MINUTES),
+  end: date
+});
+
+const setHoursAndMinutes = (date: Date, hours: number, minutes: number) =>
+  setMinutes(setHours(date, hours), minutes);
 
 export const checkTimetable = () => {
   const now = new Date();
@@ -25,53 +32,36 @@ export const checkTimetable = () => {
   listEntrys<TimeEntry>({
     TableName: TIMETABLE_TABLE
   }).then(result => {
-    result.map(async ({ start, end, centuria }) => {
-      const startDate = setMinutes(
-        setHours(new Date(), start.hour),
-        start.minute
-      );
-      const endDate = setMinutes(setHours(new Date(), end.hour), end.minute);
+    result.forEach(async ({ start, end, centuria }) => {
+      const startDate = setHoursAndMinutes(now, start.hour, start.minute);
+      const endDate = setHoursAndMinutes(now, end.hour, end.minute);
 
-      const checkStartDate = subMinutes(startDate, 45);
-      const checkEndDate = subMinutes(endDate, 45);
-
-      const startTrigger = isWithinInterval(now, {
-        start: checkStartDate,
-        end: startDate
-      });
-      const endTrigger = isWithinInterval(now, {
-        start: checkEndDate,
-        end: endDate
-      });
+      const startTrigger = isWithinInterval(now, controlInterval(startDate));
+      const endTrigger = isWithinInterval(now, controlInterval(endDate));
 
       if (!startTrigger && !endTrigger) return;
-      const departDate = startTrigger ? startDate : endDate;
+      const departDate = startTrigger
+        ? subHours(startDate, 2)
+        : addMinutes(endDate, 15);
 
       const users = await centuriaUsers(centuria);
       users.forEach(user => {
-        callCheckDelay({
-          id: user.id,
-          tel: user.tel,
-          connections: user.connections ? user.connections : [],
-          time: { hour: departDate.getHours(), minute: departDate.getMinutes() }
-        });
+        lambda
+          .invoke({
+            FunctionName: "when-notification-app-backend-dev-checkDelay",
+            InvocationType: "Event",
+            Payload: JSON.stringify({
+              id: user.id,
+              tel: user.tel,
+              connections: user.connections,
+              time: {
+                hour: departDate.getHours(),
+                minute: departDate.getMinutes()
+              }
+            })
+          })
+          .send();
       });
     });
   });
-};
-
-type CheckDelayPayload = {
-  id: string;
-  tel: string;
-  connections: string[];
-  time: { hour: number; minute: number };
-};
-
-const callCheckDelay = (payload: CheckDelayPayload) => {
-  const opts = {
-    FunctionName: 'when-notification-app-backend-dev-checkDelay',
-    InvocationType: 'Event',
-    Payload: JSON.stringify(payload)
-  };
-  lambda.invoke(opts).send();
 };

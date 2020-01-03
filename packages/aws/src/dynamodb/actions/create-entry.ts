@@ -1,7 +1,6 @@
-import { dynamodb } from '..';
-import { PutItemInput } from 'aws-sdk/clients/dynamodb';
+import { dynamodb } from "..";
 
-export const createEntry = (params: PutItemInput): Promise<void> => {
+export const createEntry = (params: any): Promise<void> => {
   return new Promise((resolve, reject) => {
     dynamodb.put(params, error => {
       if (error) {

@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 
 let options = {};
 
@@ -8,8 +8,8 @@ let options = {};
 const { env } = process;
 if (env.IS_LOCAL || env.IS_OFFLINE) {
   options = {
-    region: 'localhost',
-    endpoint: 'http://localhost:8000'
+    region: "localhost",
+    endpoint: "http://localhost:8000"
   };
 }
 

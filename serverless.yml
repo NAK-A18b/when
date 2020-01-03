@@ -12,11 +12,11 @@ provider:
   environment:
     HVV_API_KEY: ${file(./secrets/secrets.yml):HVV_API_KEY}
     HVV_API_VERSION: 36
-    USER_TABLE: 'when-user-table'
-    CONNECTION_TABLE: 'when-connection-table'
-    CENTURIA_TABLE: 'when-centuria-table'
-    DELAY_TABLE: 'when-delay-table'
-    TIMETABLE_TABLE: 'when-timetable'
+    USER_TABLE: "when-user-table"
+    CONNECTION_TABLE: "when-connection-table"
+    CENTURIA_TABLE: "when-centuria-table"
+    DELAY_TABLE: "when-delay-table"
+    TIMETABLE_TABLE: "when-timetable"
 
 plugins:
   - serverless-dynamodb-local
@@ -59,26 +59,28 @@ package:
 
 functions:
   updateTimetable:
-    handler: packages/backend/src/functions/update-timetable.updateTimetable
+    handler: packages/backend/build/functions/update-timetable.updateTimetable
     events:
       - schedule: cron(0 4 * * ? *)
     package:
       include:
         - packages/backend/**
   checkTimetable:
-    handler: packages/backend/src/functions/check-timetable.checkTimetable
+    handler: packages/backend/build/functions/check-timetable.checkTimetable
     events:
       - schedule: cron(0/10 * ? * MON-FRI *)
   checkDelay:
-    handler: packages/backend/src/functions/check-delay.checkDelay
+    handler: packages/backend/build/functions/check-delay.checkDelay
   evaluateDelay:
-    handler: packages/backend/src/functions/evaluate-delay.evaluateDelay
+    handler: packages/backend/build/functions/evaluate-delay.evaluateDelay
   warnLateStart:
-    handler: packages/backend/src/functions/warn-late-start.warnLateStart
+    handler: packages/backend/build/functions/warn-late-start.warnLateStart
     events:
       - schedule: cron(0 20 * * ? *)
+  getStation:
+    handler: packages/backend/build/functions/get-station.getStation
   graphql:
-    handler: packages/bff/src/handler.graphqlHandler
+    handler: packages/bff/build/handler.graphqlHandler
     events:
       - http:
           path: graphql
@@ -97,8 +99,8 @@ resources:
         RestApiId:
           Ref: ApiGatewayRestApi
         ParentId:
-          'Fn::GetAtt': ['ApiGatewayRestApi', 'RootResourceId']
-        PathPart: '{proxy+}'
+          "Fn::GetAtt": ["ApiGatewayRestApi", "RootResourceId"]
+        PathPart: "{proxy+}"
     WebappProxyMethod:
       Type: AWS::ApiGateway::Method
       Properties:
@@ -113,9 +115,9 @@ resources:
           method.request.header.Accept: true
         Integration:
           CacheKeyParameters:
-            - 'method.request.path.proxy'
+            - "method.request.path.proxy"
           RequestParameters:
-            integration.request.path.proxy: 'method.request.path.proxy'
+            integration.request.path.proxy: "method.request.path.proxy"
           IntegrationHttpMethod: ANY
           Type: HTTP_PROXY
           Uri: ${self:service.assetsUrl}/{proxy}
@@ -127,7 +129,7 @@ resources:
       Properties:
         HttpMethod: ANY
         ResourceId:
-          'Fn::GetAtt': ['ApiGatewayRestApi', 'RootResourceId']
+          "Fn::GetAtt": ["ApiGatewayRestApi", "RootResourceId"]
         RestApiId:
           Ref: ApiGatewayRestApi
         AuthorizationType: NONE
@@ -136,9 +138,9 @@ resources:
           method.request.header.Accept: true
         Integration:
           CacheKeyParameters:
-            - 'method.request.path.proxy'
+            - "method.request.path.proxy"
           RequestParameters:
-            integration.request.path.proxy: 'method.request.path.proxy'
+            integration.request.path.proxy: "method.request.path.proxy"
           IntegrationHttpMethod: ANY
           Type: HTTP_PROXY
           Uri: ${self:service.assetsUrl}/index.html
@@ -146,7 +148,7 @@ resources:
           IntegrationResponses:
             - StatusCode: 200
     TimeDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
@@ -160,7 +162,7 @@ resources:
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.TIMETABLE_TABLE}
     UserDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           - AttributeName: id
@@ -173,7 +175,7 @@ resources:
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.USER_TABLE}
     ConnectionDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
@@ -187,7 +189,7 @@ resources:
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.CONNECTION_TABLE}
     DelayDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:
@@ -201,7 +203,7 @@ resources:
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DELAY_TABLE}
     CenturiaDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
         AttributeDefinitions:

@@ -1,0 +1,56 @@
+import React from "react";
+
+import { Grid, makeStyles } from "@material-ui/core";
+
+import Heading from "../../components/heading";
+import EmptyIllustration from "../../components/illustrations/empty";
+import SelectConnection, {
+  UNSUBSCRIBE_CONNECTION
+} from "../../components/select-connection";
+import TrashIcon from "../../components/icons/trash";
+
+import "./styles.css";
+
+const baseClassName = "connectionsPage";
+
+const useStyles = makeStyles(theme => ({
+  grid: {
+    marginTop: 50
+  }
+}));
+
+const MyConnectionsPage = ({ user }) => {
+  const { connections } = user.data;
+  const classes = useStyles();
+
+  return (
+    <div>
+      <Heading
+        title="Meine Verbindungen"
+        subtitle={connections ? connections.length : 0}
+      />
+      <Grid className={classes.grid} container spacing={1}>
+        {connections &&
+          connections.map((item, index) => (
+            <Grid key={index} item>
+              <SelectConnection
+                user={user}
+                id={item.id}
+                start={item.start.name}
+                end={item.end.name}
+                action={UNSUBSCRIBE_CONNECTION}
+                icon={TrashIcon}
+              />
+            </Grid>
+          ))}
+      </Grid>
+      {(!connections || connections.length === 0) && (
+        <div className={`${baseClassName}-body-wrapper`}>
+          <EmptyIllustration />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MyConnectionsPage;

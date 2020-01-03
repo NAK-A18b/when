@@ -1,2 +1,2 @@
-declare module 'node-ical';
-declare module 'when-whatsapp';
+declare module "when-backend";
+export * from "./src/app/hvv";

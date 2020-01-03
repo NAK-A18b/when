@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const LOGIN_MUTATION = gql`
+const LOGIN_MUTATION = gql `
   mutation LoginMutation($tel: String!, $token: Int!) {
     loginUser(tel: $tel, token: $token) {
       id
@@ -22,13 +22,13 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-const TRIGGER_AUTH_MUTATION = gql`
+const TRIGGER_AUTH_MUTATION = gql `
   mutation TriggerAuth($tel: String!) {
     triggerAuth(tel: $tel)
   }
 `;
 
-export const CURRENT_USER_QUERY = gql`
+export const CURRENT_USER_QUERY = gql `
   query CurrentUser {
     currentUser {
       id
@@ -52,23 +52,23 @@ export const CURRENT_USER_QUERY = gql`
 
 export const loginMutation = (client, variables) =>
   client
-    .mutate({
-      mutation: LOGIN_MUTATION,
-      variables
-    })
-    .then(result => result.data.loginUser);
+  .mutate({
+    mutation: LOGIN_MUTATION,
+    variables
+  })
+  .then(result => result.data.loginUser);
 
 export const triggerAuth = (client, variables) =>
   client
-    .mutate({
-      mutation: TRIGGER_AUTH_MUTATION,
-      variables
-    })
-    .then(result => result.data.triggerAuth);
+  .mutate({
+    mutation: TRIGGER_AUTH_MUTATION,
+    variables
+  })
+  .then(result => result.data.triggerAuth);
 
 export const currentUserQuery = client =>
   client
-    .query({
-      query: CURRENT_USER_QUERY
-    })
-    .then(result => result.data.currentUser);
+  .query({
+    query: CURRENT_USER_QUERY
+  })
+  .then(result => result.data.currentUser);

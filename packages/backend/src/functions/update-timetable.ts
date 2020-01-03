@@ -1,17 +1,17 @@
-import { getTimes } from '../app/nordakademie';
+import { getTimes } from "../app/nordakademie";
 
-import { createEntry, listEntrys, toDynamoDBRecord } from 'when-aws';
+import { createEntry, listEntrys } from "when-aws";
 
-import { Centuria } from '../typings';
+import { Centuria } from "../typings";
 
 const { TIMETABLE_TABLE, CENTURIA_TABLE } = process.env;
 
 if (!CENTURIA_TABLE) {
-  throw Error('Missing Environment Variable: CENTURIA_TABLE');
+  throw Error("Missing Environment Variable: CENTURIA_TABLE");
 }
 
 if (!TIMETABLE_TABLE) {
-  throw Error('Missing Environment Variable: TIMETABLE_TABLE');
+  throw Error("Missing Environment Variable: TIMETABLE_TABLE");
 }
 
 export const updateTimetable = async () => {
@@ -25,16 +25,14 @@ export const updateTimetable = async () => {
       const times = await getTimes(name, semester, false);
       if (!times) return;
 
-      const params = {
+      return createEntry({
         TableName: TIMETABLE_TABLE,
-        Item: toDynamoDBRecord({
+        Item: {
           centuria: name,
           start: times.start,
           end: times.end
-        })
-      };
-
-      return createEntry(params);
+        }
+      });
     })
   );
 };

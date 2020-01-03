@@ -1,0 +1,73 @@
+type Mutation {
+  updateUser(input: UserInput!): User
+  triggerAuth(tel: String!): String
+  loginUser(tel: String!, token: Int!): User
+  createCenturia(name: String!, semester: Int!): Centuria!
+  subscribeCenturia(centuriaId: String!): User!
+  createConnection(start: String!, end: String!): Connection!
+  subscribeConnection(connectionId: String!): User!
+  unsubscribeConnection(connectionId: String!): User!
+}
+
+input UserInput {
+  centuria: String
+  tel: String
+}
+
+type Query {
+  users: [User]
+  centurias: [Centuria]
+  connections: [Connection]
+  currentUser: User
+  delays: [Delay]
+}
+
+type User {
+  id: ID!
+  tel: String!
+  centuria: Centuria
+  connections: [Connection]
+  token: String
+}
+
+type Centuria {
+  name: String!
+  semester: Int!
+}
+
+type Connection {
+  id: ID!
+  start: SDName!
+  end: SDName!
+}
+
+type Delay {
+  id: ID!
+  start: StationInfo!
+  end: StationInfo!
+  depDelay: String
+  arrDelay: String
+}
+
+type StationInfo {
+  name: String!
+  time: String!
+}
+
+type Coordinate {
+  x: String!
+  y: String!
+}
+
+type SDName {
+  name: String!
+  city: String!
+  id: String!
+  type: String!
+  coordinate: Coordinate!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
