@@ -1,4 +1,4 @@
-import { getEntry, listEntrys } from "when-aws";
+import { getEntry, listEntrys, createEntry } from "when-aws";
 import { Connection } from "../typings";
 
 const { CONNECTION_TABLE } = process.env;
@@ -20,4 +20,10 @@ export const getConnection = async (id: string) => {
 export const listConnections = async () =>
   await listEntrys<Connection>({
     TableName: CONNECTION_TABLE
+  });
+
+export const createConnection = async (connection: Connection) =>
+  await createEntry({
+    TableName: CONNECTION_TABLE,
+    Item: connection
   });

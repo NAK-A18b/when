@@ -11,7 +11,7 @@
     "bootstrap": "lerna bootstrap",
     "sls:offline": "sls offline",
     "start": "lerna run --parallel start",
-    "dev": "cross-env npm-run-all --parallel start sls:offline db:start",
+    "dev": "cross-env npm-run-all --parallel start sls:offline",
     "build": "lerna run --parallel build",
     "watch": "lerna run --parallel watch"
   },

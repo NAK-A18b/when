@@ -89,7 +89,7 @@ class App extends React.Component {
 
   changePage = index => {
     this.startPageTransition();
-    window.setTimeout(this.stopPageTransition, 600);
+    window.setTimeout(this.stopPageTransition, 500);
     this.changePageParam(index);
     this.persistPath();
   };

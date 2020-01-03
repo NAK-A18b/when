@@ -1,7 +1,6 @@
 import { GraphQLFieldResolver } from "graphql";
-import { Centuria } from "when-backend/src/typings";
 
-import { Context } from "../../typings";
+import { Context, Centuria } from "../../typings";
 
 import { getUser, updateUser as updateUserFc } from "../../entitys/user";
 

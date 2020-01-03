@@ -1,12 +1,21 @@
 import uuid from "uuid";
-import { createEntry, lambda } from "when-aws";
 import { GraphQLFieldResolver } from "graphql";
+import fetch from "node-fetch";
 
-import { Context, SDName } from "../../typings";
+import { Context } from "../../typings";
+import {
+  getConnection,
+  createConnection as createConnectionFc
+} from "../../entitys/connection";
 
 const { CONNECTION_TABLE } = process.env;
 if (!CONNECTION_TABLE) {
   throw new Error("Environment Variable Missing: CONNECTION_TABLE");
+}
+
+const { LAMBDA_ENDPOINT } = process.env;
+if (!LAMBDA_ENDPOINT) {
+  throw new Error("Missing Environment Variable: 'LAMBDA_ENDPOINT'");
 }
 
 type MutationPayload = {
@@ -14,19 +23,13 @@ type MutationPayload = {
   end: string;
 };
 
-const getStation = (name: string) =>
-  lambda
-    .invoke({
-      FunctionName: "when-notification-app-backend-dev-getStation",
-      InvocationType: "Event",
-      Payload: JSON.stringify({
-        stationName: name
-      })
+const getStation = (stationName: string) =>
+  fetch(`${LAMBDA_ENDPOINT}/getStation`, {
+    method: "POST",
+    body: JSON.stringify({
+      stationName
     })
-    .promise()
-    .then(res => res.Payload as GetStationResponse);
-
-type GetStationResponse = SDName | null;
+  }).then(res => res.json());
 
 export const createConnection: GraphQLFieldResolver<
   undefined,
@@ -44,12 +47,12 @@ export const createConnection: GraphQLFieldResolver<
     return Promise.reject("End station not found");
   }
 
-  return await createEntry({
-    TableName: CONNECTION_TABLE,
-    Item: {
-      id: uuid.v1(),
-      start: startStation,
-      end: endStation
-    }
+  const connectionId = uuid.v1();
+  await createConnectionFc({
+    id: connectionId,
+    start: startStation,
+    end: endStation
   });
+
+  return await getConnection(connectionId);
 };

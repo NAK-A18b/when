@@ -45,9 +45,7 @@ export const hvvRequest = <B extends BasePayload, T>(
 export const getStation = (
   name: string
 ): Promise<CheckNameResponse> | undefined => {
-  if (name === "") {
-    return;
-  }
+  if (name === "") return;
 
   const params = {
     theName: {

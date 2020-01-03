@@ -9,14 +9,7 @@ provider:
   runtime: nodejs10.x
   memorySize: 256
   timeout: 120
-  environment:
-    HVV_API_KEY: ${file(./secrets/secrets.yml):HVV_API_KEY}
-    HVV_API_VERSION: 36
-    USER_TABLE: "when-user-table"
-    CONNECTION_TABLE: "when-connection-table"
-    CENTURIA_TABLE: "when-centuria-table"
-    DELAY_TABLE: "when-delay-table"
-    TIMETABLE_TABLE: "when-timetable"
+  environment: ${self:custom.environments.${self:custom.stage}}
 
 plugins:
   - serverless-dynamodb-local
@@ -24,6 +17,7 @@ plugins:
   - serverless-offline
 
 custom:
+  stage: ${opt:stage, self:provider.stage}
   serverless-offline:
     port: 4000
   client:
@@ -48,6 +42,26 @@ custom:
             sources: [packages/dynamodb/seeds/users.json]
           - table: ${self:provider.environment.CONNECTION_TABLE}
             sources: [packages/dynamodb/seeds/connections.json]
+  environments:
+    prod:
+      # TODO insert right endpoint
+      LAMBDA_ENDPOINT: <REPLACE_ME>
+      HVV_API_KEY: ${file(./secrets/secrets.yml):HVV_API_KEY}
+      HVV_API_VERSION: 36
+      USER_TABLE: "when-user-table"
+      CONNECTION_TABLE: "when-connection-table"
+      CENTURIA_TABLE: "when-centuria-table"
+      DELAY_TABLE: "when-delay-table"
+      TIMETABLE_TABLE: "when-timetable"
+    dev:
+      LAMBDA_ENDPOINT: http://localhost:4000
+      HVV_API_KEY: ${file(./secrets/secrets.yml):HVV_API_KEY}
+      HVV_API_VERSION: 36
+      USER_TABLE: "when-user-table"
+      CONNECTION_TABLE: "when-connection-table"
+      CENTURIA_TABLE: "when-centuria-table"
+      DELAY_TABLE: "when-delay-table"
+      TIMETABLE_TABLE: "when-timetable"
 
 package:
   individually: true
@@ -79,6 +93,11 @@ functions:
       - schedule: cron(0 20 * * ? *)
   getStation:
     handler: packages/backend/build/functions/get-station.getStation
+    events:
+      - http:
+          path: getStation
+          method: post
+          cors: true
   graphql:
     handler: packages/bff/build/handler.graphqlHandler
     events:

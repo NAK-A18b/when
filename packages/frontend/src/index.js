@@ -11,7 +11,7 @@ import App from "./app";
 import * as serviceWorker from "./serviceWorker";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: `http://localhost:4000/graphql`,
   fetchOptions: {
     credentials: "include"
   },

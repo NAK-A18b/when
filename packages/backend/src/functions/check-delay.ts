@@ -1,8 +1,6 @@
-import { updateEntry } from "when-aws/src/dynamodb/actions/update-entry";
-import { getEntry } from "when-aws/src/dynamodb/actions/get-entry";
+import { updateEntry, getEntry, lambda } from "when-aws";
 
 import { hvvRequest, getRouteRequestOptions } from "../app/hvv/index";
-import { lambda } from "when-aws";
 import {
   Connection,
   GetRouteResponse,
