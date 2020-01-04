@@ -1,1 +1,0 @@
-declare module "when-whatsapp";

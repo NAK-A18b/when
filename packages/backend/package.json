@@ -19,8 +19,7 @@
     "date-fns": "^2.8.1",
     "node-fetch": "^2.6.0",
     "node-ical": "^0.10.0",
-    "when-aws": "file:../aws",
-    "when-whatsapp": "file:../whatsapp/functions"
+    "when-aws": "file:../aws"
   },
   "devDependencies": {
     "@types/node": "^12.12.12",

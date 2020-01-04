@@ -4,7 +4,7 @@ export type GetStationPayload = {
   body: string;
 };
 
-export const getStation = async ({ body }: GetStationPayload) => {
+export default async ({ body }: GetStationPayload) => {
   const { stationName } = JSON.parse(body);
   const result = await findStation(stationName);
 

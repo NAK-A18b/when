@@ -1,4 +1,4 @@
-import { sendMessage } from "when-whatsapp";
+import { sendMessage } from "../../utils";
 import { parsePhoneNumberFromString } from "libphonenumber-js/max";
 import { UserInputError } from "apollo-server-errors";
 

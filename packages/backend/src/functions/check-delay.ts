@@ -40,12 +40,7 @@ const minimizeSchedules = (realtimeSchedules: Schedule[]) =>
     });
   });
 
-export const checkDelay = ({
-  connections,
-  hour,
-  minute,
-  tel
-}: CheckDelayPayload) => {
+export default ({ connections, hour, minute, tel }: CheckDelayPayload) => {
   connections.forEach(async id => {
     const connection = await getEntry<Connection>({
       TableName: CONNECTION_TABLE,

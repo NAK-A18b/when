@@ -7,7 +7,12 @@ import {
 } from "../../typings";
 import fetch from "node-fetch";
 
-const crypto = require("crypto");
+import crypto from "crypto";
+
+const { HVV_API_KEY } = process.env;
+if (!HVV_API_KEY) {
+  throw new Error("Missing Environment Variable: 'HVV_API_KEY'");
+}
 
 export const hvvRequest = <B extends BasePayload, T>(
   method: string,
@@ -20,7 +25,7 @@ export const hvvRequest = <B extends BasePayload, T>(
 
     //Generate hash needed for hvv api server authentication
     const hash = crypto
-      .createHmac("sha1", process.env.HVV_API_KEY)
+      .createHmac("sha1", HVV_API_KEY)
       .update(requestBody)
       .digest("base64");
 

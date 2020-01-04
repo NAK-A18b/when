@@ -19,8 +19,7 @@
     "libphonenumber-js": "^1.7.22",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
-    "when-aws": "file:../aws",
-    "when-whatsapp": "file:../whatsapp/functions"
+    "when-aws": "file:../aws"
   },
   "devDependencies": {
     "@types/node": "^13.1.1",

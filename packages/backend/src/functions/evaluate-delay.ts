@@ -1,5 +1,4 @@
-import { sendMessage } from "when-whatsapp";
-import { generateMessage } from "../app/hvv/message-generator";
+import { generateMessage, sendMessage } from "../app/hvv/message";
 import { GetRouteResponse } from "../typings";
 
 export type EvaluateDelayPayload = {
@@ -8,7 +7,7 @@ export type EvaluateDelayPayload = {
   tel: string;
 };
 
-export const evaluateDelay = (event: EvaluateDelayPayload) => {
+export default (event: EvaluateDelayPayload) => {
   const { oldEntry, newEntry, tel } = event;
 
   if (JSON.stringify(oldEntry) !== JSON.stringify(newEntry)) {

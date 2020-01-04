@@ -14,7 +14,7 @@ if (!TIMETABLE_TABLE) {
   throw Error("Missing Environment Variable: TIMETABLE_TABLE");
 }
 
-export const updateTimetable = async () => {
+export default async () => {
   const centurias = await listEntrys<Centuria>({
     TableName: CENTURIA_TABLE
   });

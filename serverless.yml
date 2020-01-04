@@ -8,7 +8,6 @@ provider:
   region: eu-central-1
   runtime: nodejs10.x
   memorySize: 256
-  timeout: 120
   environment: ${self:custom.environments.${self:custom.stage}}
 
 plugins:
@@ -79,18 +78,35 @@ functions:
     package:
       include:
         - packages/backend/**
+        - packages/aws/**
   checkTimetable:
     handler: packages/backend/build/functions/check-timetable.checkTimetable
     events:
       - schedule: cron(0/10 * ? * MON-FRI *)
+    package:
+      include:
+        - packages/backend/**
+        - packages/aws/**
   checkDelay:
     handler: packages/backend/build/functions/check-delay.checkDelay
+    package:
+      include:
+        - packages/backend/**
+        - packages/aws/**
   evaluateDelay:
     handler: packages/backend/build/functions/evaluate-delay.evaluateDelay
+    package:
+      include:
+        - packages/backend/**
+        - packages/aws/**
   warnLateStart:
     handler: packages/backend/build/functions/warn-late-start.warnLateStart
     events:
       - schedule: cron(0 20 * * ? *)
+    package:
+      include:
+        - packages/backend/**
+        - packages/aws/**
   getStation:
     handler: packages/backend/build/functions/get-station.getStation
     events:
@@ -98,6 +114,10 @@ functions:
           path: getStation
           method: post
           cors: true
+    package:
+      include:
+        - packages/backend/**
+        - packages/backend/**
   graphql:
     handler: packages/bff/build/handler.graphqlHandler
     events:
@@ -109,6 +129,10 @@ functions:
           path: graphql
           method: get
           cors: true
+    package:
+      include:
+        - packages/bff/**
+        - packages/aws/**
 
 resources:
   Resources:

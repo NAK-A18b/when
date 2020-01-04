@@ -14,6 +14,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "./typings/index.d.ts"]
+    "typeRoots": ["./node_modules/@types", "./src/typings/index.d.ts"]
   }
 }

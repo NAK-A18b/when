@@ -1,6 +1,6 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
-module.exports.sendMessage = (tel, message) => {
+export const sendMessage = (tel: string, message: string) => {
   return new Promise((resolve, reject) => {
     var username = "nordakademie";
     var password = "T&;2]fX3EN/&v>5";
@@ -16,6 +16,8 @@ module.exports.sendMessage = (tel, message) => {
         "Content-Type": "application/json;charset=UTF-8"
       },
       body: JSON.stringify([{ receiver: tel, text: message }])
-    }).catch(e => console.error(`Request to Whatsapp Server failed with ${e}`));
+    })
+      .then(res => resolve(res))
+      .catch(e => reject(`Request to Whatsapp Server failed with ${e}`));
   });
 };

@@ -1,7 +1,7 @@
 import { getTimes } from "../app/nordakademie";
-import { sendMessage } from "when-whatsapp";
+import { sendMessage } from "../app/hvv/message";
 
-export const warnLateStart = () =>
+export default () =>
   getTimes("A18b", 2, true).then(time => {
     if (time && (time.start.hour !== 9 || time.start.minute !== 15)) {
       sendMessage(

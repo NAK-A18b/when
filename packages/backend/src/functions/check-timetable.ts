@@ -26,7 +26,7 @@ const controlInterval = (date: Date) => ({
 const setHoursAndMinutes = (date: Date, hours: number, minutes: number) =>
   setMinutes(setHours(date, hours), minutes);
 
-export const checkTimetable = () => {
+export default () => {
   const now = new Date();
 
   listEntrys<TimeEntry>({

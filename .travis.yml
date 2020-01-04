@@ -4,9 +4,6 @@ node_js:
 cache:
   directories:
     - node_modules
-branches:
-  only:
-    - master
 before_install:
   - openssl aes-256-cbc -K $encrypted_236e6c9c4fa5_key -iv $encrypted_236e6c9c4fa5_iv -in secrets/secrets.yml.enc -out secrets/secrets.yml -d
 install:
