@@ -9,7 +9,7 @@ before_install:
 install:
   - npm install -g serverless
   - npm install
-  - lerna bootstrap
+  - npm run bootstrap
 script:
   - lerna run --parallel build
 deploy:
