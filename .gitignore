@@ -11,3 +11,5 @@ secrets.yml
 
 # Editor configurations
 .idea
+
+.DS_Store
