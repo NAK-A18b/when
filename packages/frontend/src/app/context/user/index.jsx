@@ -1,6 +1,7 @@
 import React from "react";
 import { withApollo } from "react-apollo";
 
+import { token } from "../../utils/authentication";
 import { AUTH_TOKEN } from "../../constants";
 
 import {
@@ -9,8 +10,6 @@ import {
   Provider as ContextProvider
 } from "./context";
 import { loginMutation, triggerAuth, currentUserQuery } from "./resolvers";
-
-import { authToken } from "../../utils/authentication";
 
 export default withApollo(
   class Provider extends React.Component {
@@ -21,11 +20,15 @@ export default withApollo(
 
     componentDidMount = async () => {
       const { client } = this.props;
-      const loggedIn = !!authToken();
+      const user = token() && (await currentUserQuery(client));
+
+      if (!user) {
+        localStorage.removeItem(AUTH_TOKEN);
+      }
 
       this.setState({
-        data: loggedIn ? await currentUserQuery(client) : null,
-        loggedIn,
+        data: user,
+        loggedIn: !!user,
         loading: false
       });
     };
@@ -39,12 +42,12 @@ export default withApollo(
       });
     };
 
-    login = (tel, token) => {
+    login = (tel, authCode) => {
       const { client } = this.props;
-      loginMutation(client, { tel, token }).then(data => {
+      loginMutation(client, { tel, authCode }).then(data => {
         if (!data) return;
 
-        localStorage.setItem(AUTH_TOKEN, data.id);
+        localStorage.setItem(AUTH_TOKEN, data.token);
         this.setState({
           data,
           loggedIn: true
@@ -55,7 +58,8 @@ export default withApollo(
     logout = () => {
       localStorage.removeItem(AUTH_TOKEN);
       this.setState({
-        loggedIn: false
+        loggedIn: false,
+        data: null
       });
     };
 

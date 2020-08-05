@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import Card from '@material-ui/core/Card';
+import Card from "@material-ui/core/Card";
 
-import AuthenticationContainer from '../../components/authentication-container';
-import LoginContainer from '../../components/login-container';
+import AuthenticationContainer from "../../components/authentication-container";
+import LoginContainer from "../../components/login-container";
 
-import { withUser } from '../../context/user';
-import { ERRORS } from '../../constants';
+import { withUser } from "../../context/user";
+import { ERRORS } from "../../constants";
 
-import './styles.css';
+import "./styles.css";
 
-const baseClassName = 'login-page';
+const baseClassName = "login-page";
 
 const LoginPage = props => {
   const { user } = props;
 
   const [clouds, setCloud] = useState([0, 1]);
   const [auth, setAuth] = useState(false);
-  const [error, setError] = useState('');
-  const [tel, setTel] = useState('');
-  const [token, setToken] = useState('');
+  const [error, setError] = useState("");
+  const [tel, setTel] = useState("");
+  const [authCode, setAuthCode] = useState("");
 
   const triggerAuth = () => {
     if (!tel) return;
@@ -28,7 +28,7 @@ const LoginPage = props => {
       .then(formattedTel => {
         setTel(formattedTel);
         setAuth(true);
-        setError('');
+        setError("");
       })
       .catch(e => {
         e.graphQLErrors.forEach(gqlError => {
@@ -42,52 +42,52 @@ const LoginPage = props => {
   };
 
   const loginUser = () => {
-    user.login(tel, parseInt(token));
+    user.login(tel, parseInt(authCode));
   };
   const removeCloud = index => () => setCloud(clouds.filter(c => c !== index));
 
   return (
     <Card className={`${baseClassName}-card`}>
-      <section className='stage'>
-        <div className='sun'></div>
+      <section className="stage">
+        <div className="sun"></div>
         {clouds.includes(0) && (
-          <div onClick={removeCloud(0)} className='cloud one'></div>
+          <div onClick={removeCloud(0)} className="cloud one"></div>
         )}
         {clouds.includes(1) && (
-          <div onClick={removeCloud(1)} className='cloud two'></div>
+          <div onClick={removeCloud(1)} className="cloud two"></div>
         )}
-        <div className='train'>
-          <div className='wagon'>
-            <div className='window-left'></div>
-            <div className='window-left'></div>
-            <div className='window-right'></div>
-            <div className='window-right'></div>
+        <div className="train">
+          <div className="wagon">
+            <div className="window-left"></div>
+            <div className="window-left"></div>
+            <div className="window-right"></div>
+            <div className="window-right"></div>
           </div>
-          <div className='wagon'>
-            <div className='window-left'></div>
-            <div className='window-left'></div>
-            <div className='window-right'></div>
-            <div className='window-right'></div>
+          <div className="wagon">
+            <div className="window-left"></div>
+            <div className="window-left"></div>
+            <div className="window-right"></div>
+            <div className="window-right"></div>
           </div>
-          <div className='wagon'>
-            <div className='window-left'></div>
-            <div className='window-left'></div>
-            <div className='window-right'></div>
-            <div className='window-right'></div>
+          <div className="wagon">
+            <div className="window-left"></div>
+            <div className="window-left"></div>
+            <div className="window-right"></div>
+            <div className="window-right"></div>
           </div>
-          <div className='locomotive'>
-            <div className='cabin'></div>
-            <div className='motor'></div>
-            <div className='chimney'>
-              <div className='smoke'></div>
+          <div className="locomotive">
+            <div className="cabin"></div>
+            <div className="motor"></div>
+            <div className="chimney">
+              <div className="smoke"></div>
             </div>
-            <div className='light'></div>
+            <div className="light"></div>
           </div>
         </div>
       </section>
       <div className={`${baseClassName}-wrapper`}>
         <div
-          className={`${baseClassName}-slider-wrapper${auth ? '--auth' : ''}`}
+          className={`${baseClassName}-slider-wrapper${auth ? "--auth" : ""}`}
         >
           {error}
           <LoginContainer
@@ -97,8 +97,8 @@ const LoginPage = props => {
             submitCallback={triggerAuth}
           />
           <AuthenticationContainer
-            token={token}
-            setToken={setToken}
+            authCode={authCode}
+            setAuthCode={setAuthCode}
             submitCallback={loginUser}
           />
         </div>

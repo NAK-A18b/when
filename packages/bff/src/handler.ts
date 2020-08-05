@@ -1,12 +1,12 @@
-import { ApolloServer } from "apollo-server-lambda";
+import { ApolloServer, AuthenticationError } from "apollo-server-lambda";
 import { importSchema } from "graphql-import";
 import path from "path";
 
-import { getUser } from "./entitys/user";
+import { findUserByToken } from "./entitys/user";
 import { resolvers } from "./resolvers";
 import { Context } from "./typings";
 
-const publicQueries = ["triggerAuth", "loginUser"];
+const publicQueries = ["TriggerAuth", "LoginUser"];
 
 const server = new ApolloServer({
   typeDefs: importSchema(path.join(__dirname, "../src/graphql/schema.graphql")),
@@ -20,11 +20,12 @@ const server = new ApolloServer({
     return response;
   },
   context: async ({ event, context }): Promise<Context> => {
-    const { body } = event;
-    const isPublic = !!publicQueries.find(query => body.includes(query));
+    const body = JSON.parse(event.body);
+    const isPublic = publicQueries.includes(body.operationName);
 
-    const user = await getUser(event.headers.Authorization);
-    if (!user && !isPublic) return context;
+    const user = await findUserByToken(event.headers.Authorization || "");
+    if (!user && !isPublic)
+      throw new AuthenticationError("you must be logged in");
 
     return {
       currentUser: user,

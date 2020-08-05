@@ -12,7 +12,7 @@ export const subscribeCenturia: GraphQLFieldResolver<
   Context,
   MutationPayload
 > = async (_, { centuriaId }, context) => {
-  if (!context?.currentUser) return;
+  if (!context.currentUser) return;
 
   const centuria = await getCenturia(centuriaId);
   await updateUser({

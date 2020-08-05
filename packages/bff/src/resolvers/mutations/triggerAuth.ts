@@ -1,18 +1,17 @@
-import { sendMessage } from "../../utils";
 import { parsePhoneNumberFromString } from "libphonenumber-js/max";
 import { UserInputError } from "apollo-server-errors";
-
-import { randomToken } from "../../utils";
-import { Context } from "../../typings";
 import { GraphQLFieldResolver } from "graphql";
+
+import { randomCode, sendMessage } from "../../utils";
+import { Context } from "../../typings";
 
 import { createUser, findUserByTel, updateUser } from "../../entitys/user";
 
-const tokenNotification = (tel: string, token: number) => {
-  console.info(`Creating auth code ${token} for ${tel}`);
+const authCodeNotification = (tel: string, authCode: number) => {
+  console.info(`Creating auth code ${authCode} for ${tel}`);
   sendMessage(
     tel,
-    `👋 Dein Anmeldecode lautet *${token}* und ist eine Minute lang gültig`
+    `👋 Dein Anmeldecode lautet *${authCode}* und ist eine Minute lang gültig`
   );
 };
 
@@ -33,15 +32,15 @@ export const triggerAuth: GraphQLFieldResolver<
   ) {
     tel = phoneNumber.number.substr(1);
     const user = await findUserByTel(tel);
-    const token = randomToken();
+    const authCode = randomCode();
 
     if (!user) {
-      await createUser({ token, tel });
+      await createUser({ authCode, tel });
     } else {
-      await updateUser({ ...user, token });
+      await updateUser({ ...user, authCode });
     }
 
-    tokenNotification(tel, token);
+    authCodeNotification(tel, authCode);
     return tel;
   } else {
     throw new UserInputError("Error on AuthTrigger", {

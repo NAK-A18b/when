@@ -5,7 +5,7 @@ export type User = {
   tel: string;
   centuria: string;
   connections: string[];
-  token?: number;
+  authCode?: number;
 };
 
 export type Connection = {

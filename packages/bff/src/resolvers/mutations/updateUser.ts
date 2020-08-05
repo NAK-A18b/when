@@ -21,7 +21,7 @@ export const updateUser: GraphQLFieldResolver<
   Context,
   MutationPayload
 > = async (_, { input: { centuria, tel } }, context) => {
-  const user = context?.currentUser;
+  const user = context.currentUser;
   if (!user) return;
 
   if (centuria) user.centuria = centuria;

@@ -1,22 +1,28 @@
 import uuid from "uuid";
 import { getEntry, createEntry, listEntrys } from "when-aws";
+import TokenGenerator from "uuid-token-generator";
 
-import { UserInput, User } from "../typings";
+import { CreateUserInput, User } from "../typings";
 
 const { USER_TABLE } = process.env;
 if (!USER_TABLE) {
   throw new Error("Missing Environment Variable USER_TABLE");
 }
 
-export const createUser = async (args: UserInput) =>
-  await createEntry({
+export const createUser = async (args: CreateUserInput) => {
+  const tokgen = new TokenGenerator(256, TokenGenerator.BASE62);
+  const token = tokgen.generate();
+
+  return await createEntry({
     TableName: USER_TABLE,
     Item: {
       id: uuid.v1(),
       connections: [],
+      token,
       ...args
     }
   });
+};
 
 export const updateUser = async (user: User) =>
   await createEntry({
@@ -38,6 +44,11 @@ export const getUser = async (id: string) => {
 export const findUserByTel = async (tel: string) => {
   const users = await listUsers();
   return users.find(u => u.tel === tel);
+};
+
+export const findUserByToken = async (token: string) => {
+  const users = await listUsers();
+  return users.find(u => u.token === token);
 };
 
 export const listUsers = async () =>

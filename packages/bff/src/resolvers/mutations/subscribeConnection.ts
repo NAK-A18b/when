@@ -13,7 +13,7 @@ export const subscribeConnection: GraphQLFieldResolver<
   Context,
   MutationPayload
 > = async (_, { connectionId }, context) => {
-  const user = context?.currentUser;
+  const user = context.currentUser;
   if (!user) return;
 
   const connections = user.connections || [];

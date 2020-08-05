@@ -1,8 +1,6 @@
 import { User } from "./dynamoDB";
 
-export type Context = undefined | AuthContext;
-
-export type AuthContext = {
+export type Context = {
   currentUser: User | undefined;
   functionName: string;
   event: any;

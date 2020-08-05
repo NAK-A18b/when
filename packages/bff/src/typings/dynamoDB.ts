@@ -1,17 +1,18 @@
 import { SDName, Schedule } from "./hvv";
 
-export type UserInput = {
+export type CreateUserInput = {
   centuria?: Centuria;
-  tel?: string;
-  token?: number;
+  tel: string;
+  authCode: number;
 };
 
 export type User = {
   id: string;
   tel: string;
+  token: string;
   centuria?: Centuria;
   connections?: Connection[];
-  token?: number;
+  authCode?: number;
 };
 
 export type Centuria = {

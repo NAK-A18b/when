@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const LOGIN_MUTATION = gql `
-  mutation LoginMutation($tel: String!, $token: Int!) {
-    loginUser(tel: $tel, token: $token) {
+  mutation LoginUser($tel: String!, $authCode: Int!) {
+    loginUser(tel: $tel, authCode: $authCode) {
       id
       token
       centuria {

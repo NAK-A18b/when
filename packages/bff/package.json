@@ -19,6 +19,7 @@
     "libphonenumber-js": "^1.7.22",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
+    "uuid-token-generator": "^1.0.0",
     "when-aws": "file:../aws"
   },
   "devDependencies": {
